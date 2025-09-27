@@ -1,0 +1,147 @@
+/* ========================================= */
+/*          Estilos Comunes para Dashboards  */
+/* ========================================= */
+
+/* Contenedor Principal del Contenido */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: var(--background-color-light);
+    overflow-y: auto;
+}
+
+/* Cabecera del Contenido */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.content-header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--text-color-dark);
+    margin: 0;
+}
+
+.content-header h1 i {
+    margin-right: 0.8rem;
+    color: var(--primary-color);
+}
+
+/* Contenedor de Estadísticas */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-title {
+    font-size: 0.9rem;
+    color: var(--text-color-light);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-color-dark);
+}
+
+/* Contenedor de Accesos Rápidos */
+.quick-access-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.quick-access-container h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    color: var(--text-color-dark);
+}
+
+.quick-access-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Estilos para las tarjetas de acceso rápido (reutilizados de admin_dashboard.css) */
+.quick-access-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-color-dark);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    text-align: center;
+}
+
+.quick-access-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.quick-access-card i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+}
+
+.quick-access-card:hover i {
+    color: #fff;
+}
+
+.quick-access-card span {
+    font-weight: 600;
+    font-size: 1rem;
+}

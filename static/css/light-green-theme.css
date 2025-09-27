@@ -1,0 +1,103 @@
+/* === Light Green Theme - MedAsistencia === */
+
+:root {
+    /* Palette */
+    --primary-green: #198754; /* Un verde profesional y accesible */
+    --primary-green-dark: #146c43;
+    --secondary-green: #1abc9c; /* Un verde más brillante para acentos */
+    --accent-color: #0dcaf0; /* Un azul cian para información */
+
+    --white: #ffffff;
+    --off-white: #f8f9fa;
+    --light-gray: #e9ecef;
+    --medium-gray: #dee2e6;
+    --dark-gray: #6c757d;
+
+    --text-dark: #212529;
+    --text-light: #495057;
+
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --success: #198754;
+    --info: #0dcaf0;
+
+    /* Typography */
+    --font-family-sans-serif: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    /* Sizing & Spacing */
+    --border-radius-sm: 0.25rem;
+    --border-radius: 0.5rem;
+    --border-radius-lg: 0.8rem;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+    /* Transitions */
+    --transition-base: all 0.3s ease-in-out;
+}
+
+/* === Professional Button Styles === */
+
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--text-dark);
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 2px solid transparent;
+    padding: 0.5rem 1.25rem;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition-base);
+    text-decoration: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Botón Primario (Acción principal) */
+.btn-primary {
+    color: var(--white);
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-green-dark);
+    border-color: var(--primary-green-dark);
+    color: var(--white);
+}
+
+/* Botón Secundario (Delineado) */
+.btn-secondary {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+/* Botón de Llamada a la Acción (CTA) */
+.btn-cta {
+    background: linear-gradient(45deg, var(--secondary-green), var(--primary-green));
+    color: var(--white);
+    border: none;
+    padding: 0.75rem 1.75rem;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow);
+}
+
+.btn-cta:hover {
+    box-shadow: var(--shadow-lg);
+    background-position: right center; /* change the direction of the change here */
+}

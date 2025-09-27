@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Recepción - MedAsistencia</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reception_chatbot.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Sistema Clínico</h4>
+            </div>
+            
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="{{ url_for('static', filename='img/icon-256x256.png') }}" alt="Usuario" class="rounded-circle me-2" width="40">
+                <div class="text-white">
+                    <strong id="username">Recepción</strong>
+                    <small id="userrole" class="d-block">Recepción</small>
+                </div>
+            </div>
+            
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('views.reception_dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.paciente_recep') }}"><i class="fas fa-user-injured"></i> <span class="nav-link-text">Pacientes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.citas_recep') }}"><i class="fas fa-calendar-alt"></i> <span class="nav-link-text">Citas</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.horarios_recep') }}"><i class="fas fa-clock"></i> <span class="nav-link-text">Horarios Médicos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.directorio_medico_recep') }}"><i class="fas fa-address-book"></i> <span class="nav-link-text">Directorio Médico</span></a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-danger" href="/login" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span></a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="main-content flex-grow-1 fade-in" id="mainContent">
+            <div class="header-bar">
+                <h1 class="h2"><i class="fas fa-concierge-bell me-2 text-success"></i> Dashboard de Recepción</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <a href="{{ url_for('views.nueva_cita') }}" class="btn btn-sm btn-success"><i class="fas fa-plus me-1"></i> Nueva Cita</a>
+                </div>
+            </div>
+
+            <!-- Contenedor de Estadísticas -->
+            <div class="row g-4" id="stats-container">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card stat-card bg-info text-white">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Citas para Hoy</h6>
+                                <h2 class="mb-0" id="today-appointments">-</h2>
+                            </div>
+                            <i class="fas fa-calendar-day fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card stat-card bg-warning text-dark">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Citas por Confirmar (Hoy)</h6>
+                                <h2 class="mb-0" id="to-confirm">-</h2>
+                            </div>
+                            <i class="fas fa-hourglass-half fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card stat-card bg-success text-white">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Nuevos Pacientes (Semana)</h6>
+                                <h2 class="mb-0" id="weekly-new-patients">-</h2>
+                            </div>
+                            <i class="fas fa-user-plus fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card stat-card bg-danger text-white">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Total Citas Pendientes</h6>
+                                <h2 class="mb-0" id="pending-appointments">-</h2>
+                            </div>
+                            <i class="fas fa-tasks fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Accesos Rápidos -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-rocket me-2"></i>Accesos Rápidos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <a href="{{ url_for('views.pacientes') }}" class="d-block btn btn-outline-primary p-3 text-center h-100">
+                                        <i class="fas fa-users fa-2x mb-2"></i>
+                                        <h6 class="mb-0">Gestionar Pacientes</h6>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{ url_for('views.citas') }}" class="d-block btn btn-outline-primary p-3 text-center h-100">
+                                        <i class="fas fa-calendar-check fa-2x mb-2"></i>
+                                        <h6 class="mb-0">Ver Agenda de Citas</h6>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="{{ url_for('views.horarios_recep') }}" class="d-block btn btn-outline-primary p-3 text-center h-100">
+                                        <i class="fas fa-clock fa-2x mb-2"></i>
+                                        <h6 class="mb-0">Consultar Horarios</h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Chatbot de Asistencia -->
+    <div class="chatbot-fab" id="chatbot-fab" title="Asistente Virtual">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header">
+            <h5><i class="fas fa-robot me-2"></i>Asistente Virtual</h5>
+            <button type="button" class="btn-close" id="chat-close-btn" aria-label="Close"></button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Los mensajes se insertarán aquí -->
+        </div>
+        <div class="chat-footer">
+            <div class="chat-suggestions" id="chat-suggestions">
+                <!-- Las sugerencias se insertarán aquí dinámicamente -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta...">
+                <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/reception_dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/logout.js') }}"></script> <!-- Script de logout reutilizable -->
+    <script src="{{ url_for('static', filename='js/reception_chatbot.js') }}"></script>
+    <script>
+        // Script para el toggle del sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                    document.getElementById('mainContent').classList.toggle('collapsed');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

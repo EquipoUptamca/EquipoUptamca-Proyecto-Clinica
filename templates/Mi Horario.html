@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Horarios - Dashboard Médico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/light-green-theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Mi Horario.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}">
+    <style>
+        @media print {
+            /* Ocultar elementos no deseados */
+            body > .container-fluid > .row:not(.schedule-row),
+            .modal, .modal-backdrop,
+            .btn, .stat-card,
+            .card:not(.schedule-card),
+            #scheduleDetailModal {
+                display: none !important;
+            }
+
+            /* Mostrar el header de impresión */
+            .print-header {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Ajustar el contenido principal para impresión */
+            .schedule-card {
+                border: none !important;
+                box-shadow: none !important;
+                width: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            
+            .schedule-card .card-header { display: none; }
+            .card-body { padding: 0 !important; }
+            .table { font-size: 9pt; }
+            .table th, .table td { padding: 0.3rem; border: 1px solid #ccc !important; }
+            .slot-appointment { background-color: #e0e0e0 !important; color: black !important; }
+            .slot-available { background-color: #f8f8f8 !important; color: black !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="print-header d-none">
+        <h2 id="printDoctorName">Horario Semanal</h2>
+        <h4 id="printWeekRange"></h4>
+    </div>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <h1 class="page-title">
+                            <i class="fas fa-calendar-alt"></i> Mis Horarios
+                        </h1>
+                        <p class="text-muted mb-0">Gestiona y visualiza tu horario semanal</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2" id="page-controls">
+                        <a href="/doctor_dashboard" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Volver al Dashboard
+                        </a>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="currentWeekBtn" title="Ir a la semana actual">
+                                <i class="fas fa-calendar-week"></i>
+                            </button>
+                            <button class="btn btn-outline-secondary" id="printScheduleBtn" title="Imprimir horario">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controles de semana -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary" id="prevWeekBtn">
+                                <i class="fas fa-chevron-left me-1"></i> Semana Anterior
+                            </button>
+                            
+                            <div class="text-center">
+                                <h4 id="weekRange" class="mb-0 fw-bold"></h4>
+                                <small class="text-muted" id="weekNumber"></small>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="nextWeekBtn">
+                                Semana Siguiente <i class="fas fa-chevron-right ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horario Semanal -->
+        <div class="row schedule-row">
+            <div class="col-12">
+                <div class="card schedule-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-clock me-2"></i> Horario Semanal
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0" id="weeklySchedule">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="time-column">Hora</th>
+                                        <th>Lunes <span id="mondayDate" class="date-badge"></span></th>
+                                        <th>Martes <span id="tuesdayDate" class="date-badge"></span></th>
+                                        <th>Miércoles <span id="wednesdayDate" class="date-badge"></span></th>
+                                        <th>Jueves <span id="thursdayDate" class="date-badge"></span></th>
+                                        <th>Viernes <span id="fridayDate" class="date-badge"></span></th>
+                                        <th>Sábado <span id="saturdayDate" class="date-badge"></span></th>
+                                        <th>Domingo <span id="sundayDate" class="date-badge"></span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scheduleBody">
+                                    <!-- Las horas se generarán dinámicamente con JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumen del Horario -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Horas Programadas</h6>
+                                <h3 id="totalHours" class="mb-0">0</h3>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-clock text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Días Laborales</h6>
+                                <h3 id="workingDays" class="mb-0">0</h3>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-day text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stat-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Promedio Diario</h6>
+                                <h3 id="dailyAverage" class="mb-0">0h</h3>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información Adicional -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i> Información del Horario
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Leyenda:</h6>
+                                <div class="legend-item">
+                                    <div class="schedule-slot available me-2"></div>
+                                    <span>Horario disponible</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="schedule-slot break me-2"></div>
+                                    <span>Descanso/Almuerzo</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="schedule-slot appointment me-2"></div>
+                                    <span>Cita programada</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Próximos turnos:</h6>
+                                <ul class="list-unstyled" id="nextShifts">
+                                    <li class="mb-2">
+                                        <i class="fas fa-chevron-right text-primary me-2"></i>
+                                        <span>Cargando...</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalles del horario -->
+    <div class="modal fade" id="scheduleDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Detalles del Horario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Día:</strong> <span id="modalDay"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Horario:</strong> <span id="modalTime"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Estado:</strong> <span id="modalStatus" class="badge bg-success">Disponible</span>
+                    </div>
+                    <div id="appointmentDetails" style="display: none;">
+                        <hr>
+                        <h6>Información de la Cita:</h6>
+                        <div class="mb-2">
+                            <strong>Paciente:</strong> <span id="modalPatient"></span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Motivo:</strong> <span id="modalReason"></span>
+                        </div>
+                        <div>
+                            <strong>Estado:</strong> <span id="modalAppointmentStatus" class="badge bg-info">Programada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/Mi Horario.js') }}">') }}"></script>
+</body>
+</html>

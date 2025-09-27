@@ -1,0 +1,78 @@
+:root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --light-color: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px 8px 0 0 !important;
+            padding: 15px 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .password-strength {
+            height: 5px;
+            background-color: #e9ecef;
+            margin-top: 5px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .form-label.required:after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .password-requirements {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .requirement i {
+            margin-right: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .requirement.met {
+            color: #28a745;
+        }
+
+        .requirement.unmet {
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+        }

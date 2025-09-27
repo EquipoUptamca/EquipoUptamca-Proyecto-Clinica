@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - MedAsistencia</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <a href="{{ url_for('views.index') }}">
+                <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia" class="logo">
+            </a>
+            <h2>Bienvenido de Nuevo</h2>
+            <p>Inicia sesión para acceder a tu panel de control.</p>
+        </div>
+        
+        <div class="login-body">
+            <form id="loginForm" novalidate>
+                <div class="form-group">
+                    <label for="identificador">Usuario o Cédula</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="identificador" name="identificador" required placeholder="Ingresa tu usuario o cédula">
+                    </div>
+                    <div class="error-message" id="identificador_error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contraseña">Contraseña</label>
+                    <div class="input-wrapper password-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="contraseña" name="contraseña" required placeholder="Ingresa tu contraseña">
+                        <i class="fas fa-eye-slash toggle-password" id="togglePassword"></i>
+                    </div>
+                    <div class="error-message" id="contraseña_error"></div>
+                </div>
+
+                <div class="form-options">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">
+                            Recordarme
+                        </label>
+                    </div>
+                    <a href="{{ url_for('views.forgot_contraseña') }}" class="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                </div>
+                
+                <button type="submit" class="btn-submit">
+                    <span id="btn-text">Ingresar</span>
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </form>
+            
+            <div id="message" class="message-container"></div>
+            
+            <div class="register-link">
+                ¿No tienes una cuenta? <a href="{{ url_for('views.register_page') }}">Regístrate aquí</a>
+            </div>
+
+            <div class="back-link">
+                <a href="{{ url_for('views.index') }}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

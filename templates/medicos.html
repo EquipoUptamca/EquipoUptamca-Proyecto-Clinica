@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médicos - Panel de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-Medicos-styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column">
+            <div class="logo">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Panel de Administración</h4>
+            </div>
+            
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=4caf50&color=fff" alt="Usuario">
+                <div class="text-white">
+                    <strong id="username">Administrador</strong>
+                    <small id="userrole">Admin</small>
+                </div>
+            </div>
+            
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin_dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/medicos">
+                        <i class="fas fa-user-md"></i> Médicos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/horarios">
+                        <i class="fas fa-calendar"></i> Horarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pacientes">
+                        <i class="fas fa-procedures"></i> Pacientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/citas">
+                        <i class="fas fa-calendar-check"></i> Citas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">
+                        <i class="fas fa-users-cog"></i> Usuarios
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-light" href="/login">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2 text-dark">
+                    <i class="fas fa-user-md me-2 text-success"></i> Gestión de Médicos
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button class="btn btn-primary me-2" id="nuevoMedicoBtn">
+                        <i class="fas fa-plus me-1"></i> Nuevo Médico
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-download me-1"></i> Exportar
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="exportExcel">Excel</a></li>
+                            <li><a class="dropdown-item" href="#" id="exportPDF">PDF</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filtros -->
+            <div class="card mb-4 fade-in">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="filterEspecialidad" class="form-label">Especialidad</label>
+                            <select class="form-select" id="filterEspecialidad">
+                                <option value="">Todas las especialidades</option>
+                                <!-- Las opciones se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filterEstado" class="form-label">Estado</label>
+                            <select class="form-select" id="filterEstado">
+                                <option value="">Todos los estados</option>
+                                <option value="A">Activo</option>
+                                <option value="I">Inactivo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filterSearch" class="form-label">Buscar</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="filterSearch" placeholder="Nombre, teléfono...">
+                                <button class="btn btn-outline-secondary" type="button" id="btnClearFilters">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabla de Médicos -->
+            <div class="card fade-in">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Listado de Médicos</h5>
+                    <span class="badge bg-success" id="totalMedicos">0 médicos</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="medicosTable" class="table table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Especialidad</th>
+                                    <th>N° Colegiado</th>
+                                    <th>Experiencia</th>
+                                    <th>Teléfono</th>
+                                    <th>Correo</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se cargarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Nuevo/Editar Médico -->
+    <div class="modal fade" id="medicoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalTitle">Nuevo Médico</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="medicoForm" novalidate>
+                    <div class="modal-body">
+                        <!-- Campo oculto para el ID del médico (para edición) -->
+                        <input type="hidden" id="id_medico">
+
+                        <!-- Grupo para seleccionar un usuario existente (visible al crear) -->
+                        <div class="mb-3" id="usuarioSelectGroup">
+                            <label for="id_usuario" class="form-label">Usuario a Promover <span class="text-danger">*</span></label>
+                            <select class="form-select" id="id_usuario" required>
+                                <option value="">Cargando usuarios...</option>
+                            </select>
+                            <div class="invalid-feedback">Por favor, seleccione un usuario.</div>
+                        </div>
+
+                        <!-- Grupo para editar el nombre (visible al editar) -->
+                        <div class="mb-3" id="nombreCompletoGroup">
+                            <label for="nombre_completo" class="form-label">Nombre Completo <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nombre_completo" required>
+                            <div class="invalid-feedback">El nombre es requerido.</div>
+                        </div>
+
+                        <!-- Campos profesionales del médico -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_especialidad" class="form-label">Especialidad <span class="text-danger">*</span></label>
+                                <select class="form-select" id="id_especialidad" required>
+                                    <option value="">Seleccione especialidad...</option>
+                                </select>
+                                <div class="invalid-feedback">La especialidad es requerida.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="numero_colegiado" class="form-label">Número de Colegiado <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="numero_colegiado" required>
+                                <div class="invalid-feedback">El número de colegiado es requerido.</div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="años_experiencia" class="form-label">Años de Experiencia</label>
+                                <input type="number" class="form-control" id="años_experiencia" min="0" value="0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" required>
+                                    <option value="A">Activo</option>
+                                    <option value="I">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono" placeholder="Ej: 0412-1234567">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com">
+                                <div class="invalid-feedback">Por favor, ingrese un correo válido.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">
+                            <span class="spinner-border spinner-border-sm d-none" id="saveSpinner" role="status" aria-hidden="true"></span>
+                            <span id="saveText">Guardar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script src="{{ url_for('static', filename='js/admin-medico.js') }}"></script>
+</body>
+</html>

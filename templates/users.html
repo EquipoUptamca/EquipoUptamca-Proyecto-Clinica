@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuarios | Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-usuarios-dashboard.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-hospital-alt"></i>
+                <div>
+                    <h4>Clínica Médica</h4>
+                    <small>Panel de Administración</small>
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Usuario">
+                <div>
+                    <strong id="username">Administrador</strong>
+                    <small id="userrole">Admin</small>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/admin_dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="/medicos">
+                    <i class="fas fa-user-md"></i> Médicos
+                </a>
+                <a href="/horarios">
+                    <i class="fas fa-calendar"></i> Horarios
+                </a>
+                <a href="/pacientes">
+                    <i class="fas fa-procedures"></i> Pacientes
+                </a>
+                <a href="/citas">
+                    <i class="fas fa-calendar-check"></i> Citas
+                </a>
+                <a href="/usuarios" class="active">
+                    <i class="fas fa-users-cog"></i> Usuarios
+                </a>
+                <a href="/login" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="page-header">
+                <h1>
+                    <i class="fas fa-users-cog"></i> Gestión de Usuarios
+                </h1>
+                <button class="btn btn-primary" id="addUserBtn">
+                    <i class="fas fa-user-plus"></i> Nuevo Usuario
+                </button>
+            </header>
+            
+            <!-- Filtros y búsqueda -->
+            <section class="filters-section">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="searchInput" class="form-label">Buscar</label>
+                        <div class="search-input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Nombre, usuario o cédula">
+                            <button class="btn" type="button" id="searchBtn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="roleFilter" class="form-label">Rol</label>
+                        <select class="form-select" id="roleFilter">
+                            <option value="">Todos los roles</option>
+                            <option value="1">Administrador</option>
+                            <option value="2">Médico</option>
+                            <option value="3">Recepción</option>
+                            <option value="4">Paciente</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="statusFilter" class="form-label">Estado</label>
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Todos</option>
+                            <option value="1">Activos</option>
+                            <option value="0">Inactivos</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Tabla de usuarios -->
+            <section class="users-table-section">
+                <header>
+                    <h2>Listado de Usuarios</h2>
+                    <span class="user-count">Mostrando <span id="userCount">0</span> usuarios</span>
+                </header>
+                
+                <div class="table-responsive">
+                    <table class="table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Nombre Completo</th>
+                                <th>Cédula</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Cargando...</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Paginación -->
+                <nav class="pagination-container">
+                    <ul class="pagination" id="pagination"></ul>
+                </nav>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para agregar/editar usuario -->
+    <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Nuevo Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre_completo" class="form-label">Nombre Completo*</label>
+                                <input type="text" class="form-control" id="nombre_completo" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="usuario_login" class="form-label">Nombre de Usuario*</label>
+                                <input type="text" class="form-control" id="usuario_login" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cedula" class="form-label">Cédula*</label>
+                                <input type="text" class="form-control" id="cedula" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="telefono">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="gmail" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="gmail">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_rol" class="form-label">Rol*</label>
+                                <select class="form-select" id="id_rol" required>
+                                    <option value="">Seleccionar rol</option>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Médico</option>
+                                    <option value="3">Recepción</option>
+                                    <option value="4">Paciente</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="contraseña" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="contraseña">
+                                <small class="text-muted">Dejar en blanco para no cambiar</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
+                                <input type="password" class="form-control" id="confirm_password">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="activo" checked>
+                                    <label class="form-check-label" for="activo">Usuario activo</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveUserBtn">Guardar Usuario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    ¿Está seguro que desea eliminar este usuario?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmActionBtn">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/admin-usuarios-dashboard.js') }}"></script>
+</body>
+</html>

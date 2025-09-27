@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Preguntas Frecuentes - MedAsistencia - Centro Médico Docente El Paso" />
+  <meta name="keywords" content="preguntas frecuentes, FAQ, ayuda médica, soporte">
+  <meta name="author" content="Centro Médico Docente El Paso">
+  <title>Preguntas Frecuentes - MedAsistencia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+  <header class="main-header">
+    <nav class="navbar container">
+      <a href="{{ url_for('views.index') }}" class="navbar-logo" aria-label="Página de inicio de MedAsistencia">
+        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
+        <span>MedAsistencia</span>
+      </a>
+      <div class="navbar-actions">
+        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
+        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+      </div>
+    </nav>
+  </header>
+  
+  <main class="container" style="padding: 4rem 0; min-height: 70vh;">
+    <section class="faq-content">
+      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Preguntas Frecuentes</h1>
+      
+      <div class="faq-item">
+        <h3>¿Cómo puedo registrarme en MedAsistencia?</h3>
+        <p>Puede registrarse haciendo clic en el botón "Registrarse" en la página principal y completando el formulario con sus datos profesionales.</p>
+        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Qué tipos de usuarios pueden utilizar la plataforma?</h3>
+        <p>La plataforma está diseñada para administradores, médicos, personal de enfermería y personal administrativo del centro médico.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Cómo programo una cita médica?</h3>
+        <p>Una vez iniciada sesión, acceda al módulo de "Citas" y seleccione "Nueva Cita". Complete los datos requeridos y guarde la información.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Es segura la información médica de los pacientes?</h3>
+        <p>Sí, implementamos medidas de seguridad avanzadas y cumplimos con todas las normativas de protección de datos médicos.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Puedo acceder a la plataforma desde mi móvil?</h3>
+        <p>Sí, MedAsistencia es completamente responsive y puede accederse desde cualquier dispositivo con conexión a internet.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Qué hago si olvidé mi contraseña?</h3>
+        <p>En la página de inicio de sesión, haga clic en "¿Olvidó su contraseña?" y siga las instrucciones para restablecerla.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>¿Cómo genero reportes médicos?</h3>
+        <p>Acceda al módulo "Reportes" donde podrá generar diferentes tipos de reportes clínicos y estadísticas operativas.</p>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p>Av. Principal, El Paso</p>
+        <p>Teléfono: +123 456 7890</p>
+        <p>Email: contacto@medasistencia.com</p>
+      </div>
+      <div class="footer-section">
+        <h4>Horario</h4>
+        <p>Lunes a Viernes: 8:00 - 18:00</p>
+        <p>Sábados: 9:00 - 13:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Enlaces rápidos</h4>
+        <ul>
+          <li><a href="/privacy">Política de Privacidad</a></li>
+          <li><a href="/terms">Términos de Servicio</a></li>
+          <li><a href="/faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Centro Médico Docente El Paso - Todos los derechos reservados</p>
+      <p>MedAsistencia v2.1</p>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

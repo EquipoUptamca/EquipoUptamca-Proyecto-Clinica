@@ -1,0 +1,14 @@
+/* Estilos para la página de pacientes de recepción */
+
+/* Ajustes para la tabla */
+#pacientesTable_wrapper .row:first-child {
+    display: none; /* Oculta la barra de búsqueda por defecto de DataTables */
+}
+
+.table-hover tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+
+#alert-container-modal .alert {
+    font-size: 0.9rem;
+}

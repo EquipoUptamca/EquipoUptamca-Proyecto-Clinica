@@ -1,0 +1,101 @@
+/el-paso
+├── app.py
+├── app.log
+├── appointments.py
+├── auth.py
+├── config.py
+├── dashboard.py
+├── database.py
+├── doctors.py
+├── Estructura.txt
+├── logger.py
+├── main.py
+├── patients.py
+├── requirements.txt
+├── schedule_manager.py
+├── schedules.py
+├── users.py
+├── utils.py
+├── validators.py
+├── views.py
+├── /respaldo
+│   └──asistencia_medica_clinica.bak
+├── /templates
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── users.html
+│   ├── admin_dashboard.html
+│   ├── doctor_dashboard.html
+│   ├── reception_dashboard.html
+│   ├── Mi Citas.html
+│   ├── Mi Horario.html
+│   ├── horarios.html
+│   ├── pacientes.html
+│   ├── medicos.html
+│   ├── nueva_cita.html
+│   ├── nuevo_usuario.html
+│   ├── forgot_contraseña.html
+│   ├── reset_contraseña.html
+│   ├── 404.html
+│   └── 500.html
+└── /static
+    ├── /css
+    │   ├── admin_dashboard.css
+    │   ├── admin-Medicos-styles.css
+    │   ├── admin-pacientes-styles.css
+    │   ├── admin-global.css
+    │   ├── admin-usuarios.css
+    │   ├── Mi Citas.css
+    │   ├── Mi Horario.css
+    │   ├── index.css
+    │   ├── login.css
+    │   ├── register.css
+    │   ├── schedules.css
+    │   ├── light-green-theme.css
+    │   └── toast-notifications.css
+    └── /js
+        ├── admin_dashboard.js
+        ├── admin-medico.js
+        ├── admin-pacientes.js
+        ├── admin-usuarios-dashboard.js
+        ├── doctor_dashboard.js
+        ├── index.js
+        ├── login.js
+        ├── register.js
+        ├── schedules.js
+        ├── Mi Citas.js
+        ├── Mi Horario.js
+        ├── toast-notifications.js
+        ├── forgot-password.js
+        ├── reset-password.js
+
+Archivos de configuración y utilidades:
+config.py - Configuración de base de datos y constantes
+database.py - Función de conexión a la base de datos
+validators.py - Funciones de validación (versión original)
+utils.py - Funciones de utilidades mejoradas
+logger.py - Configuración de logging
+
+Blueprints por funcionalidad:
+views.py - Rutas para renderizar templates
+auth.py - Autenticación y registro
+dashboard.py - Funciones del dashboard administrativo
+users.py - Gestión de usuarios
+doctors.py - Gestión completa de médicos
+patients.py - Gestión completa de pacientes
+appointments.py - Gestión de citas médicas
+schedules.py - Gestión de horarios médicos
+
+Archivos principales:
+app.py - Configuración y registro de blueprints
+main.py - Punto de entrada de la aplicación
+requirements.txt - Dependencias de Python
+
+Beneficios de esta organización:
+Mantenibilidad: Cada archivo tiene una responsabilidad específica
+Escalabilidad: Fácil agregar nuevas funcionalidades
+Colaboración: Diferentes desarrolladores pueden trabajar en módulos separados
+Testing: Más fácil testear componentes individuales
+Debugging: Problemas más fáciles de localizar
+Para ejecutar la aplicación, usa python main.py en lugar del archivo original. Toda la funcionalidad permanece exactamente igual, solo está mejor organizada.

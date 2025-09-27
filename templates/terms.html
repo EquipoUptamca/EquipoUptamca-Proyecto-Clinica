@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Términos de Servicio de MedAsistencia - Centro Médico Docente El Paso" />
+  <meta name="keywords" content="términos de servicio, condiciones de uso, acuerdo médico">
+  <meta name="author" content="Centro Médico Docente El Paso">
+  <title>Términos de Servicio - MedAsistencia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+  <header class="main-header">
+    <nav class="navbar container">
+      <a href="{{ url_for('views.index') }}" class="navbar-logo" aria-label="Página de inicio de MedAsistencia">
+        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
+        <span>MedAsistencia</span>
+      </a>
+      <div class="navbar-actions">
+        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
+        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+      </div>
+    </nav>
+  </header>
+  
+  <main class="container" style="padding: 4rem 0; min-height: 70vh;">
+    <section class="terms-content">
+      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Términos de Servicio</h1>
+      
+      <div class="content-card">
+        <h2>1. Aceptación de los Términos</h2>
+        <p>Al utilizar MedAsistencia, usted acepta cumplir con estos términos de servicio y todas las leyes y regulaciones aplicables.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>2. Uso del Servicio</h2>
+        <p>El servicio está destinado exclusivamente para:</p>
+        <ul>
+          <li>Gestión médica profesional</li>
+          <li>Programación de citas médicas</li>
+          <li>Mantenimiento de registros médicos</li>
+          <li>Comunicación médico-paciente</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>3. Responsabilidades del Usuario</h2>
+        <p>Los usuarios se comprometen a:</p>
+        <ul>
+          <li>Proporcionar información verídica</li>
+          <li>Mantener la confidencialidad de sus credenciales</li>
+          <li>Utilizar el servicio de manera ética y profesional</li>
+          <li>Respetar la privacidad de los pacientes</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>4. Limitaciones de Responsabilidad</h2>
+        <p>MedAsistencia no se hace responsable por:</p>
+        <ul>
+          <li>Uso indebido de la plataforma</li>
+          <li>Problemas derivados de información incorrecta</li>
+          <li>Interrupciones del servicio por causas ajenas a nuestro control</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>5. Modificaciones</h2>
+        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Las actualizaciones serán notificadas a los usuarios.</p>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p>Av. Principal, El Paso</p>
+        <p>Teléfono: +123 456 7890</p>
+        <p>Email: contacto@medasistencia.com</p>
+      </div>
+      <div class="footer-section">
+        <h4>Horario</h4>
+        <p>Lunes a Viernes: 8:00 - 18:00</p>
+        <p>Sábados: 9:00 - 13:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Enlaces rápidos</h4>
+        <ul>
+          <li><a href="/privacy">Política de Privacidad</a></li>
+          <li><a href="/terms">Términos de Servicio</a></li>
+          <li><a href="/faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Centro Médico Docente El Paso - Todos los derechos reservados</p>
+      <p>MedAsistencia v2.1</p>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

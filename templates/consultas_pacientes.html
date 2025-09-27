@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Pacientes - MedAsistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #eef2f5;
+        }
+        .main-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 380px;
+            background-color: #fff;
+            border-right: 1px solid #dee2e6;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .patient-list {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .patient-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .patient-item:hover, .patient-item.active {
+            background-color: #e8f8f5;
+        }
+        .patient-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #1E8449;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        .patient-info h6 {
+            margin-bottom: 0.1rem;
+            font-weight: 600;
+        }
+        .patient-info small {
+            color: #6c757d;
+        }
+        .detail-header {
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .history-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid #1E8449;
+            padding-bottom: 1.5rem;
+        }
+        .history-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #1E8449;
+            border: 3px solid #e8f8f5;
+        }
+        .history-item:last-child {
+            border-left: 2px solid transparent;
+            padding-bottom: 0;
+        }
+        .badge {
+            font-size: 0.8rem;
+            padding: 0.4em 0.7em;
+        }
+        #logoutBtn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Sidebar con lista de pacientes -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="mb-0"><i class="fas fa-users me-2 text-primary"></i> Pacientes</h4>
+                    <a id="logoutBtn" class="text-danger" title="Cerrar Sesión"><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="search-patient" class="form-control" placeholder="Buscar por nombre o cédula...">
+                </div>
+            </div>
+            <div class="patient-list" id="patient-list-container">
+                <!-- Pacientes se cargan aquí -->
+                <div class="text-center p-5" id="patients-loader">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2">Cargando pacientes...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido principal con detalles del paciente -->
+        <div class="content" id="patient-detail-container">
+            <div class="text-center" style="margin-top: 20vh;">
+                <i class="fas fa-user-plus fa-4x text-muted mb-3"></i>
+                <h3 class="text-muted">Seleccione un paciente</h3>
+                <p class="text-muted">Elija un paciente de la lista para ver su información y su historial de citas.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const patientListContainer = document.getElementById('patient-list-container');
+            const patientDetailContainer = document.getElementById('patient-detail-container');
+            const searchInput = document.getElementById('search-patient');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const patientsLoader = document.getElementById('patients-loader');
+            let allPatients = [];
+            let currentUser = {};
+
+            function loadUserInfo() {
+                fetch('/api/consultas/user-info')
+                    .then(response => response.json())
+                    .then(data => {
+                        currentUser = data;
+                        // You can use currentUser.nombre_completo etc. if needed
+                    }).catch(() => {
+                        window.location.href = '/consultas/login';
+                    });
+            }
+
+            function loadPatients() {
+                fetch('/api/consultas/pacientes')
+                    .then(response => {
+                        if (!response.ok) throw new Error('No se pudo cargar la lista de pacientes.');
+                        return response.json();
+                    })
+                    .then(data => {
+                        allPatients = data;
+                        renderPatientList(allPatients);
+                    })
+                    .catch(error => {
+                        patientListContainer.innerHTML = `<div class="alert alert-danger m-3">${error.message}</div>`;
+                    });
+            }
+
+            function renderPatientList(patients) {
+                patientsLoader.classList.add('d-none');
+                patientListContainer.innerHTML = '';
+                if (patients.length === 0) {
+                    patientListContainer.innerHTML = `<div class="text-center text-muted p-4">No se encontraron pacientes.</div>`;
+                    return;
+                }
+                patients.forEach(p => {
+                    const initial = p.nombre_completo.charAt(0).toUpperCase();
+                    const patientDiv = document.createElement('div');
+                    patientDiv.className = 'patient-item';
+                    patientDiv.dataset.id = p.id_paciente;
+                    patientDiv.innerHTML = `
+                        <div class="patient-avatar">${initial}</div>
+                        <div class="patient-info">
+                            <h6>${p.nombre_completo}</h6>
+                            <small>C.I: ${p.cedula} &bull; Edad: ${p.edad || 'N/A'}</small>
+                        </div>
+                    `;
+                    patientDiv.addEventListener('click', () => {
+                        document.querySelectorAll('.patient-item').forEach(item => item.classList.remove('active'));
+                        patientDiv.classList.add('active');
+                        loadPatientDetails(p.id_paciente);
+                    });
+                    patientListContainer.appendChild(patientDiv);
+                });
+            }
+
+            function loadPatientDetails(patientId) {
+                patientDetailContainer.innerHTML = `<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div></div>`;
+                const patient = allPatients.find(p => p.id_paciente === patientId);
+                
+                fetch(`/api/consultas/pacientes/${patientId}/historial`)
+                    .then(response => response.json())
+                    .then(history => {
+                        renderPatientDetails(patient, history);
+                    })
+                    .catch(() => {
+                        patientDetailContainer.innerHTML = `<div class="alert alert-danger">Error al cargar el historial.</div>`;
+                    });
+            }
+
+            function renderPatientDetails(patient, history) {
+                const statusColors = {
+                    'completada': 'success', 'pendiente': 'warning', 'cancelada': 'danger', 'confirmada': 'primary'
+                };
+                const historyHtml = history.length > 0 ? history.map(h => `
+                    <div class="history-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="mb-1">${h.motivo_consulta}</h6>
+                            <span class="badge bg-${statusColors[h.estado] || 'secondary'}">${h.estado}</span>
+                        </div>
+                        <p class="text-muted small mb-1">
+                            <i class="fas fa-calendar-alt me-1"></i> ${new Date(h.fecha_cita).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            <i class="fas fa-user-md ms-3 me-1"></i> Dr(a). ${h.nombre_medico}
+                        </p>
+                    </div>
+                `).join('') : '<p class="text-muted">No hay historial de citas para este paciente.</p>';
+
+                patientDetailContainer.innerHTML = `
+                    <div class="detail-header">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex align-items-center">
+                                <div class="patient-avatar me-3" style="width:60px; height:60px; font-size:1.5rem;">${patient.nombre_completo.charAt(0)}</div>
+                                <div>
+                                    <h3 class="mb-0">${patient.nombre_completo}</h3>
+                                    <p class="text-muted mb-0">C.I: ${patient.cedula}</p>
+                                </div>
+                            </div>
+                            <a href="/nueva_cita?paciente_id=${patient.id_paciente}" class="btn btn-primary flex-shrink-0">
+                                <i class="fas fa-plus me-2"></i>Registrar Consulta
+                            </a>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4"><i class="fas fa-phone me-2 text-primary"></i> ${patient.telefono || 'N/A'}</div>
+                            <div class="col-md-8"><i class="fas fa-envelope me-2 text-primary"></i> ${patient.correo || 'N/A'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-file-medical-alt me-2"></i> Historial de Citas</h5>
+                        </div>
+                        <div class="card-body">
+                            ${historyHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredPatients = allPatients.filter(p => 
+                    p.nombre_completo.toLowerCase().includes(searchTerm) ||
+                    p.cedula.toLowerCase().includes(searchTerm)
+                );
+                renderPatientList(filteredPatients);
+            });
+
+            logoutBtn.addEventListener('click', function() {
+                fetch('/consultas/logout', { method: 'POST' })
+                    .then(() => {
+                        window.location.href = '/consultas/login';
+                    });
+            });
+
+            // Init
+            loadUserInfo();
+            loadPatients();
+        });
+    </script>
+</body>
+</html>

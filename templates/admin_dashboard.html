@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_chatbot.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Sistema Clínico</h4>
+            </div>
+            
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+                <div class="text-white">
+                    <strong id="username">Administrador</strong>
+                    <small id="userrole" class="d-block">Admin</small>
+                </div>
+            </div>
+            
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin_dashboard">
+                        <i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/medicos">
+                        <i class="fas fa-user-md"></i> <span class="nav-link-text">Médicos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/horarios">
+                        <i class="fas fa-calendar"></i> <span class="nav-link-text">Horarios</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pacientes">
+                        <i class="fas fa-procedures"></i> <span class="nav-link-text">Pacientes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/citas">
+                        <i class="fas fa-calendar-check"></i> <span class="nav-link-text">Citas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">
+                        <i class="fas fa-users-cog"></i> <span class="nav-link-text">Usuarios</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-danger" href="/login">
+                        <i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1 fade-in" id="mainContent">
+            <div class="header-bar">
+                <h1 class="h2">
+                    <i class="fas fa-tachometer-alt me-2 text-success"></i> Dashboard
+                </h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="btn-group me-2">
+                        <button class="btn btn-sm btn-outline-light" id="exportBtn">
+                            <i class="fas fa-download me-1"></i> Exportar
+                        </button>
+                    </div>
+                    <button class="btn btn-sm btn-outline-light dropdown-toggle" id="dateFilterBtn">
+                        <i class="fas fa-calendar me-1"></i> Hoy
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Alertas -->
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" id="notificationAlert" style="display: none;">
+                <strong><i class="fas fa-exclamation-circle me-2"></i>Notificación:</strong>
+                <span id="notificationText"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="row g-4" id="stats-container">
+                <!-- Se llenará dinámicamente -->
+            </div>
+            
+            <!-- Gráfico de Citas -->
+            <div class="row mt-4 g-4 fade-in">
+                <div class="col-lg-7">
+                    <div class="card table-card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center flex-wrap">
+                            <h5 class="mb-0 me-3"><i class="fas fa-chart-bar me-2"></i>Rendimiento de Citas</h5>
+                            <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+                                <label for="chartDateFrom" class="form-label mb-0 small">Desde:</label>
+                                <input type="date" id="chartDateFrom" class="form-control form-control-sm" style="width: auto;">
+                                <label for="chartDateTo" class="form-label mb-0 small">Hasta:</label>
+                                <input type="date" id="chartDateTo" class="form-control form-control-sm" style="width: auto;">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-light" id="filterChartBtn" title="Filtrar"><i class="fas fa-filter"></i></button>
+                                    <button class="btn btn-sm btn-outline-light" id="clearChartFilterBtn" title="Limpiar filtro"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 350px;">
+                            <canvas id="appointmentsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card table-card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Citas por Estado</h5>
+                        </div>
+                        <div class="card-body d-flex justify-content-center align-items-center" style="height: 350px;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <div class="row mt-4 g-4 fade-in">
+                <div class="col-lg-12">
+                    <div class="card table-card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-calendar me-2"></i>Próximas Citas</h5>
+                            <a href="/citas" class="btn btn-sm btn-outline-light">Ver todas</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="upcoming-appointments">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Paciente</th>
+                                            <th>Médico</th>
+                                            <th>Fecha/Hora</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nueva fila para resúmenes -->
+            <div class="row mt-4 g-4 fade-in">
+                <div class="col-lg-7">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Resumen del Sistema</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="system-summary">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Actividad Reciente</h5>
+                        </div>
+                        <div class="card-body" id="recent-activity" style="max-height: 300px; overflow-y: auto;">
+                            <p class="text-muted text-center mt-3">No hay actividad reciente para mostrar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot de Asistencia para Admin -->
+    <div class="chatbot-fab" id="chatbot-fab" title="Asistente Virtual">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-widget" id="chat-widget">
+        <div class="chat-header">
+            <h5><i class="fas fa-robot me-2"></i>Asistente de Admin</h5>
+            <button type="button" class="btn-close" id="chat-close-btn" aria-label="Close"></button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Los mensajes se insertarán aquí -->
+        </div>
+        <div class="chat-footer">
+            <div class="chat-suggestions" id="chat-suggestions">
+                <!-- Las sugerencias se insertarán aquí dinámicamente -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta...">
+                <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin_chatbot.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                    document.getElementById('mainContent').classList.toggle('collapsed');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

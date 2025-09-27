@@ -1,0 +1,283 @@
+:root {
+    --primary-color: #1e663e;
+    --secondary-color: #268a53;
+    --accent-color: #8bc34a;
+    --light-color: #e8f5e9;
+    --dark-color: #1b5e20;
+    --success-color: #2e7d32;
+    --warning-color: #f57c00;
+    --danger-color: #d32f2f;
+    --info-color: #0288d1;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f1f8e9;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    background: linear-gradient(135deg, var(--dark-color) 0%, var(--primary-color) 100%);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    margin: 5px 10px;
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover, 
+.sidebar .nav-link.active {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: all 0.3s;
+    background-color: #f1f8e9;
+}
+
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.1);
+    border: none;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 15px 20px;
+    font-weight: 600;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 25px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.stat-card:hover {
+    background-color: rgba(76, 175, 80, 0.08);
+    transform: translateY(-3px);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.stat-card .count {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--dark-color);
+    margin: 10px 0;
+}
+
+.stat-card .label {
+    color: #616161;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.user-profile {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.user-profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logo i {
+    color: #a5d6a7;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 12px;
+}
+
+.badge.bg-success {
+    background-color: var(--success-color) !important;
+}
+
+.badge.bg-warning {
+    background-color: var(--warning-color) !important;
+}
+
+.badge.bg-danger {
+    background-color: var(--danger-color) !important;
+}
+
+.badge.bg-info {
+    background-color: var(--info-color) !important;
+}
+
+.system-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s;
+}
+
+.system-summary-item:hover {
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.system-summary-item:last-child {
+    border-bottom: none;
+}
+
+.system-summary-item .value {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #26a69a 0%, #00796b 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-info:hover {
+    background: linear-gradient(135deg, #00796b 0%, #004d40 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 121, 107, 0.3);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffb74d 0%, #f57c00 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.3);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1976d2 0%, #0d47a1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 1px solid #ffd54f;
+    border-radius: 10px;
+    color: #7d6608;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(76, 175, 80, 0.08);
+}
+
+.table th {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    font-weight: 600;
+    border-top: none;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        margin-left: -250px;
+        z-index: 1000;
+    }
+    .sidebar.active {
+        margin-left: 0;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    }
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    
+    .stat-card {
+        padding: 20px 15px;
+    }
+    
+    .stat-card .count {
+        font-size: 1.8rem;
+    }
+}

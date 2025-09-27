@@ -1,0 +1,577 @@
+/* ===================================================================
+   Estilos Profesionales Mejorados para la Gestión de Horarios (MediSchedule)
+   =================================================================== */
+
+:root {
+    --primary-green: #1a7f54;
+    --primary-green-dark: #0d5c3d;
+    --primary-green-light: #2a9d6f;
+    --primary-green-soft: #e8f5f0;
+    --secondary-green: #34a27d;
+    --accent-green: #4ecb89;
+    --text-dark: #2d3748;
+    --text-light: #718096;
+    --bg-light: #e8f5e9;
+    --border-light: #e2e8f0;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- Sidebar Mejorado --- */
+.sidebar {
+    background: linear-gradient(180deg, var(--primary-green-dark) 0%, var(--primary-green) 100%);
+    color: white;
+    min-height: 100vh;
+    width: 280px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar.collapsed .nav-link-text,
+.sidebar.collapsed .logo h4,
+.sidebar.collapsed .user-profile div {
+    display: none;
+}
+
+.sidebar-toggle {
+    position: absolute;
+    right: -15px;
+    top: 20px;
+    background: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.sidebar-toggle:hover {
+    transform: scale(1.1);
+}
+
+.logo {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.logo i {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-green);
+}
+
+.user-profile {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-right: 0.75rem;
+}
+
+/* --- Cabecera Mejorada --- */
+.header-bar {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+}
+
+.header-bar h1 {
+    font-weight: 700;
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+/* --- Tarjetas Mejoradas --- */
+.card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+    border-radius: 1rem 1rem 0 0 !important;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    border: none;
+}
+
+.filter-card {
+    background: white;
+    border-left: 4px solid var(--primary-green);
+}
+
+.summary-card {
+    background: white;
+    border-left: 4px solid var(--accent-green);
+}
+
+/* --- Pestañas Mejoradas --- */
+.nav-pills {
+    background: white;
+    padding: 0.75rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-pills .nav-link {
+    color: var(--text-light);
+    font-weight: 600;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    margin: 0 0.25rem;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.nav-pills .nav-link.active {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-pills .nav-link:not(.active):hover {
+    background-color: var(--primary-green-soft);
+    color: var(--primary-green);
+}
+
+/* --- Vista Semanal Mejorada --- */
+.weekly-schedule-container {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.weekly-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1.5rem;
+    flex-grow: 1;
+}
+
+.day-column {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    border-top: 4px solid var(--primary-green-soft);
+}
+
+.day-column.today {
+    border-top: 4px solid var(--accent-green);
+    background: linear-gradient(135deg, #fff 0%, var(--primary-green-soft) 100%);
+}
+
+.day-header {
+    font-weight: 700;
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--primary-green-soft);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.schedule-block {
+    background: linear-gradient(135deg, var(--primary-green-soft) 0%, #fff 100%);
+    border: 1px solid var(--border-light);
+    border-left: 4px solid var(--primary-green);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.schedule-block:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--accent-green);
+}
+
+.schedule-time {
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 0.25rem;
+}
+
+.schedule-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+/* --- Botones Mejorados --- */
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-green-light) 100%);
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+    background: linear-gradient(90deg, var(--primary-green-dark) 0%, var(--primary-green) 100%);
+}
+
+.btn-outline-success {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success:hover {
+    background: var(--primary-green);
+    border-color: var(--primary-green);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- Formularios Mejorados --- */
+.form-control, .form-select {
+    border: 2px solid var(--border-light);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 0.2rem rgba(26, 127, 84, 0.15);
+}
+
+/* --- Time Slots Mejorados --- */
+.time-slot {
+    cursor: pointer;
+    background: white;
+    border: 2px solid var(--border-light);
+    color: var(--text-dark);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    margin: 0.25rem;
+}
+
+.time-slot:hover {
+    background: var(--primary-green-soft);
+    border-color: var(--primary-green);
+    color: var(--primary-green);
+    transform: translateY(-1px);
+}
+
+.time-slot.active {
+    background: var(--primary-green);
+    color: white;
+    border-color: var(--primary-green);
+}
+
+/* --- Modales Mejorados --- */
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+    border: none;
+}
+
+.modal-footer {
+    border-radius: 0 0 1rem 1rem;
+    border: none;
+}
+
+/* --- Tablas Mejoradas --- */
+.table {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.table thead {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    color: white;
+}
+
+.table th {
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.table td {
+    padding: 1rem;
+    border-color: var(--border-light);
+}
+
+/* --- Toasts Mejorados --- */
+.toast {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.toast.bg-success {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%) !important;
+}
+
+/* --- Estados de Carga Mejorados --- */
+.loading-spinner {
+    text-align: center;
+    padding: 3rem;
+}
+
+.loading-spinner .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary-green);
+}
+
+/* --- Estados Vacíos Mejorados --- */
+.no-schedules {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-light);
+    background: var(--bg-light);
+    border-radius: 1rem;
+    border: 2px dashed var(--border-light);
+}
+
+.no-schedules i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--border-light);
+}
+
+/* --- Vista Recepcionista: Horarios de Médicos --- */
+.doctor-schedule-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.doctor-list-panel {
+    flex: 0 0 320px; /* Ancho fijo para la lista de médicos */
+    background: white;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    max-height: 80vh; /* Altura máxima con scroll */
+    overflow-y: auto;
+    border-top: 4px solid var(--primary-green);
+}
+
+.doctor-list-header {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--primary-green);
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--primary-green-soft);
+}
+
+.doctor-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.doctor-item:hover {
+    background-color: var(--primary-green-soft);
+    transform: translateX(5px);
+}
+
+.doctor-item.active {
+    background-color: var(--primary-green-soft);
+    border-left-color: var(--accent-green);
+    color: var(--primary-green-dark);
+}
+
+.doctor-item.active .doctor-info h5 {
+    font-weight: 700;
+}
+
+.doctor-item img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    object-fit: cover;
+    border: 2px solid var(--border-light);
+}
+
+.no-schedules i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--border-light);
+}
+
+/* --- Responsive Design Mejorado --- */
+@media (max-width: 1200px) {
+    .weekly-schedule-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .weekly-schedule-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .sidebar {
+        width: 80px;
+    }
+    
+    .sidebar .nav-link-text,
+    .sidebar .logo h4,
+    .sidebar .user-profile div {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .weekly-schedule-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .header-bar {
+        padding: 1rem;
+    }
+    
+    .header-bar h1 {
+        font-size: 1.5rem;
+    }
+    
+    .nav-pills .nav-link {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .weekly-schedule-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-block {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .schedule-actions {
+        justify-content: center;
+    }
+    
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+}
+
+/* --- Animaciones y Transiciones --- */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+/* --- Efectos de Hover Mejorados --- */
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+/* --- Badges Mejorados --- */
+.badge {
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.badge.bg-success {
+    background: linear-gradient(90deg, var(--primary-green) 0%, var(--accent-green) 100%) !important;
+}
+
+/* --- Alertas Mejoradas --- */
+.alert-light-success {
+    color: var(--primary-green-dark);
+    background: linear-gradient(135deg, var(--primary-green-soft) 0%, #fff 100%);
+    border: 1px solid var(--accent-green);
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--accent-green);
+}

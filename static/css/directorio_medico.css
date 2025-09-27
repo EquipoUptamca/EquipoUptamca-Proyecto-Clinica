@@ -1,0 +1,74 @@
+/* Estilos para el Directorio Médico */
+
+/* Acordeón */
+.accordion-item {
+    background-color: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 0.75rem !important;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.accordion-header .accordion-button {
+    background-color: var(--primary-green-soft);
+    color: var(--primary-green-dark);
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.accordion-header .accordion-button:not(.collapsed) {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.accordion-header .accordion-button:not(.collapsed)::after {
+    filter: brightness(0) invert(1);
+}
+
+.accordion-body {
+    padding: 1.5rem;
+    background-color: #fdfdfd;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tarjeta de Médico */
+.doctor-card {
+    background: white;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+}
+
+.doctor-card-header {
+    background: linear-gradient(135deg, var(--primary-green-soft) 0%, #fff 100%);
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--primary-green-dark);
+}
+
+.doctor-card-body {
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.doctor-card-body p {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

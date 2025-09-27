@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Citas - Dashboard Médico</title>
+    <link rel="stylesheet" href="Mi Citas.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Mi Citas.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-calendar-check"></i> Mis Citas</h1>
+            <div class="header-actions">
+                <button id="refresh-btn" class="btn-refresh">
+                    <i class="fas fa-sync-alt"></i> Actualizar
+                </button>
+            </div>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="filter-date">Filtrar por fecha:</label>
+                <input type="date" id="filter-date">
+            </div>
+            <div class="filter-group">
+                <label for="filter-status">Filtrar por estado:</label>
+                <select id="filter-status">
+                    <option value="all">Todos los estados</option>
+                    <option value="pendiente">Pendientes</option>
+                    <option value="confirmada">Confirmadas</option>
+                    <option value="completada">Completadas</option>
+                    <option value="cancelada">Canceladas</option>
+                </select>
+            </div>
+            <button id="clear-filters" class="btn-clear">Limpiar filtros</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="pending-count">0</h3>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="confirmed-count">0</h3>
+                    <p>Confirmadas</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="today-count">0</h3>
+                    <p>Para hoy</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="citas-container">
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner fa-spin"></i> Cargando citas...
+            </div>
+            
+            <div id="citas-list" class="citas-list">
+                <!-- Las citas se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div id="no-citas" class="no-citas hidden">
+                <i class="fas fa-calendar-times"></i>
+                <h3>No hay citas para mostrar</h3>
+                <p>No se encontraron citas con los filtros aplicados.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirmar Cita</h2>
+                <button id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message">¿Está seguro de que desea confirmar esta cita?</p>
+                <div class="cita-details">
+                    <p><strong>Paciente:</strong> <span id="modal-paciente"></span></p>
+                    <p><strong>Fecha:</strong> <span id="modal-fecha"></span></p>
+                    <p><strong>Hora:</strong> <span id="modal-hora"></span></p>
+                    <p><strong>Motivo:</strong> <span id="modal-motivo"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-confirm" class="btn-secondary">Cancelar</button>
+                <button id="confirm-cita" class="btn-primary">Confirmar Cita</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/Mi Citas.js') }}"></script>
+</body>
+</html>

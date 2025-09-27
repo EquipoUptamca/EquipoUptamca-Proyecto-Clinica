@@ -1,0 +1,139 @@
+/* ===================================
+   ESTILOS PARA GESTIÓN DE CITAS (admin-citas.css)
+   =================================== */
+
+/* --- Estructura Principal y Sidebar --- */
+
+body {
+    overflow-x: hidden; /* Previene la barra de scroll horizontal */
+}
+
+#wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+    background-color: #1e3a1e; /* Verde oscuro para superficie (de la paleta) */
+    transition: margin-left 0.3s ease;
+    margin-left: -250px; /* Inicia oculto */
+}
+
+#page-content-wrapper {
+    flex: 1;
+    min-width: 0; /* Permite que el contenido se encoja */
+    transition: margin-left 0.3s ease;
+}
+
+/* Estado "toggled" para mostrar el sidebar */
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+/* Ajustes para pantallas grandes donde el sidebar es visible por defecto */
+@media (min-width: 992px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #page-content-wrapper {
+        margin-left: 0; /* No necesita margen cuando el sidebar es parte del flujo */
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -250px; /* Oculta el sidebar al hacer toggle */
+    }
+}
+
+/* --- Estilos de los elementos del Sidebar --- */
+
+.sidebar-heading {
+    padding: 1rem 1.25rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e8f5e8; /* Texto principal claro */
+    border-bottom: 1px solid #337733; /* Borde sutil verde */
+}
+
+.list-group-item {
+    border: none;
+    padding: 1rem 1.25rem;
+    color: #c8e6c9; /* Texto secundario */
+}
+
+.list-group-item-action.bg-dark:hover,
+.list-group-item-action.bg-dark:focus {
+    background-color: #2e7d32 !important; /* Verde medio para hover */
+    color: #e8f5e8;
+}
+
+.list-group-item.active {
+    background-color: #1b5e20 !important; /* Verde oscuro principal */
+    border-color: #1b5e20 !important;
+}
+
+
+/* --- Estilos para el Calendario (FullCalendar) --- */
+
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Mejora la interacción con los eventos */
+.fc-event {
+    cursor: pointer;
+    border: none !important;
+    padding: 5px;
+}
+
+/* Resalta el día actual */
+.fc-day-today {
+    background-color: #2a4a2a !important; /* Superficie clara verde */
+}
+
+
+/* --- Estilos para el Modal de Citas --- */
+
+/* Contenedor de los horarios */
+.time-slots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Botones de horario individual */
+.time-slot {
+    padding: 8px;
+    border: 1px solid #4caf50; /* Verde claro para borde */
+    color: #4caf50; /* Verde claro para texto */
+    background-color: transparent;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.time-slot:hover {
+    background-color: rgba(76, 175, 80, 0.1); /* Tono verde muy sutil */
+}
+
+.time-slot.selected {
+    background-color: #4caf50; /* Verde claro */
+    color: #0f1b0f; /* Fondo principal oscuro para texto */
+    font-weight: bold;
+}
+
+.time-slot.disabled {
+    background-color: transparent;
+    color: #a5d6a7; /* Texto atenuado */
+    border-color: #2a4a2a; /* Borde sutil */
+    cursor: not-allowed;
+}

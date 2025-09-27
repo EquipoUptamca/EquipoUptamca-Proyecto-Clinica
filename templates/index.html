@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Plataforma de gestión médica del Centro Médico Docente El Paso" />
+  <meta name="keywords" content="gestión médica, citas médicas, historiales electrónicos, centro médico">
+  <meta name="author" content="Centro Médico Docente El Paso">
+  <title>MedAsistencia - Centro Médico Docente El Paso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+  <header class="main-header">
+    <nav class="navbar container">
+      <a href="{{ url_for('views.index') }}" class="navbar-logo" aria-label="Página de inicio de MedAsistencia">
+        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
+        <span>MedAsistencia</span>
+      </a>
+      <div class="navbar-actions">
+        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
+        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+      </div>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="hero-content container">
+        <h1 class="hero-title">Gestión Médica Revolucionaria para el Centro Médico Docente El Paso</h1>
+        <p class="hero-subtitle">Optimice la atención, simplifique la administración y eleve la experiencia del paciente con nuestra plataforma integral.</p>
+        <a href="#features" class="btn btn-cta">Descubrir Funcionalidades</a>
+      </div>
+    </section>
+
+    <section id="features" class="features-section container">
+      <h2 class="section-title">Una Plataforma, Todas las Soluciones</h2>
+      <p class="section-intro">MedAsistencia centraliza las herramientas que necesita para una gestión eficiente, segura y profesional.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M336 352c97.2 0 176-78.8 176-176S433.2 0 336 0S160 78.8 160 176c0 18.7 2.9 36.8 8.3 53.7L7 391c-4.5 4.5-7 10.6-7 17v80c0 13.3 10.7 24 24 24h80c13.3 0 24-10.7 24-24V448h40c13.3 0 24-10.7 24-24V384h40c6.4 0 12.5-2.5 17-7l33.3-33.3c16.9 5.4 35 8.3 53.7 8.3zM376 96a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/></svg>
+          </div>
+          <h3>Acceso Seguro y por Roles</h3>
+          <p>Sistema de autenticación robusto con roles diferenciados para administradores, médicos y personal, garantizando la máxima confidencialidad.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M160 80c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H208c-26.5 0-48-21.5-48-48V80zM0 272c0-26.5 21.5-48 48-48H80c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V272zM368 96h32c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H368c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48z"/></svg>
+          </div>
+          <h3>Gestión Integral de Pacientes</h3>
+          <p>Control total sobre historiales médicos, citas, y seguimiento de pacientes en una interfaz unificada, intuitiva y de fácil acceso.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 464H288c8.8 0 16-7.2 16-16V384h48v64c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V224c0-35.3 28.7-64 64-64h64v48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16zM224 304H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H224c-8.8 0-16 7.2-16 16V288c0 8.8 7.2 16 16 16zm-64-16V64c0-35.3 28.7-64 64-64H448c35.3 0 64 28.7 64 64V288c0 35.3-28.7 64-64 64H224c-35.3 0-64-28.7-64-64z"/></svg>
+          </div>
+            <h3>Reportes y Analíticas</h3>
+            <p>Genere reportes clínicos y estadísticas operativas al instante para una toma de decisiones informada y estratégica.</p>
+          </div>
+      </div>
+    </section>
+
+    <section class="testimonials-section">
+      <div class="container">
+        <h2 class="section-title">Confianza y Profesionalismo</h2>
+        <p class="section-intro">Vea lo que nuestro equipo tiene que decir sobre MedAsistencia.</p>
+        <div class="testimonial-slider-container">
+          <div class="testimonial-slider" id="testimonial-slider">
+            <!-- Testimonios se cargarán dinámicamente aquí -->
+          </div>
+          <button class="slider-btn prev" aria-label="Anterior testimonio">&#10094;</button>
+          <button class="slider-btn next" aria-label="Siguiente testimonio">&#10095;</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p>Av. Principal, El Paso</p>
+        <p>Teléfono: +123 456 7890</p>
+        <p>Email: contacto@medasistencia.com</p>
+      </div>
+      <div class="footer-section">
+        <h4>Horario</h4>
+        <p>Lunes a Viernes: 8:00 - 18:00</p>
+        <p>Sábados: 9:00 - 13:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Enlaces rápidos</h4>
+        <ul>
+          <li><a href="/privacy">Política de Privacidad</a></li>
+          <li><a href="/terms">Términos de Servicio</a></li>
+          <li><a href="/faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Centro Médico Docente El Paso - Todos los derechos reservados</p>
+      <p>MedAsistencia v2.1</p>
+    </div>
+  </footer>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
