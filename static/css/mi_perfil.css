@@ -1,0 +1,10 @@
+/* Estilos para la página Mi Perfil */
+
+.form-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.form-control:disabled {
+    background-color: #e9ecef;
+}

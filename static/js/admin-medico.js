@@ -28,7 +28,7 @@ $(document).ready(function() {
                 }
             },
             columns: [
-                { data: 'id_medico', className: 'fw-bold' },
+                { data: 'id_medico', visible: false },
                 {
                     data: 'nombre_completo',
                     render: function(data, type, row) {
@@ -87,7 +87,7 @@ $(document).ready(function() {
             },
             responsive: true,
             order: [[1, 'asc']],
-            dom: '<"top"<"row"<"col-md-6"l><"col-md-6"f>>>rt<"bottom"<"row"<"col-md-6"i><"col-md-6"p>>>',
+            dom: 'B<"top"<"row"<"col-md-6"l><"col-md-6"f>>>rt<"bottom"<"row"<"col-md-6"i><"col-md-6"p>>>', // 'B' para botones
             initComplete: function() {
                 $('.dataTables_filter input').addClass('form-control');
                 $('.dataTables_length select').addClass('form-select');
@@ -95,8 +95,42 @@ $(document).ready(function() {
             drawCallback: function() {
                 const api = this.api();
                 $('#totalMedicos').text(`${api.rows().count()} médicos`);
-            }
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Exportar a Excel',
+                    title: `Listado_Medicos_${new Date().toISOString().slice(0,10)}`,
+                    exportOptions: {
+                        // Columnas a exportar (índices visibles)
+                        columns: [1, 2, 3, 4, 5, 6, 7] 
+                    },
+                    className: 'd-none' // Ocultar el botón por defecto
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Exportar a PDF',
+                    title: `Listado de Médicos - ${new Date().toLocaleDateString()}`,
+                    orientation: 'landscape', // Mejor para tablas anchas
+                    pageSize: 'A4',
+                    exportOptions: {
+                        columns: [1, 2, 3, 4, 5, 6, 7]
+                    },
+                    customize: function (doc) {
+                        doc.defaultStyle.fontSize = 10;
+                        doc.styles.tableHeader.fontSize = 11;
+                        doc.styles.title.fontSize = 14;
+                        doc.styles.title.alignment = 'center';
+                        doc.pageMargins = [30, 40, 30, 40];
+                    },
+                    className: 'd-none'
+                }
+            ]
         });
+
+        // --- EVENT LISTENERS PARA EXPORTAR ---
+        $('#exportExcel').on('click', () => table.button('.buttons-excel').trigger());
+        $('#exportPDF').on('click', () => table.button('.buttons-pdf').trigger());
 
         return table;
     };

@@ -309,6 +309,59 @@ body {
   animation: slideIn 0.3s ease-out;
 }
 
+/* Agregar estos estilos al final del archivo CSS existente */
+
+.security-code-group {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 200px;
+  }
+}
+
+.security-code-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, rgba(255, 200, 87, 0.1), rgba(255, 200, 87, 0.05));
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-color);
+  font-size: 0.85rem;
+  color: var(--text-light);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.security-code-info i {
+  color: var(--accent-color);
+  font-size: 1rem;
+}
+
+.security-code-group .input-wrapper {
+  background: linear-gradient(135deg, #fff8e1, #fffde7);
+  border: 2px solid var(--accent-color);
+}
+
+.security-code-group .input-wrapper > i {
+  color: var(--accent-color);
+}
+
+/* Asegurar que el grupo de código de seguridad tenga buena separación */
+.security-code-group {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .btn-submit {
   display: flex;
   align-items: center;

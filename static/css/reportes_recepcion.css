@@ -1,0 +1,631 @@
+:root {
+    /* Colores específicos para reportes */
+    --chart-primary: #1a936f;
+    --chart-secondary: #0b3954;
+    --chart-accent: #ffc857;
+    --chart-success: #5cb85c;
+    --chart-warning: #f0ad4e;
+    --chart-danger: #d9534f;
+    --chart-info: #5bc0de;
+    
+    /* Colores para géneros */
+    --gender-male: #3498db;
+    --gender-female: #e74c3c;
+    --gender-unspecified: #95a5a6;
+    
+    /* Colores para estados de citas */
+    --status-programada: #3498db;
+    --status-confirmada: #f39c12;
+    --status-completada: #27ae60;
+    --status-cancelada: #e74c3c;
+    --status-pendiente: #95a5a6;
+    --status-ausente: #9b59b6;
+}
+
+/* Estilos para pestañas de reportes */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.nav-tabs .nav-link {
+    font-weight: 600;
+    color: var(--text-light);
+    border: none;
+    padding: 12px 24px;
+    transition: var(--transition);
+    position: relative;
+    margin-bottom: -2px;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+    background-color: transparent;
+    border: none;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.nav-tabs .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+}
+
+/* Contenedores de gráficos */
+.chart-container {
+    position: relative;
+    height: 320px; /* Altura base para los contenedores de gráficos */
+    width: 100%;
+    margin-bottom: 1.5rem;
+    background: var(--surface-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.chart-container h6 {
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+/* Gráficos específicos */
+#activityTimeSeriesChart,
+#activityStatusChart,
+#newPatientsTrendChart,
+#newPatientsGenderChart,
+#complianceChart,
+#doctorRankingChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Estilos para el Heatmap */
+.heatmap-table {
+    font-size: 0.8rem;
+    border-collapse: separate;
+    border-spacing: 2px;
+    box-shadow: var(--shadow-sm);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.heatmap-table th {
+    background: linear-gradient(135deg, var(--primary-soft), var(--surface-color));
+    color: var(--secondary-color);
+    font-weight: 700;
+    padding: 0.75rem 0.5rem;
+    border: none;
+    text-align: center;
+}
+
+.heatmap-table th:first-child {
+    background: var(--primary-color);
+    color: white;
+}
+
+.heatmap-table td {
+    padding: 0.75rem 0.5rem;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: default;
+    position: relative;
+}
+
+.heatmap-table td:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 2;
+}
+
+.heatmap-table td:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--secondary-color);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 3;
+}
+
+/* Resumen de pacientes */
+.patients-summary {
+    background: linear-gradient(135deg, var(--primary-soft), #f8f9fa);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.patients-summary .card {
+    border: none;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.patients-summary .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.patients-summary .card-body {
+    padding: 1.5rem 1rem;
+}
+
+.patients-summary h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.patients-summary .text-primary { color: var(--chart-primary) !important; }
+.patients-summary .text-info { color: var(--gender-male) !important; }
+.patients-summary .text-danger { color: var(--gender-female) !important; }
+.patients-summary .text-secondary { color: var(--gender-unspecified) !important; }
+
+/* Resumen de cumplimiento */
+#complianceSummary .card {
+    border: none;
+    border-radius: 10px;
+    transition: var(--transition);
+    background: linear-gradient(135deg, #f8f9fa, var(--surface-color));
+}
+
+#complianceSummary .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+#complianceSummary .card-body {
+    padding: 1.25rem 0.5rem;
+}
+
+#complianceSummary h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+/* Badges para estados */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.8em;
+    font-weight: 600;
+    border-radius: 20px;
+}
+
+.badge.bg-primary { background-color: var(--status-programada) !important; }
+.badge.bg-warning { background-color: var(--status-confirmada) !important; }
+.badge.bg-success { background-color: var(--status-completada) !important; }
+.badge.bg-danger { background-color: var(--status-cancelada) !important; }
+.badge.bg-secondary { background-color: var(--status-pendiente) !important; }
+.badge.bg-info { background-color: var(--status-ausente) !important; }
+
+/* Mejoras para tablas */
+.table-responsive {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.table {
+    margin-bottom: 0;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table th {
+    background: linear-gradient(135deg, var(--primary-soft), var(--surface-color));
+    color: var(--secondary-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 1rem 0.75rem;
+}
+
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-color: var(--border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(26, 147, 111, 0.02);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(26, 147, 111, 0.08);
+    transform: translateX(2px);
+    transition: var(--transition);
+}
+
+/* Botones de exportación */
+.btn-group .btn {
+    border-radius: 6px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-outline-success {
+    border-color: var(--chart-success);
+    color: var(--chart-success);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--chart-success);
+    border-color: var(--chart-success);
+    transform: translateY(-1px);
+}
+
+.btn-outline-danger {
+    border-color: var(--chart-danger);
+    color: var(--chart-danger);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--chart-danger);
+    border-color: var(--chart-danger);
+    transform: translateY(-1px);
+}
+
+/* Estados de carga */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Mensajes de error en gráficos */
+.chart-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-light);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Tarjetas de reportes */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary-soft), var(--surface-color));
+    border-bottom: 2px solid var(--primary-soft);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-header h5 {
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Filtros */
+.filter-card {
+    border-left: 4px solid var(--primary-color);
+}
+
+.filter-card .form-label {
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.filter-card .form-control {
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem;
+    transition: var(--transition);
+}
+
+.filter-card .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(26, 147, 111, 0.15);
+}
+
+/* Botón generar reporte */
+#generateReportBtn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 0.75rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+#generateReportBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+#generateReportBtn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(26, 147, 111, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .chart-container {
+        height: 280px;
+    }
+    
+    .patients-summary .col-md-3 {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .nav-tabs .nav-link {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+        margin-bottom: 1rem;
+    }
+    
+    .heatmap-table {
+        font-size: 0.7rem;
+    }
+    
+    .heatmap-table th,
+    .heatmap-table td {
+        padding: 0.5rem 0.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .chart-container {
+        height: 220px;
+        padding: 0.75rem;
+    }
+    
+    .patients-summary {
+        padding: 1rem;
+    }
+    
+    .patients-summary h3 {
+        font-size: 1.5rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.85rem;
+    }
+    
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.3em 0.6em;
+    }
+}
+
+@media (max-width: 576px) {
+    .chart-container {
+        height: 200px;
+    }
+    
+    .patients-summary .row {
+        margin: -0.5rem;
+    }
+    
+    .patients-summary .col-md-3 {
+        padding: 0.5rem;
+    }
+    
+    .patients-summary .card-body {
+        padding: 1rem 0.5rem;
+    }
+    
+    .patients-summary h3 {
+        font-size: 1.25rem;
+    }
+    
+    #complianceSummary .card-body {
+        padding: 1rem 0.25rem;
+    }
+    
+    #complianceSummary h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animaciones suaves */
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll personalizado para tablas */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}
+
+/* Estados de hover mejorados */
+.btn-group .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Mejoras visuales para datos vacíos */
+.text-muted.small {
+    font-style: italic;
+    color: var(--text-light) !important;
+}
+
+/* Estilos para tooltips personalizados */
+.tooltip {
+    font-size: 0.8rem;
+}
+
+/* Ajustes para DataTables */
+.dataTables_wrapper {
+    margin-top: 1rem;
+}
+
+.dataTables_length,
+.dataTables_filter {
+    margin-bottom: 1rem;
+}
+
+.dataTables_info {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Botones de DataTables */
+.dt-buttons .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Estilos para gráficos de Chart.js específicos */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    font-size: 0.8rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+/* Colores específicos para géneros en leyendas */
+.legend-male { background-color: var(--gender-male); }
+.legend-female { background-color: var(--gender-female); }
+.legend-unspecified { background-color: var(--gender-unspecified); }
+
+/* Estados de carga mejorados */
+.loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    color: var(--text-light);
+}
+
+.loading-state .spinner-border {
+    margin-right: 0.5rem;
+}
+
+/* Efectos de transición para elementos interactivos */
+.heatmap-table,
+.chart-container,
+.patients-summary .card,
+#complianceSummary .card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .chart-container,
+    .patients-summary .card,
+    #complianceSummary .card,
+    .table-hover tbody tr,
+    .btn,
+    .nav-tabs .nav-link {
+        transition: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .chart-container {
+        border: 2px solid var(--text-dark);
+    }
+    
+    .table th {
+        background: var(--text-dark);
+        color: var(--surface-color);
+    }
+    
+    .badge {
+        border: 1px solid currentColor;
+    }
+}

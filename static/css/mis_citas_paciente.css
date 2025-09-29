@@ -1,0 +1,10 @@
+/* Estilos para la página Mis Citas del Paciente */
+
+.table thead th {
+    font-weight: 600;
+}
+
+.table .badge {
+    font-size: 0.8rem;
+    padding: 0.4em 0.7em;
+}

@@ -1,0 +1,81 @@
+/* Estilos para el dashboard del paciente */
+
+.profile-card .card-body {
+    font-size: 0.9rem;
+}
+
+.profile-card p {
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.profile-card p strong {
+    display: block;
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+
+.profile-card p i {
+    color: var(--primary-color);
+}
+
+.appointment-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background-color: var(--primary-soft);
+    border: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.appointment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary-color);
+}
+
+.appointment-date {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 700;
+}
+
+.appointment-date .day {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.appointment-date .month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.appointment-details {
+    flex-grow: 1;
+}
+
+.appointment-details h6 {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.appointment-details p {
+    font-size: 0.9rem;
+}
+
+.appointment-status .badge {
+    font-size: 0.75rem;
+}
