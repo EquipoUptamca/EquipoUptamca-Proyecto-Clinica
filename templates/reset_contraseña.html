@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Contraseña - Sistema Clínico</title>
+    <title>Restablecer Contraseña - MedAsistencia</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
@@ -12,46 +12,58 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h2><i class="fas fa-key" style="margin-right: 10px;"></i>Crear Nueva Contraseña</h2>
-            <p>Ingrese su nueva contraseña</p>
+            <h2><i class="fas fa-shield-alt" style="margin-right: 10px;"></i>Restablecer Contraseña</h2>
+            <p id="instruction-text">Ingresa el código que enviamos a tu correo.</p>
         </div>
         
         <div class="login-body">
-            <form id="resetForm" novalidate>
-                <input type="hidden" id="token" name="token" value="{{ token }}">
-                
-                <div class="form-group">
-                    <label for="contraseña"><i class="fas fa-lock" style="margin-right: 8px;"></i>Nueva Contraseña</label>
-                    <div class="password-container">
-                        <input type="password" id="contraseña" name="contraseña" required minlength="8"
-                               placeholder="Ingrese su nueva contraseña (mínimo 8 caracteres)">
-                        <span class="toggle-password" id="togglePassword">
-                            <i class="fas fa-eye"></i> Mostrar
-                        </span>
-                    </div>
-                    <div class="error-message" id="password_error"></div>
+            <!-- Paso 1: Verificación de código -->
+            <form id="codeForm" novalidate>
+                <div class="form-group" id="code-group">
+                    <label for="code"><i class="fas fa-hashtag" style="margin-right: 8px;"></i>Código de Verificación</label>
+                    <input type="text" id="code" name="code" required maxlength="6" placeholder="Ingresa el código de 6 dígitos">
+                    <div class="error-message" id="code_error"></div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="confirm_password"><i class="fas fa-lock" style="margin-right: 8px;"></i>Confirmar Contraseña</label>
-                    <div class="password-container">
-                        <input type="password" id="confirm_password" name="confirm_password" required
-                               placeholder="Confirme su nueva contraseña">
-                        <span class="toggle-password" id="toggleConfirmPassword">
-                            <i class="fas fa-eye"></i> Mostrar
-                        </span>
-                    </div>
-                    <div class="error-message" id="confirm_error"></div>
-                </div>
-                
                 <button type="submit" class="btn">
-                    <span id="btn-text"><i class="fas fa-save" style="margin-right: 8px;"></i>Guardar Contraseña</span>
+                    <span id="code-btn-text">Verificar Código</span>
+                </button>
+            </form>
+
+            <!-- Paso 2: Nueva contraseña (oculto inicialmente) -->
+            <form id="passwordForm" novalidate class="d-none">
+                <div class="form-group" id="new-password-group">
+                    <label for="new_password"><i class="fas fa-lock" style="margin-right: 8px;"></i>Nueva Contraseña</label>
+                    <input type="password" id="new_password" name="new_password" required minlength="8" placeholder="Mínimo 8 caracteres">
+                    <div class="error-message" id="new_password_error"></div>
+                </div>
+                <div class="form-group" id="confirm-password-group">
+                    <label for="confirm_password"><i class="fas fa-lock" style="margin-right: 8px;"></i>Confirmar Contraseña</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <div class="error-message" id="confirm_password_error"></div>
+                </div>
+                <button type="submit" class="btn">
+                    <span id="password-btn-text">Restablecer Contraseña</span>
                 </button>
             </form>
             
             <div id="message" class="message"></div>
+            
+            <div class="login-links">
+                <a href="/login" class="forgot-password">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio de sesión
+                </a>
+            </div>
         </div>
     </div>
+    <script>
+        // Añadimos d-none para que no se vea hasta que JS lo maneje
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordForm = document.getElementById('passwordForm');
+            if (passwordForm) {
+                passwordForm.classList.add('d-none');
+            }
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/reset-password.js') }}"></script>
 </body>
 </html>

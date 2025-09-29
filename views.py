@@ -35,10 +35,6 @@ def reset_contraseña():
 def register_page():
     return render_template('register.html')
 
-@views_bp.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
 @views_bp.route('/doctor_dashboard')
 def doctor_dashboard():
     return render_template('doctor_dashboard.html')
@@ -119,3 +115,19 @@ def Mi_Horario():
 @views_bp.route('/Mi Citas.html')
 def Mi_Citas():
     return render_template('Mi Citas.html')
+
+@views_bp.route('/paciente_dashboard')
+def paciente_dashboard():
+    return render_template('paciente_dashboard.html')
+
+@views_bp.route('/mi_perfil')
+def mi_perfil():
+    return render_template('mi_perfil.html')
+
+@views_bp.route('/mis_citas_paciente')
+def mis_citas_paciente():
+    return render_template('mis_citas_paciente.html')
+
+@views_bp.route('/reportes_recepcion')
+def reportes_recepcion():
+    return render_template('reportes_recepcion.html')

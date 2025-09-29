@@ -11,6 +11,48 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <style>
+    .faq-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Estilos para el Acordeón de FAQ */
+    .faq-accordion-item {
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+    }
+
+    .faq-accordion-header {
+      background-color: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #333;
+      transition: background-color 0.3s ease;
+    }
+
+    .faq-accordion-header:hover {
+      background-color: #f9f9f9;
+    }
+
+    .faq-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+      padding: 0 1rem;
+    }
+  </style>
   <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
@@ -21,8 +63,8 @@
         <span>MedAsistencia</span>
       </a>
       <div class="navbar-actions">
-        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
-        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+        <a href="{{ url_for('views.login_page') }}" class="btn btn-secondary">Iniciar Sesión</a>
+        <a href="{{ url_for('views.register_page') }}" class="btn btn-primary">Registrarse</a>
       </div>
     </nav>
   </header>
@@ -31,41 +73,54 @@
     <section class="faq-content">
       <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Preguntas Frecuentes</h1>
       
-      <div class="faq-item">
-        <h3>¿Cómo puedo registrarme en MedAsistencia?</h3>
-        <p>Puede registrarse haciendo clic en el botón "Registrarse" en la página principal y completando el formulario con sus datos profesionales.</p>
-        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
-      </div>
+      <div class="faq-accordion">
+        <div class="faq-accordion-item">
+          <button class="faq-accordion-header">
+            <span>¿Cómo puedo registrarme en MedAsistencia?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-accordion-content">
+            <p>Puede registrarse haciendo clic en el botón "Registrarse" en la página principal y completando el formulario con sus datos profesionales.</p>
+            <img src="{{ url_for('static', filename='img/register.png') }}" alt="Proceso de registro" class="faq-image">
+          </div>
+        </div>
 
-      <div class="faq-item">
-        <h3>¿Qué tipos de usuarios pueden utilizar la plataforma?</h3>
-        <p>La plataforma está diseñada para administradores, médicos, personal de enfermería y personal administrativo del centro médico.</p>
-      </div>
+        <div class="faq-accordion-item">
+          <button class="faq-accordion-header">
+            <span>¿Qué tipos de usuarios pueden utilizar la plataforma?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-accordion-content">
+            <p>La plataforma está diseñada para administradores, médicos, personal de enfermería y personal administrativo del centro médico.</p>
+            <img src="{{ url_for('static', filename='img/user.png') }}" alt="Tipos de usuario" class="faq-image">
+          </div>
+        </div>
 
-      <div class="faq-item">
-        <h3>¿Cómo programo una cita médica?</h3>
-        <p>Una vez iniciada sesión, acceda al módulo de "Citas" y seleccione "Nueva Cita". Complete los datos requeridos y guarde la información.</p>
-      </div>
+        <div class="faq-accordion-item">
+          <button class="faq-accordion-header">
+            <span>¿Cómo programo una cita médica?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-accordion-content">
+            <p>Una vez iniciada sesión, acceda al módulo de "Citas" y seleccione "Nueva Cita". Complete los datos requeridos y guarde la información.</p>
+            <img src="{{ url_for('static', filename='img/citas.png') }}" alt="Programación de citas" class="faq-image">
+          </div>
+        </div>
 
-      <div class="faq-item">
-        <h3>¿Es segura la información médica de los pacientes?</h3>
-        <p>Sí, implementamos medidas de seguridad avanzadas y cumplimos con todas las normativas de protección de datos médicos.</p>
-      </div>
+        <div class="faq-accordion-item">
+          <button class="faq-accordion-header">
+            <span>¿Es segura la información médica de los pacientes?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-accordion-content">
+            <p>Sí, implementamos medidas de seguridad avanzadas y cumplimos con todas las normativas de protección de datos médicos.</p>
+          </div>
+        </div>
 
-      <div class="faq-item">
-        <h3>¿Puedo acceder a la plataforma desde mi móvil?</h3>
-        <p>Sí, MedAsistencia es completamente responsive y puede accederse desde cualquier dispositivo con conexión a internet.</p>
-      </div>
+        <!-- Agrega más preguntas aquí siguiendo la misma estructura -->
 
-      <div class="faq-item">
-        <h3>¿Qué hago si olvidé mi contraseña?</h3>
-        <p>En la página de inicio de sesión, haga clic en "¿Olvidó su contraseña?" y siga las instrucciones para restablecerla.</p>
       </div>
-
-      <div class="faq-item">
-        <h3>¿Cómo genero reportes médicos?</h3>
-        <p>Acceda al módulo "Reportes" donde podrá generar diferentes tipos de reportes clínicos y estadísticas operativas.</p>
-      </div>
+      
     </section>
   </main>
   
@@ -74,8 +129,8 @@
       <div class="footer-section">
         <h4>Contacto</h4>
         <p>Av. Principal, El Paso</p>
-        <p>Teléfono: +123 456 7890</p>
-        <p>Email: contacto@medasistencia.com</p>
+        <p>Teléfono: 58+424 263 7306</p>
+        <p>Email: equipo.docente@hospitalelpaso.com</p>
       </div>
       <div class="footer-section">
         <h4>Horario</h4>

@@ -1,8 +1,10 @@
 /el-paso
 ├── app.py
 ├── app.log
+├── auth_middleware.py
 ├── appointments.py
 ├── auth.py
+├── chatbot.py
 ├── config.py
 ├── dashboard.py
 ├── database.py
@@ -18,6 +20,8 @@
 ├── utils.py
 ├── validators.py
 ├── views.py
+├── README.md
+├── MEJORAS_ESTILO.md
 ├── /respaldo
 │   └──asistencia_medica_clinica.bak
 ├── /templates
@@ -37,6 +41,7 @@
 │   ├── nuevo_usuario.html
 │   ├── forgot_contraseña.html
 │   ├── reset_contraseña.html
+│   ├── faq.html
 │   ├── 404.html
 │   └── 500.html
 └── /static
@@ -45,6 +50,7 @@
     │   ├── admin-Medicos-styles.css
     │   ├── admin-pacientes-styles.css
     │   ├── admin-global.css
+    │   ├── admin-citas.css
     │   ├── admin-usuarios.css
     │   ├── Mi Citas.css
     │   ├── Mi Horario.css
@@ -53,6 +59,7 @@
     │   ├── register.css
     │   ├── schedules.css
     │   ├── light-green-theme.css
+    │   ├── dark-green-theme.css
     │   └── toast-notifications.css
     └── /js
         ├── admin_dashboard.js
@@ -72,6 +79,7 @@
 
 Archivos de configuración y utilidades:
 config.py - Configuración de base de datos y constantes
+auth_middleware.py - Middleware para proteger rutas
 database.py - Función de conexión a la base de datos
 validators.py - Funciones de validación (versión original)
 utils.py - Funciones de utilidades mejoradas
@@ -80,6 +88,7 @@ logger.py - Configuración de logging
 Blueprints por funcionalidad:
 views.py - Rutas para renderizar templates
 auth.py - Autenticación y registro
+chatbot.py - Lógica del asistente virtual
 dashboard.py - Funciones del dashboard administrativo
 users.py - Gestión de usuarios
 doctors.py - Gestión completa de médicos
@@ -91,6 +100,8 @@ Archivos principales:
 app.py - Configuración y registro de blueprints
 main.py - Punto de entrada de la aplicación
 requirements.txt - Dependencias de Python
+README.md - Manual de usuario completo del sistema
+MEJORAS_ESTILO.md - Documentación sobre la nueva paleta de colores
 
 Beneficios de esta organización:
 Mantenibilidad: Cada archivo tiene una responsabilidad específica

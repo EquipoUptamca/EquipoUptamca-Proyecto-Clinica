@@ -553,11 +553,27 @@ def get_citas_detalladas(current_user):
             """
             params = []
 
-            # Si el usuario es un médico, filtrar por sus citas.
+            # --- REFUERZO DE LÓGICA ---
+            # Si el usuario es un médico, SIEMPRE se filtra por su ID de usuario.
+            # Esto asegura que un médico solo pueda ver sus propias citas.
             # Otros roles (admin, recepcion) pueden ver todas.
+            where_clauses = []
             if current_user.get('tipo_usuario') == 'medico':
-                query += " WHERE m.id_usuario = ?"
+                where_clauses.append("m.id_usuario = ?")
                 params.append(current_user.get('id_usuario'))
+            elif current_user.get('tipo_usuario') == 'paciente':
+                where_clauses.append("p.id_usuario = ?")
+                params.append(current_user.get('id_usuario'))
+
+            # Filtrar por rango de fechas si se proporcionan
+            start_date = request.args.get('start_date')
+            end_date = request.args.get('end_date')
+            if start_date and end_date:
+                where_clauses.append("c.fecha_cita BETWEEN ? AND ?")
+                params.extend([start_date, end_date])
+
+            if where_clauses:
+                query += " WHERE " + " AND ".join(where_clauses)
 
             query += " ORDER BY c.fecha_cita DESC, c.hora_cita DESC"
             

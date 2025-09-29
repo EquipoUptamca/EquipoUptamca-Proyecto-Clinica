@@ -5,11 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Médicos - Panel de Administración</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-Medicos-styles.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+    <style>
+        .main-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, var(--surface-color) 0%, var(--bg-color) 100%);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ffb300 100%);
+            border: none;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .export-btn:hover {
+            background: linear-gradient(135deg, #ffb300 0%, #ff8f00 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 200, 87, 0.3);
+        }
+    </style>
 </head>
 <body>
     <div class="d-flex">

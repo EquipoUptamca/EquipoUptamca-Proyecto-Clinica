@@ -110,6 +110,20 @@
                     </div>
                     <div class="error-message" id="tipo_usuario_error"></div>
                 </div>
+
+                <!-- Nuevo campo para código de seguridad -->
+                <div class="form-group security-code-group" id="securityCodeGroup" style="display: none;">
+                    <label for="admin_code">Código de Seguridad *</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                        <input type="password" id="admin_code" name="admin_code" placeholder="Ingrese el código de seguridad">
+                    </div>
+                    <div class="security-code-info">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Se requiere código de seguridad para roles privilegiados</span>
+                    </div>
+                    <div class="error-message" id="admin_code_error"></div>
+                </div>
                 
                 <button type="submit" class="btn-submit">
                     <span id="btn-text">Registrarse</span>

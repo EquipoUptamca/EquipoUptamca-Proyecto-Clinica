@@ -15,6 +15,7 @@ from appointments import appointments_bp
 from schedules import schedules_bp
 from consultas import consultas_bp
 from chatbot import chatbot_bp
+from reports import reports_bp
 from asistencia import asistencias_bp
 
 def create_app():
@@ -49,6 +50,7 @@ def create_app():
     app.register_blueprint(schedules_bp)
     app.register_blueprint(consultas_bp)
     app.register_blueprint(chatbot_bp)
+    app.register_blueprint(reports_bp)
     app.register_blueprint(asistencias_bp) # No change needed here, blueprint name is the same
     
     return app

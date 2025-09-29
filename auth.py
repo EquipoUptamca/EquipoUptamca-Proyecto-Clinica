@@ -150,6 +150,15 @@ def register():
     }
     id_rol = role_map.get(tipo_usuario, 4)  # Por defecto, rol de Paciente si el tipo es inválido
 
+    # --- Verificación de código de seguridad para roles privilegiados ---
+    privileged_roles = ['admin', 'medico', 'recepcion']
+    if tipo_usuario in privileged_roles:
+        admin_code = data.get('admin_code')
+        if not admin_code:
+            return jsonify({'error': 'Se requiere un código de acceso para este rol'}), 403
+        if admin_code != 'privacidad_medasistencia':
+            return jsonify({'error': 'El código de acceso es incorrecto'}), 403
+
     # Generar hash seguro de la contraseña
     try:
         hashed_password = generate_password_hash(
@@ -302,8 +311,10 @@ def login():
                     redirect_url = url_for('views.admin_dashboard')
                 elif user[5] == 'recepcion':
                     redirect_url = url_for('views.reception_dashboard')
+                elif user[5] == 'paciente':
+                    redirect_url = url_for('views.paciente_dashboard')
                 else:
-                    redirect_url = url_for('views.dashboard')
+                    redirect_url = url_for('views.login_page') # Fallback a login si no hay rol claro
                     
                 return jsonify({
                     'message': 'Inicio de sesión exitoso',

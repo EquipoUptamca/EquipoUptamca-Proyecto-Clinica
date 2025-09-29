@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard del Paciente - MedAsistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/paciente_dashboard.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-user fa-2x mb-2"></i>
+                <h4 class="text-white">Portal del Paciente</h4>
+            </div>
+            
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=Paciente&background=1E8449&color=fff" alt="Usuario" class="rounded-circle me-2" width="40" id="user-avatar">
+                <div class="text-white">
+                    <strong id="username">Paciente</strong>
+                    <small id="userrole" class="d-block">Paciente</small>
+                </div>
+            </div>
+            
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">
+                        <i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.mis_citas_paciente') }}">
+                        <i class="fas fa-calendar-check"></i> <span class="nav-link-text">Mis Citas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.mi_perfil') }}">
+                        <i class="fas fa-user-edit"></i> <span class="nav-link-text">Mi Perfil</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-danger" href="/login">
+                        <i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contenido Principal -->
+        <div class="main-content flex-grow-1 fade-in" id="mainContent">
+            <div class="header-bar">
+                <h1 class="h2" id="welcome-message"><i class="fas fa-hand-holding-heart me-2 text-success"></i> ¡Bienvenido/a!</h1>
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-light text-dark me-3"><i class="fas fa-clock me-1"></i> <span id="currentDateTime"></span></span>
+                </div>
+            </div>
+
+            <div class="container-fluid py-4">
+                <div class="row g-4">
+                    <!-- Próximas Citas -->
+                    <div class="col-lg-8">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i> Mis Próximas Citas</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="upcoming-appointments-list">
+                                    <div class="text-center py-5">
+                                        <div class="spinner-border text-success" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
+                                        <p class="text-muted mt-2">Cargando tus próximas citas...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mi Perfil -->
+                    <div class="col-lg-4">
+                        <div class="card h-100 profile-card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-user-circle me-2"></i> Mi Perfil</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="profile-info">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-success" role="status"></div>
+                                    </div>
+                                </div>
+                                <div class="d-grid mt-3">
+                                    <a href="{{ url_for('views.mi_perfil') }}" class="btn btn-outline-success"><i class="fas fa-edit me-2"></i> Editar Perfil</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/paciente_dashboard.js') }}"></script>
+    <script>
+        // Script para el toggle del sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                    document.getElementById('mainContent').classList.toggle('collapsed');
+                });
+            }
+
+            // Actualizar fecha y hora actual
+            function updateDateTime() {
+                const now = new Date();
+                const options = { 
+                    weekday: 'long', 
+                    day: 'numeric',
+                    month: 'long', 
+                    hour: '2-digit',
+                    minute: '2-digit'
+                };
+                const dateTimeElement = document.getElementById('currentDateTime');
+                if (dateTimeElement) {
+                    dateTimeElement.textContent = now.toLocaleDateString('es-ES', options);
+                }
+            }
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+    </script>
+</body>
+</html>

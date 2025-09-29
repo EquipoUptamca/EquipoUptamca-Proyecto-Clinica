@@ -31,10 +31,10 @@
             
             <ul class="nav flex-column flex-grow-1 p-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('views.reception_dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a>
+                    <a class="nav-link active" href="{{ url_for('views.reception_dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ url_for('views.paciente_recep') }}"><i class="fas fa-user-injured"></i> <span class="nav-link-text">Pacientes</span></a>
+                    <a class="nav-link" href="{{ url_for('views.paciente_recep') }}"><i class="fas fa-user-injured"></i> <span class="nav-link-text">Pacientes</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('views.citas_recep') }}"><i class="fas fa-calendar-alt"></i> <span class="nav-link-text">Citas</span></a>
@@ -44,6 +44,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('views.directorio_medico_recep') }}"><i class="fas fa-address-book"></i> <span class="nav-link-text">Directorio Médico</span></a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="{{ url_for('views.reportes_recepcion') }}"><i class="fas fa-chart-line"></i> <span class="nav-link-text">Reportes</span></a>
                 </li>
                 <li class="nav-item mt-auto">
                     <a class="nav-link text-danger" href="/login" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span></a>

@@ -3,163 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Citas - MedAsistencia</title>
-    
-    <!-- Estilos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Citas - Recepción</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-citas.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <style>
+        .agenda-card {
+            border-left-width: 5px !important;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .agenda-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        }
+    </style>
     <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
-    <div class="d-flex" id="wrapper">
+    <div class="d-flex">
         <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <div class="sidebar-heading">
-                <i class="fas fa-clinic-medical me-2"></i> MedAsistencia
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Sistema Clínico</h4>
             </div>
-            <div class="list-group list-group-flush">
-                <a href="{{ url_for('views.reception_dashboard') }}" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
-                <a href="{{ url_for('views.citas_recep') }}" class="list-group-item list-group-item-action bg-dark active"><i class="fas fa-calendar-check me-2"></i> Citas</a>
-                <a href="{{ url_for('views.paciente_recep') }}" class="list-group-item list-group-item-action bg-dark"><i class="fas fa-user-injured me-2"></i> Pacientes</a>
-                <a href="{{ url_for('views.login_page') }}" class="list-group-item list-group-item-action bg-dark mt-auto"><i class="fas fa-sign-out-alt me-2"></i> Cerrar Sesión</a>
-            </div>
-        </div>
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" id="sidebarToggle"><i class="fas fa-bars"></i></button>
-                    <div class="ms-auto">
-                        <span class="navbar-text">
-                            Bienvenido, <strong id="username">{{ username or 'Recepcionista' }}</strong>
-                        </span>
-                    </div>
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+                <div class="text-white">
+                    <strong id="username">Administrador</strong>
+                    <small id="userrole" class="d-block">Recepción</small>
                 </div>
-            </nav>
+            </div>
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('views.reception_dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.paciente_recep') }}"><i class="fas fa-user-injured"></i> <span class="nav-link-text">Pacientes</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.citas_recep') }}"><i class="fas fa-calendar-alt"></i> <span class="nav-link-text">Citas</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.horarios_recep') }}"><i class="fas fa-clock"></i> <span class="nav-link-text">Horarios Médicos</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.directorio_medico_recep') }}"><i class="fas fa-address-book"></i> <span class="nav-link-text">Directorio Médico</span></a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="{{ url_for('views.reportes_recepcion') }}"><i class="fas fa-chart-line"></i> <span class="nav-link-text">Reportes</span></a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-danger" href="/login" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span></a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1 fade-in" id="mainContent">
+            <div class="header-bar">
+                <h1 class="h2"><i class="fas fa-calendar-check me-2 text-primary-green"></i> Gestión de Citas</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    <button type="button" class="btn btn-primary pulse-animation" data-bs-toggle="modal" data-bs-target="#citaModal">
+                        <i class="fas fa-plus me-1"></i> Nueva Cita
+                    </button>
+                    <button class="btn btn-outline-secondary ms-2" id="refreshTableBtn" title="Recargar calendario"><i class="fas fa-sync-alt"></i></button>
+                    <button class="btn btn-info text-white ms-2" id="agendaHoyBtn" title="Ver agenda de hoy">
+                        <i class="fas fa-clipboard-list"></i> Agenda del Día
+                    </button>
+                </div>
+            </div>
 
-            <div class="container-fluid py-4">
-                <div id="alertContainer"></div>
-                <h1 class="mb-4">Gestión de Citas</h1>
+            <!-- Alertas -->
+            <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1100; width: 350px;"></div>
 
-                <!-- Filtros -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-md-4">
-                                <label for="filterMedico" class="form-label">Filtrar por Médico</label>
-                                <select id="filterMedico" class="form-select"></select>
+            <!-- Tarjetas de resumen -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-warning text-dark fade-in">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Citas Pendientes</h6>
+                                <h2 id="countPending" class="mb-0">0</h2>
                             </div>
-                            <div class="col-md-4">
-                                <label for="filterPaciente" class="form-label">Filtrar por Paciente</label>
-                                <select id="filterPaciente" class="form-select"></select>
-                            </div>
-                            <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn btn-outline-secondary" id="clearFiltersBtn"><i class="fas fa-times me-2"></i>Limpiar Filtros</button>
-                                <button class="btn btn-info ms-2" id="refreshTableBtn"><i class="fas fa-sync-alt me-2"></i>Recargar</button>
-                            </div>
+                            <i class="fas fa-clock fa-3x opacity-50"></i>
                         </div>
                     </div>
                 </div>
-
-                <!-- Calendario -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Calendario de Citas</h5>
+                <div class="col-md-4">
+                    <div class="card bg-info text-white fade-in">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Citas para Hoy</h6>
+                                <h2 id="countToday" class="mb-0">0</h2>
+                            </div>
+                            <i class="fas fa-calendar-day fa-3x opacity-50"></i>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div id="calendar"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-success text-white fade-in">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">Citas Completadas</h6>
+                                <h2 id="countCompleted" class="mb-0">0</h2>
+                            </div>
+                            <i class="fas fa-check-circle fa-3x opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros del Calendario -->
+            <div class="card filter-card mb-4 fade-in">
+                <div class="card-body">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-5">
+                            <label for="filterMedico" class="form-label"><i class="fas fa-user-md me-1"></i>Filtrar por Médico</label>
+                            <select class="form-select" id="filterMedico"></select>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="filterPaciente" class="form-label"><i class="fas fa-user-injured me-1"></i>Filtrar por Paciente</label>
+                            <select class="form-select" id="filterPaciente"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary w-100" id="clearFiltersBtn">
+                                <i class="fas fa-times me-1"></i> Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabla de Citas -->
+            <div class="card fade-in">
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Nueva Cita -->
+    <div class="modal fade" id="citaModal" tabindex="-1" aria-labelledby="citaModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="citaModalLabel"><i class="fas fa-calendar-plus me-2"></i> Nueva Cita Médica</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="citaForm" novalidate>
+                        <input type="hidden" id="id_cita_edit">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_medico" class="form-label">Médico <span class="text-danger">*</span></label>
+                                <select class="form-select" id="id_medico" name="id_medico" required>
+                                </select>
+                                <div class="invalid-feedback">Seleccione un médico.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_paciente" class="form-label">Paciente <span class="text-danger">*</span></label>
+                                <select class="form-select" id="id_paciente" name="id_paciente" required>
+                                </select>
+                                <div class="invalid-feedback">Seleccione un paciente.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="fecha_cita" class="form-label">Fecha de la cita <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control datepicker" id="fecha_cita" name="fecha_cita" required>
+                                <div class="invalid-feedback">Seleccione una fecha.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Horario disponible <span class="text-danger">*</span></label>
+                                <div id="timeSlotsContainer" class="time-slots">
+                                    <div class="alert alert-info small">Seleccione un médico y una fecha para ver los horarios.</div>
+                                </div>
+                                <div class="invalid-feedback d-block" id="timeSlotError"></div>
+                                <input type="hidden" id="hora_cita" name="hora_cita" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="motivo_consulta" class="form-label">Motivo de la consulta <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="motivo_consulta" name="motivo_consulta" rows="3" required></textarea>
+                            <div class="invalid-feedback">Ingrese el motivo de la consulta.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-1"></i> Cancelar</button>
+                    <button type="submit" form="citaForm" class="btn btn-primary" id="submitBtn" disabled>
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span id="saveText"><i class="fas fa-save me-1"></i> Programar Cita</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación de Cita Creada -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="fas fa-check-circle me-2"></i> Cita Programada</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationMessage">La cita ha sido programada exitosamente.</p>
+                    <div id="citaDetails" class="mt-3 p-2 bg-light rounded"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Ver Detalles de la Cita -->
+    <div class="modal fade" id="viewCitaModal" tabindex="-1" aria-labelledby="viewCitaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="viewCitaModalLabel"><i class="fas fa-eye me-2"></i> Detalles de la Cita</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="viewCitaContent">
+                        <!-- Contenido se carga dinámicamente -->
+                    </div>
+                </div>
+                <div class="modal-footer" id="viewCitaFooter">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agenda del Día -->
+    <div class="modal fade" id="agendaModal" tabindex="-1" aria-labelledby="agendaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="modal-title" id="agendaModalLabel"><i class="fas fa-clipboard-list me-2"></i> Agenda del Día</h5>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-light me-2" id="printAgendaBtn" title="Imprimir Agenda">
+                            <i class="fas fa-print"></i>
+                        </button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body p-4" style="background-color: #f8f9fa;">
+                    <div id="agendaContent">
+                        <!-- La agenda se cargará aquí -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Crear/Editar Cita -->
-    <div class="modal fade" id="citaModal" tabindex="-1" aria-labelledby="citaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- Modal para Editar Cita -->
+    <div class="modal fade" id="editCitaModal" tabindex="-1" aria-labelledby="editCitaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="citaModalLabel"><i class="fas fa-calendar-plus me-2"></i> Nueva Cita Médica</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="editCitaModalLabel"><i class="fas fa-edit me-2"></i> Editar Cita</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="citaForm" novalidate>
-                    <div class="modal-body">
-                        <input type="hidden" id="id_cita_edit">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="id_paciente" class="form-label">Paciente <span class="text-danger">*</span></label>
-                                <select id="id_paciente" class="form-select" required></select>
-                                <div class="invalid-feedback">Seleccione un paciente.</div>
+                <div class="modal-body">
+                    <form id="editCitaForm" novalidate>
+                        <input type="hidden" id="edit_id_cita" name="id_cita">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="edit_id_medico" class="form-label">Médico <span class="text-danger">*</span></label>
+                                <select class="form-select" id="edit_id_medico" name="id_medico" required>
+                                </select>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="id_medico" class="form-label">Médico <span class="text-danger">*</span></label>
-                                <select id="id_medico" class="form-select" required></select>
-                                <div class="invalid-feedback">Seleccione un médico.</div>
+                            <div class="col-md-6">
+                                <label for="edit_id_paciente" class="form-label">Paciente <span class="text-danger">*</span></label>
+                                <select class="form-select" id="edit_id_paciente" name="id_paciente" required>
+                                </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="fecha_cita" class="form-label">Fecha de la Cita <span class="text-danger">*</span></label>
-                                <input type="text" id="fecha_cita" class="form-control" placeholder="Seleccione una fecha" required>
-                                <div class="invalid-feedback">Seleccione una fecha.</div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="edit_fecha_cita" class="form-label">Fecha <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control datepicker" id="edit_fecha_cita" name="fecha_cita" required>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Horario Disponible <span class="text-danger">*</span></label>
-                                <input type="hidden" id="hora_cita" required>
-                                <div id="timeSlotsContainer" class="time-slots-container">
-                                    <div class="alert alert-info small">Seleccione un médico y una fecha para ver los horarios.</div>
-                                </div>
-                                <div id="timeSlotError" class="invalid-feedback d-block"></div>
+                            <div class="col-md-6">
+                                <label for="edit_hora_cita" class="form-label">Hora <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="edit_hora_cita" name="hora_cita" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="motivo_consulta" class="form-label">Motivo de la Consulta</label>
-                            <textarea id="motivo_consulta" class="form-control" rows="3" placeholder="Ej: Dolor de cabeza, chequeo general..."></textarea>
+                            <label for="edit_motivo_consulta" class="form-label">Motivo <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="edit_motivo_consulta" name="motivo_consulta" rows="3" required></textarea>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" id="submitBtn" class="btn btn-primary" disabled>
-                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                            <span id="saveText"><i class="fas fa-save me-1"></i> Programar Cita</span>
-                        </button>
-                    </div>
-                </form>
+                        <div class="mb-3">
+                            <label for="edit_estado" class="form-label">Estado <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_estado" name="estado" required>
+                                <option value="programada">Programada</option>
+                                <option value="confirmada">Confirmada</option>
+                                <option value="completada">Completada</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="editCitaForm" class="btn btn-warning">
+                        <i class="fas fa-save me-1"></i> Actualizar Cita
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Ver Detalles de Cita -->
-    <div class="modal fade" id="viewCitaModal" tabindex="-1" aria-labelledby="viewCitaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="viewCitaModalLabel"><i class="fas fa-calendar-day me-2"></i> Detalles de la Cita</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="viewCitaContent">
-                    <!-- Contenido dinámico -->
-                </div>
-                <div class="modal-footer" id="viewCitaFooter">
-                    <!-- Botones dinámicos -->
-                </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay d-none" id="loadingOverlay">
+        <div class="text-center text-white">
+            <div class="spinner-border spinner-border-custom text-light" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <div class="mt-3">
+                <h5>Procesando...</h5>
+                <p class="mb-0">Por favor espere...</p>
             </div>
         </div>
     </div>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales/es.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script> <!-- Debe ir después de flatpickr.js -->
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script src="{{ url_for('static', filename='js/citas_recep.js') }}"></script>
 </body>
 </html>
-```
