@@ -418,6 +418,29 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmación Genérico -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationMessageText">¿Está seguro de que desea realizar esta acción?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-warning text-dark" id="confirmActionBtn">
+                        <i class="fas fa-check me-1"></i>Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast para notificaciones (Mejorado) -->
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div class="toast align-items-center text-white bg-success" id="successToast" role="alert" aria-live="assertive" aria-atomic="true">
