@@ -22,10 +22,10 @@
             </div>
             
             <div class="user-profile p-3 d-flex align-items-center">
-                <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+                <img src="https://ui-avatars.com/api/?name={{ session.nombre_completo | urlencode }}&background=3498db&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
                 <div class="text-white">
-                    <strong id="username">Administrador</strong>
-                    <small id="userrole" class="d-block">Admin</small>
+                    <strong id="username">{{ session.nombre_completo or 'Administrador' }}</strong>
+                    <small id="userrole" class="d-block">{{ session.tipo_usuario | capitalize or 'Admin' }}</small>
                 </div>
             </div>
             
@@ -60,11 +60,12 @@
                         <i class="fas fa-users-cog"></i> <span class="nav-link-text">Usuarios</span>
                     </a>
                 </li>
-                <li class="nav-item mt-auto">
-                    <a class="nav-link text-danger" href="/login">
+                <li class="nav-item mt-auto"><a class="nav-link" href="/perfil">
+                    <i class="fas fa-user-circle"></i> <span class="nav-link-text">Mi Perfil</span>
+                </a></li>
+                <li class="nav-item mb-2"><a class="nav-link text-danger" href="/login">
                         <i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span>
-                    </a>
-                </li>
+                </a></li>
             </ul>
         </div>
         

@@ -17,6 +17,7 @@ from consultas import consultas_bp
 from chatbot import chatbot_bp
 from reports import reports_bp
 from asistencia import asistencias_bp
+from user_profile import profile_bp
 
 def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -52,5 +53,6 @@ def create_app():
     app.register_blueprint(chatbot_bp)
     app.register_blueprint(reports_bp)
     app.register_blueprint(asistencias_bp) # No change needed here, blueprint name is the same
+    app.register_blueprint(profile_bp)
     
     return app

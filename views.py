@@ -131,3 +131,15 @@ def mis_citas_paciente():
 @views_bp.route('/reportes_recepcion')
 def reportes_recepcion():
     return render_template('reportes_recepcion.html')
+
+@views_bp.route('/perfil_medico')
+def perfil_medico():
+    return render_template('perfil_medico.html')
+
+@views_bp.route('/reportes_medico')
+def reportes_medico():
+    return render_template('reportes_medico.html')
+
+@views_bp.route('/mis_consultas')
+def mis_citas_medico():
+    return render_template('mis_consultas.html')
