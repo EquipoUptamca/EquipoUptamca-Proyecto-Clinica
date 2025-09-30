@@ -17,12 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar modales y toasts de forma segura
     let copyModal = null;
     let successToast = null;
+    let confirmationModal = null;
     let errorToast = null;
     
     try {
         const copyModalElement = document.getElementById('copyModal');
         if (copyModalElement) {
             copyModal = new bootstrap.Modal(copyModalElement);
+        }
+
+        const confirmationModalElement = document.getElementById('confirmationModal');
+        if (confirmationModalElement) {
+            confirmationModal = new bootstrap.Modal(confirmationModalElement);
         }
         
         const successToastElement = document.getElementById('successToast');
@@ -74,6 +80,24 @@ document.addEventListener('DOMContentLoaded', function() {
             // Fallback: usar alert si los toasts no están disponibles
             alert(message);
         }
+    }
+
+    // Función para mostrar modal de confirmación
+    function showConfirmation(message, onConfirm) {
+        if (!confirmationModal) {
+            // Fallback si el modal no está disponible
+            if (confirm(message)) {
+                onConfirm();
+            }
+            return;
+        }
+
+        const messageElement = document.getElementById('confirmationMessageText');
+        const confirmBtn = document.getElementById('confirmActionBtn');
+
+        messageElement.innerHTML = message; // Usar innerHTML para permitir formato
+        confirmBtn.onclick = () => { confirmationModal.hide(); onConfirm(); };
+        confirmationModal.show();
     }
     
     // Cargar lista de médicos
@@ -539,10 +563,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Eliminar horario
     function deleteSchedule(scheduleId) {
-        if (!confirm('¿Está seguro de que desea eliminar este horario?')) {
-            return;
-        }
-        
+        showConfirmation('¿Está seguro de que desea eliminar este horario?', () => {
+            performDelete(scheduleId);
+        });
+    }
+
+    function performDelete(scheduleId) {
         fetch(`${apiBaseUrl}/horarios/${scheduleId}`, {
             method: 'DELETE'
         })
@@ -562,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error al eliminar horario:', error);
             showNotification(error.message || 'Error al eliminar el horario', false);
         });
-    }
+    }    
     
     // Exportar a PDF
     if (exportPdfBtn) {
@@ -623,11 +649,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             const doctorName = doctorSelect.options[doctorSelect.selectedIndex]?.text || 'el médico seleccionado';
-            if (!confirm(`¿ESTÁ SEGURO?\n\nEsta acción eliminará PERMANENTEMENTE TODOS los horarios del médico: ${doctorName}.\n\nEsta acción no se puede deshacer.`)) {
-                return;
-            }
-
-            fetch(`${apiBaseUrl}/horarios/medico/${currentDoctorId}`, {
+            const confirmationMessage = `<strong>¿ESTÁ SEGURO?</strong><br><br>Esta acción eliminará <strong>PERMANENTEMENTE TODOS</strong> los horarios del médico: <strong>${doctorName}</strong>.<br><br>Esta acción no se puede deshacer.`;
+            
+            showConfirmation(confirmationMessage, () => {
+                const originalHtml = deleteAllSchedulesBtn.innerHTML;
+                fetch(`${apiBaseUrl}/horarios/medico/${currentDoctorId}`, {
                 method: 'DELETE'
             })
             .then(response => {
@@ -645,6 +671,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 showNotification(`Error: ${error.message}`, false);
+            });
             });
         });
     }
@@ -675,11 +702,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            if (!confirm(`¿Está seguro? Esta acción copiará TODOS los horarios del médico de origen al de destino. ${overwrite ? 'Los horarios existentes del médico de destino SERÁN ELIMINADOS.' : 'Los horarios que causen conflicto no se copiarán.'}`)) {
-                return;
-            }
-
-            fetch(`${apiBaseUrl}/horarios/copy`, {
+            const confirmationMessage = `¿Está seguro? Esta acción copiará TODOS los horarios del médico de origen al de destino. <br><br><strong>${overwrite ? 'Los horarios existentes del médico de destino SERÁN ELIMINADOS.' : 'Los horarios que causen conflicto no se copiarán.'}</strong>`;
+            
+            showConfirmation(confirmationMessage, () => {
+                fetch(`${apiBaseUrl}/horarios/copy`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -706,6 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 showNotification(`Error al copiar horarios: ${error.message}`, false);
+            });
             });
         });
     }
