@@ -166,7 +166,7 @@ def get_usuarios_para_paciente():
                 SELECT u.id_usuario, u.nombre_completo, u.cedula, u.telefono, u.gmail
                 FROM Usuarios u
                 LEFT JOIN Pacientes p ON u.id_usuario = p.id_usuario
-                WHERE p.id_paciente IS NULL AND u.activo = 1
+                WHERE p.id_paciente IS NULL AND u.activo = 1 AND u.id_rol = 4
                 ORDER BY u.nombre_completo
             """)
             users = [{
