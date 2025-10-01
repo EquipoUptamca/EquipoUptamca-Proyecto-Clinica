@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Llenar formulario
         $('#nombre_completo').val(patientData.nombre_completo);
-        $('#cedula').val(patientData.cedula).prop('disabled', true);
-        $('#usuario_login').val(patientData.cedula).prop('disabled', true); // Usamos cédula como usuario por defecto
+        $('#cedula').val(patientData.cedula).prop('readonly', true);
+        $('#usuario_login').val(patientData.usuario_login || patientData.cedula).prop('readonly', true); // Usamos el login existente o la cédula
         $('#telefono').val(patientData.telefono);
         $('#gmail').val(patientData.gmail);
 
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function resetModalState() {
         // Habilitar todos los campos antes de un nuevo uso
-        $('#pacienteForm input, #pacienteForm select, #pacienteForm textarea').prop('disabled', false);
+        $('#pacienteForm input, #pacienteForm select, #pacienteForm textarea').prop('disabled', false).prop('readonly', false);
         // Limpiar el formulario
         pacienteForm.reset();
         pacienteForm.classList.remove('was-validated');
@@ -151,11 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitle.innerHTML = '<i class="fas fa-notes-medical me-2"></i> Completar Perfil Clínico';
 
             // Pestaña 1: Datos de Usuario (solo lectura)
-            $('#nombre_completo').val(patientData.nombre_completo).prop('disabled', false);
-            $('#cedula').val(patientData.cedula).prop('disabled', true);
-            $('#usuario_login').val(patientData.cedula).prop('disabled', true);
-            $('#telefono').val(patientData.telefono).prop('disabled', false);
-            $('#gmail').val(patientData.gmail || '').prop('disabled', false);
+            $('#nombre_completo').val(patientData.nombre_completo).prop('readonly', false);
+            $('#cedula').val(patientData.cedula).prop('readonly', true);
+            $('#usuario_login').val(patientData.usuario_login || patientData.cedula).prop('readonly', true);
+            $('#telefono').val(patientData.telefono).prop('readonly', false);
+            $('#gmail').val(patientData.gmail || '').prop('readonly', false);
             document.getElementById('contraseña').parentElement.style.display = 'none';
 
             // Pestaña 2: Información Médica (editable)
