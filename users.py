@@ -22,7 +22,7 @@ def validate_user_data(data, is_update=False):
     
     # Solo requerir contraseña para creación
     if not is_update:
-        required_fields.extend(['contraseña', 'tipo_usuario'])
+        required_fields.append('contraseña')
     
     # Verificar campos requeridos
     missing_fields = [field for field in required_fields if field not in data or not data[field]]
@@ -54,11 +54,6 @@ def validate_user_data(data, is_update=False):
         if not phone_str.isdigit() or len(phone_str) < 7 or len(phone_str) > 12:
             return {'error': 'El teléfono debe tener entre 7 y 12 dígitos'}, 400
 
-    # Validar tipo_usuario
-    valid_tipos = ['admin', 'medico', 'recepcion', 'paciente']
-    if 'tipo_usuario' in data and data['tipo_usuario'] not in valid_tipos:
-        return {'error': f'Tipo de usuario no válido. Debe ser uno de: {", ".join(valid_tipos)}'}, 400
-
     return None
 
 def get_role_name(role_id):
@@ -69,6 +64,16 @@ def get_role_name(role_id):
         4: 'Paciente'
     }
     return roles.get(role_id, 'Usuario')
+
+def get_tipo_usuario_from_role(role_id):
+    """Deriva el tipo_usuario basado en el id_rol"""
+    role_map = {
+        1: 'admin',
+        2: 'medico', 
+        3: 'recepcion',
+        4: 'paciente'
+    }
+    return role_map.get(role_id, 'paciente')
 
 # Obtener lista de usuarios
 @users_bp.route('/api/users', methods=['GET'])
@@ -212,6 +217,9 @@ def create_user():
     if not data:
         return jsonify({'error': 'Datos JSON no proporcionados o inválidos'}), 400
     
+    # Log para diagnóstico
+    logging.info(f"Datos recibidos para crear usuario: {data}")
+    
     # Validar datos
     validation_error = validate_user_data(data)
     if validation_error:
@@ -223,6 +231,10 @@ def create_user():
         method='pbkdf2:sha256',
         salt_length=16
     )
+
+    # Derivar tipo_usuario del id_rol
+    id_rol = int(data['id_rol'])
+    tipo_usuario = get_tipo_usuario_from_role(id_rol)
 
     conn = get_db_connection()
     if not conn:
@@ -259,26 +271,23 @@ def create_user():
             data['nombre_completo'],
             data['usuario_login'],
             hashed_password,
-            int(data['id_rol']),  # Asegurar que es entero
+            id_rol,
             str(data['cedula']),  # Asegurar que es string
             data.get('telefono'),
             data.get('gmail'),
             bool(data.get('activo', True)),  # Por defecto activo
-            data.get('tipo_usuario')
+            tipo_usuario  # Derivado del id_rol
         ))
 
         new_user_id = cursor.fetchone()[0]
 
-        # --- FIX: Create corresponding patient/doctor record ---
-        tipo_usuario = data.get('tipo_usuario')
+        # Crear registro correspondiente en Pacientes o Medicos según el tipo
         if tipo_usuario == 'paciente':
             cursor.execute("INSERT INTO Pacientes (id_usuario, estado) VALUES (?, 'A')", (new_user_id,))
             logging.info(f"Created patient record for new user_id: {new_user_id}")
         elif tipo_usuario == 'medico':
-            # For doctors, we create a basic record. More details can be added later.
             cursor.execute("INSERT INTO Medicos (id_usuario, estado) VALUES (?, 'A')", (new_user_id,))
             logging.info(f"Created doctor record for new user_id: {new_user_id}")
-        # --- END FIX ---
 
         conn.commit()
 
@@ -383,8 +392,7 @@ def update_user(user_id):
             update_params.append(id_rol)
             
             # Derivar y actualizar tipo_usuario para mantener consistencia
-            role_map = {1: 'admin', 2: 'medico', 3: 'recepcion', 4: 'paciente'}
-            tipo_usuario = role_map.get(id_rol)
+            tipo_usuario = get_tipo_usuario_from_role(id_rol)
             if tipo_usuario:
                 update_fields.append("tipo_usuario = ?")
                 update_params.append(tipo_usuario)
@@ -427,9 +435,9 @@ def update_user(user_id):
         logging.info(f"Ejecutando consulta: {update_query} con parámetros: {update_params}")
         cursor.execute(update_query, update_params)
         
-        # --- FIX: Update corresponding patient/doctor record if tipo_usuario changed ---
+        # Actualizar registro correspondiente en Pacientes/Medicos si cambió el tipo
         if 'id_rol' in data:
-            new_tipo_usuario = role_map.get(int(data['id_rol']))
+            new_tipo_usuario = get_tipo_usuario_from_role(int(data['id_rol']))
             if new_tipo_usuario and new_tipo_usuario != current_tipo:
                 
                 # Remove from old type table
@@ -447,7 +455,6 @@ def update_user(user_id):
                 elif new_tipo_usuario == 'medico':
                     cursor.execute("INSERT INTO Medicos (id_usuario, estado) VALUES (?, 'A')", (user_id,))
                     logging.info(f"Added to Medicos table for user_id: {user_id}")
-        # --- END FIX ---
         
         conn.commit()
 
