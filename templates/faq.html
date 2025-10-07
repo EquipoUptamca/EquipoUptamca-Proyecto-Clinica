@@ -152,5 +152,34 @@
     </div>
   </footer>
   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const accordionItems = document.querySelectorAll('.faq-accordion-item');
+
+      accordionItems.forEach(item => {
+        const header = item.querySelector('.faq-accordion-header');
+        const content = item.querySelector('.faq-accordion-content');
+        const icon = header.querySelector('.faq-icon');
+
+        header.addEventListener('click', () => {
+          // Cierra otros items abiertos si quieres un acordeón exclusivo
+          // accordionItems.forEach(otherItem => {
+          //   if (otherItem !== item) {
+          //     otherItem.querySelector('.faq-accordion-content').style.maxHeight = null;
+          //     otherItem.querySelector('.faq-icon').textContent = '+';
+          //   }
+          // });
+
+          if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            icon.textContent = '+';
+          } else {
+            content.style.maxHeight = content.scrollHeight + 'px';
+            icon.textContent = '−'; // Usamos un signo menos para 'abierto'
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

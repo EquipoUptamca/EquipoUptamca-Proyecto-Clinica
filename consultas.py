@@ -39,6 +39,10 @@ def consultas_login():
             user = cursor.fetchone()
             if user:
                 # Guardar en sesión
+                # La sesión utilizará la configuración global de la aplicación,
+                # incluyendo el tiempo de vida (PERMANENT_SESSION_LIFETIME) y
+                # la actualización en cada solicitud (SESSION_REFRESH_EACH_REQUEST).
+                
                 session['user_id'] = user[0]
                 session['user_name'] = user[1]
                 session['user_rol'] = user[2]

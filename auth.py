@@ -153,11 +153,19 @@ def register():
     # --- Verificación de código de seguridad para roles privilegiados ---
     privileged_roles = ['admin', 'medico', 'recepcion']
     if tipo_usuario in privileged_roles:
-        admin_code = data.get('admin_code')
-        if not admin_code:
+        security_code = data.get('admin_code')
+        if not security_code:
             return jsonify({'error': 'Se requiere un código de acceso para este rol'}), 403
-        if admin_code != 'privacidad_medasistencia':
-            return jsonify({'error': 'El código de acceso es incorrecto'}), 403
+
+        if tipo_usuario == 'medico':
+            if security_code != 'medicos_medasistencia':
+                return jsonify({'error': 'El código de acceso para médicos es incorrecto'}), 403
+        elif tipo_usuario == 'recepcion':
+            if security_code != 'recep_medasistencia':
+                return jsonify({'error': 'El código de acceso para recepción es incorrecto'}), 403
+        elif tipo_usuario == 'admin':
+            if security_code != 'privacidad_medasistencia':
+                return jsonify({'error': 'El código de acceso es incorrecto'}), 403
 
     # Generar hash seguro de la contraseña
     try:
@@ -294,8 +302,17 @@ def login():
                 password_is_correct = False
 
             if password_is_correct:
-                # Establecer la sesión del usuario
-                session.permanent = True  # Opcional: para sesiones persistentes
+                # --- MEJORAS DE SEGURIDAD DE SESIÓN ---
+                # 1. SessionFixationGuard: Regenerar la sesión para evitar fijación.
+                # Flask rota la sesión, pero lo hacemos explícito.
+                session.clear()
+                session.permanent = True # Activar el uso de PERMANENT_SESSION_LIFETIME
+                
+                # 2. SessionHijackingProtector: Vincular la sesión a la IP y User-Agent.
+                session['ip_address'] = request.remote_addr
+                session['user_agent'] = request.user_agent.string
+                
+                # 3. Guardar datos del usuario en la sesión.
                 session['id_usuario'] = user[0]
                 session['nombre_completo'] = user[1]
                 session['id_rol'] = user[2]

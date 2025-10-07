@@ -3,6 +3,8 @@ from flask import Flask
 import logging
 import os
 from flask_cors import CORS
+from flask_wtf.csrf import CSRFProtect
+from datetime import timedelta
 
 # Import blueprints
 from views import views_bp
@@ -22,10 +24,25 @@ from user_profile import profile_bp
 def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
     
-    # Configure secret key for sessions
+    # --- CONFIGURACIÓN DE SEGURIDAD ---
+    
+    # 1. Clave secreta (SECRET_KEY)
+    # Fundamental para firmar cookies de sesión y tokens CSRF.
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
     
-    # Enable CORS for API endpoints
+    # 2. Configuración de Cookies Seguras (CookieSecurityManager)
+    # HttpOnly: previene acceso a la cookie desde JS (mitiga XSS).
+    # Secure: la cookie solo se envía sobre HTTPS en producción.
+    # SameSite: previene que la cookie se envíe en peticiones cross-site (mitiga CSRF).
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SECURE'] = True if os.environ.get('FLASK_ENV') == 'production' else False
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    
+    # 3. Configuración de Expiración de Sesión
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=8)
+    app.config['SESSION_REFRESH_EACH_REQUEST'] = True
+    
+    # 4. Habilitar CORS para endpoints de API
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Configure logging
@@ -54,5 +71,13 @@ def create_app():
     app.register_blueprint(reports_bp)
     app.register_blueprint(asistencias_bp) # No change needed here, blueprint name is the same
     app.register_blueprint(profile_bp)
+    
+    # 5. Inicializar protección CSRF (CSRFProtector) y eximir Blueprints de API
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+    
+    # Eximimos los blueprints que funcionan como API para que no requieran token CSRF
+    # en sus peticiones POST/PUT, ya que se manejan con JS y CORS.
+    csrf.exempt(auth_bp)
     
     return app

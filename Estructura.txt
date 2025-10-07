@@ -111,4 +111,6 @@ Testing: Más fácil testear componentes individuales
 Debugging: Problemas más fáciles de localizar
 Para ejecutar la aplicación, usa python main.py en lugar del archivo original. Toda la funcionalidad permanece exactamente igual, solo está mejor organizada.
 "Ejecuta tu aplicación: python main.py"
-clave para los roles de admin, medico y recepcionista: privacidad_medasistencia
+clave para los role de admin: privacidad_medasistencia
+clave para los role de medico: medicos_medasistencia
+clave para los role de recepcionista: recep_medasistencia
