@@ -220,6 +220,14 @@ def create_user():
     # Log para diagnóstico
     logging.info(f"Datos recibidos para crear usuario: {data}")
     
+    # Campos específicos de paciente (opcionales al crear usuario)
+    patient_specific_fields = [
+        'fecha_nacimiento', 'genero', 'tipo_sangre', 'alergias',
+        'enfermedades_cronicas', 'contacto_emergencia', 'telefono_emergencia'
+    ]
+    # Extraer estos campos si están presentes en los datos
+    patient_data = {field: data.get(field) for field in patient_specific_fields}
+
     # Validar datos
     validation_error = validate_user_data(data)
     if validation_error:
@@ -283,8 +291,18 @@ def create_user():
 
         # Crear registro correspondiente en Pacientes o Medicos según el tipo
         if tipo_usuario == 'paciente':
-            cursor.execute("INSERT INTO Pacientes (id_usuario, estado) VALUES (?, 'A')", (new_user_id,))
-            logging.info(f"Created patient record for new user_id: {new_user_id}")
+            cursor.execute("""
+                INSERT INTO Pacientes (
+                    id_usuario, fecha_nacimiento, genero, tipo_sangre,
+                    alergias, enfermedades_cronicas, contacto_emergencia,
+                    telefono_emergencia, estado
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'A')
+            """, (
+                new_user_id, patient_data['fecha_nacimiento'], patient_data['genero'],
+                patient_data['tipo_sangre'], patient_data['alergias'],
+                patient_data['enfermedades_cronicas'], patient_data['contacto_emergencia'],
+                patient_data['telefono_emergencia']))
+            logging.info(f"Created patient record for new user_id: {new_user_id} with detailed info.")
         elif tipo_usuario == 'medico':
             cursor.execute("INSERT INTO Medicos (id_usuario, estado) VALUES (?, 'A')", (new_user_id,))
             logging.info(f"Created doctor record for new user_id: {new_user_id}")

@@ -78,6 +78,19 @@ def create_app():
     
     # Eximimos los blueprints que funcionan como API para que no requieran token CSRF
     # en sus peticiones POST/PUT, ya que se manejan con JS y CORS.
+    # El login y registro se manejan vía JS, por lo que se exime auth_bp.
     csrf.exempt(auth_bp)
+    # Los siguientes blueprints son APIs para la gestión de datos.
+    csrf.exempt(users_bp)
+    csrf.exempt(doctors_bp)
+    csrf.exempt(patients_bp)
+    csrf.exempt(appointments_bp)
+    csrf.exempt(schedules_bp)
+    # Blueprints adicionales de API que deben ser eximidos.
+    csrf.exempt(chatbot_bp)
+    csrf.exempt(consultas_bp)
+    csrf.exempt(reports_bp)
+    csrf.exempt(asistencias_bp)
+    csrf.exempt(profile_bp)
     
     return app

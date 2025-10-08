@@ -255,8 +255,9 @@ def create_medico(current_user):
 
 # Endpoint para actualizar médico
 @doctors_bp.route('/api/medicos/<int:id_medico>', methods=['PUT'])
-@role_required(1)  # 1 = Admin
+@login_required
 def update_medico(current_user, id_medico):
+    """Actualiza un médico existente"""
     data = request.json
     
     if not data:
@@ -404,7 +405,7 @@ def toggle_medico_status(current_user, id_medico):
     finally:
         conn.close()
 
-# Endpoint para obtener usuarios que pueden ser promovidos a médicos
+# Endpoint para obtener usuarios que pueden ser promovidos a médicos - CORREGIDO
 @doctors_bp.route('/api/usuarios-para-medico', methods=['GET'])
 @login_required
 @role_required(1) # Admin
@@ -414,21 +415,22 @@ def get_usuarios_para_medico(current_user):
         return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     try:
         with conn.cursor() as cursor:
-            # Seleccionar usuarios activos con rol de médico que no tienen un perfil de médico asociado
+            # CORRECCIÓN: Buscar usuarios con rol de médico (2) O tipo_usuario = 'medico' que no tengan perfil médico
             cursor.execute("""
-                SELECT u.id_usuario, u.nombre_completo, u.cedula, r.nombre_rol, u.telefono, u.gmail
+                SELECT u.id_usuario, u.nombre_completo, u.cedula, u.telefono, u.gmail
                 FROM Usuarios u
                 LEFT JOIN Medicos m ON u.id_usuario = m.id_usuario
-                JOIN Roles r ON u.id_rol = r.id_rol
-                WHERE m.id_medico IS NULL AND u.activo = 1 AND u.id_rol = 2
+                WHERE m.id_medico IS NULL 
+                  AND u.activo = 1 
+                  AND (u.id_rol = 2 OR u.tipo_usuario = 'medico')
                 ORDER BY u.nombre_completo
             """)
             users = [{
                 'id_usuario': row[0],
                 'nombre_completo': row[1],
                 'cedula': row[2],
-                'telefono': row[4],
-                'gmail': row[5]
+                'telefono': row[3],
+                'gmail': row[4]
             } for row in cursor.fetchall()]
             return jsonify(users)
     except pyodbc.Error as e:

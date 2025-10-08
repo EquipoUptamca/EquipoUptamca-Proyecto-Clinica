@@ -162,11 +162,13 @@ def get_usuarios_para_paciente():
     try:
         with conn.cursor() as cursor:
             # Seleccionar usuarios activos que no tienen un perfil de paciente asociado
+            # y que específicamente tienen el rol de 'Paciente' (id_rol = 4).
             cursor.execute("""
                 SELECT u.id_usuario, u.nombre_completo, u.cedula, u.telefono, u.gmail
                 FROM Usuarios u
                 LEFT JOIN Pacientes p ON u.id_usuario = p.id_usuario
-                WHERE p.id_paciente IS NULL AND u.activo = 1 AND u.id_rol = 4
+                WHERE p.id_paciente IS NULL
+                  AND u.activo = 1 AND u.id_rol = 4
                 ORDER BY u.nombre_completo
             """)
             users = [{
@@ -234,7 +236,7 @@ def create_paciente():
         with conn.cursor() as cursor:
             id_usuario = data['id_usuario']
             
-            # 1. Verificar que el usuario existe y no es ya un paciente
+            # 1. Validaciones (ya implementadas)
             cursor.execute("SELECT 1 FROM Usuarios WHERE id_usuario = ?", (id_usuario,))
             if not cursor.fetchone():
                 return jsonify({'error': 'El usuario especificado no existe'}), 404
@@ -243,7 +245,7 @@ def create_paciente():
             if cursor.fetchone():
                 return jsonify({'error': 'Este usuario ya tiene un perfil de paciente asociado'}), 400
 
-            # 2. Crear el registro de Paciente
+            # 2. Crear el registro detallado en Pacientes
             cursor.execute("""
                 INSERT INTO Pacientes (
                     id_usuario, fecha_nacimiento, genero, tipo_sangre,
@@ -258,8 +260,11 @@ def create_paciente():
             ))
             paciente_id = cursor.fetchone()[0]
 
-            # 3. Actualizar el rol del usuario a 'paciente' (id_rol = 4)
-            cursor.execute("UPDATE Usuarios SET id_rol = 4, tipo_usuario = 'paciente' WHERE id_usuario = ?", (id_usuario,))
+            # 3. Actualizar el rol fundamental en la tabla Usuarios
+            cursor.execute("""
+                UPDATE Usuarios 
+                SET id_rol = 4, tipo_usuario = 'paciente' 
+                WHERE id_usuario = ?""", (id_usuario,))
 
             conn.commit()
             return jsonify({
@@ -267,7 +272,7 @@ def create_paciente():
                 'id_paciente': paciente_id
             }), 201
     except Exception as e:
-        conn.rollback()
+        conn.rollback() # Deshacer cambios si algo falla
         logger.error(f"Error en la base de datos: {str(e)}")
         return jsonify({'error': 'Error al crear perfil de paciente'}), 500
     finally:

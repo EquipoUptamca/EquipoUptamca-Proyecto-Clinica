@@ -226,16 +226,22 @@ def register():
         
         user_id = cursor.fetchone()[0]
         
-        # Crear registro en la tabla correspondiente según el tipo de usuario
-        if tipo_usuario == 'paciente':
-            cursor.execute("""
-                INSERT INTO Pacientes (id_usuario, estado) VALUES (?, 'A')
-            """, (user_id,))
+        # --- MODIFICACIÓN CRÍTICA ---
+        # NO crear perfiles automáticamente en Medicos o Pacientes
+        # Solo actualizar el rol en la tabla Usuarios
+        # Los perfiles se crearán posteriormente mediante promoción por administradores
+        
+        if tipo_usuario == 'medico':
+            # Solo actualizar rol, NO crear perfil médico
+            cursor.execute("UPDATE Usuarios SET id_rol = 2, tipo_usuario = 'medico' WHERE id_usuario = ?", (user_id,))
+        elif tipo_usuario == 'paciente':
+            # Solo actualizar rol, NO crear perfil paciente  
+            cursor.execute("UPDATE Usuarios SET id_rol = 4, tipo_usuario = 'paciente' WHERE id_usuario = ?", (user_id,))
 
         conn.commit()
         
         return jsonify({
-            'message': 'Usuario registrado exitosamente',
+            'message': 'Usuario registrado exitosamente. Para roles de médico o paciente, espere la activación por un administrador.',
             'user_id': user_id,
             'redirect': url_for('views.login_page')
         }), 201
@@ -289,6 +295,15 @@ def login():
             # Verificar si la cuenta está activa
             if not user[6]:  # activo field
                 return jsonify({'error': 'Cuenta desactivada. Contacte al administrador.'}), 403
+            
+            # --- VALIDACIÓN DE PROMOCIÓN PARA PACIENTES Y MÉDICOS ---
+            # Si es paciente (tipo_usuario='paciente') y no tiene id_paciente, no puede iniciar sesión.
+            if user[5] == 'paciente' and user[10] is None: # tipo_usuario and id_paciente
+                return jsonify({'error': 'Su cuenta está pendiente de activación por un administrador.'}), 403
+            
+            # Si es médico (tipo_usuario='medico') y no tiene id_medico, no puede iniciar sesión.
+            if user[5] == 'medico' and user[7] is None: # tipo_usuario and id_medico
+                return jsonify({'error': 'Su cuenta de médico está pendiente de activación por un administrador.'}), 403
                 
             password_is_correct = False
             try:
