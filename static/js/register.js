@@ -333,9 +333,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     break;
                 case 'admin_code':
-                    if (value !== 'privacidad_medasistencia') {
-                        showError(field, 'Código de seguridad incorrecto.');
-                        isValid = false;
+                    const selectedRole = tipoUsuarioSelect.value;
+                    let correctCode = '';
+                    if (selectedRole === 'admin') {
+                        correctCode = 'privacidad_medasistencia';
+                    } else if (selectedRole === 'medico') {
+                        correctCode = 'medicos_medasistencia';
+                    } else if (selectedRole === 'recepcion') {
+                        correctCode = 'recep_medasistencia';
+                    }
+                    
+                    // Solo validar si hay un código correcto definido para el rol
+                    if (correctCode && value !== correctCode) {
+                       showError(field, 'Código de seguridad incorrecto.');
+                       isValid = false;
                     }
                     break;
             }

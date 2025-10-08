@@ -158,7 +158,7 @@ $(document).ready(function() {
         });
     };
 
-    // Cargar usuarios que pueden ser promovidos a médicos
+    // Función para cargar usuarios disponibles para promover a médicos
     const loadUsuariosParaMedico = () => {
         const userSelect = $('#id_usuario');
         userSelect.html('<option value="">Cargando usuarios...</option>').prop('disabled', true);
@@ -169,12 +169,13 @@ $(document).ready(function() {
                 return response.json();
             })
             .then(users => {
-                userSelect.html('<option value="">Seleccione un usuario</option>');
+                userSelect.empty().append('<option value="">Seleccione un usuario...</option>');
+                
                 if (users.length > 0) {
                     users.forEach(user => {
                         const option = $('<option>')
                             .val(user.id_usuario)
-                            .text(`${user.nombre_completo} (C.I: ${user.cedula})`);
+                            .text(`${user.nombre_completo} - ${user.cedula}`);
                         
                         // Almacenar datos adicionales en el elemento de la opción
                         option.data('telefono', user.telefono || '');
@@ -182,141 +183,22 @@ $(document).ready(function() {
 
                         userSelect.append(option);
                     });
+                } else {
+                    userSelect.append('<option value="">No hay usuarios disponibles para promover</option>');
                 }
+                
                 userSelect.prop('disabled', false);
             })
             .catch(error => {
                 console.error('Error:', error);
                 userSelect.html('<option value="">Error al cargar usuarios</option>');
+                showAlert('Error al cargar usuarios disponibles', 'danger');
             });
     };
 
-   // ... (código anterior se mantiene igual)
-
-// 4. Manejo del modal y formulario (VERSIÓN CORREGIDA)
-const setupMedicoModal = (table) => {
-    const medicoModal = new bootstrap.Modal('#medicoModal');
-    const medicoForm = $('#medicoForm');
-    
-    // Autocompletar teléfono y correo al seleccionar usuario
-    $('#id_usuario').change(function() {
-        const selectedOption = $(this).find('option:selected');
-        const telefono = selectedOption.data('telefono') || '';
-        const correo = selectedOption.data('correo') || '';
-
-        $('#telefono').val(telefono);
-        $('#correo').val(correo);
-    });
-    
-    // Validación del formulario (CORREGIDO)
-    medicoForm.on('submit', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Reiniciar validación
-        $(this).removeClass('was-validated');
-        
-        // Validar campos obligatorios según el modo (crear/editar)
-        let isValid = true;
-        
-        if ($('#id_medico').val()) {
-            // Modo edición - validar nombre completo
-            if (!$('#nombre_completo').val().trim()) {
-                $('#nombre_completo').addClass('is-invalid');
-                isValid = false;
-            }
-        } else {
-            // Modo creación - validar selección de usuario
-            if (!$('#id_usuario').val()) {
-                $('#id_usuario').addClass('is-invalid');
-                isValid = false;
-            }
-        }
-        
-        // Validar campos comunes
-        if (!$('#id_especialidad').val()) {
-            $('#id_especialidad').addClass('is-invalid');
-            isValid = false;
-        }
-        
-        if (!$('#numero_colegiado').val().trim()) {
-            $('#numero_colegiado').addClass('is-invalid');
-            isValid = false;
-        }
-        
-        // Validar email si está presente
-        const email = $('#correo').val().trim();
-        if (email && !isValidEmail(email)) {
-            $('#correo').addClass('is-invalid');
-            isValid = false;
-        }
-        
-        if (!isValid) {
-            $(this).addClass('was-validated');
-            return;
-        }
-        
-        // Preparar datos para enviar
-        const id = $('#id_medico').val();
-        let formData = {
-            id_especialidad: $('#id_especialidad').val(),
-            numero_colegiado: $('#numero_colegiado').val().trim(),
-            años_experiencia: $('#años_experiencia').val() || 0,
-            telefono: $('#telefono').val().trim(),
-            correo: email,
-            estado: $('#estado').val()
-        };
-
-        if (id) {
-            // Modo edición
-            formData.nombre_completo = $('#nombre_completo').val().trim();
-        } else {
-            // Modo creación
-            formData.id_usuario = $('#id_usuario').val();
-        }
-
-        const method = id ? 'PUT' : 'POST';
-        const url = id ? `/api/medicos/${id}` : '/api/medicos';
-        
-        // Mostrar estado de carga
-        $('#saveSpinner').removeClass('d-none');
-        $('#saveText').text('Guardando...');
-        $('button[type="submit"]').prop('disabled', true);
-        
-        // Enviar datos
-        fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { 
-                    throw new Error(err.error || 'Error del servidor'); 
-                });
-            }
-            return response.json();
-        })
-        .then(data => {
-            table.ajax.reload(null, false);
-            medicoModal.hide();
-            showAlert(data.message || `Médico ${id ? 'actualizado' : 'creado'} exitosamente`, 'success');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showAlert(error.message || 'Error al guardar el médico', 'danger');
-        })
-        .finally(() => {
-            $('#saveSpinner').addClass('d-none');
-            $('#saveText').text('Guardar');
-            $('button[type="submit"]').prop('disabled', false);
-        });
-    });
-
-    // Nuevo médico (CORREGIDO)
-    $('#nuevoMedicoBtn').click(function() {
+    // Función para abrir el modal de nuevo médico
+    const openCreateModal = () => {
+        const medicoForm = $('#medicoForm');
         medicoForm[0].reset();
         medicoForm.removeClass('was-validated');
         $('.is-invalid').removeClass('is-invalid');
@@ -325,68 +207,197 @@ const setupMedicoModal = (table) => {
         $('#id_medico').val('');
         $('#estado').val('A');
         
-        // Mostrar selector de usuario y ocultar campo de nombre
+        // Mostrar selector de usuarios y ocultar campo de nombre
         $('#usuarioSelectGroup').show();
         $('#nombreCompletoGroup').hide();
+        
+        // Cargar usuarios disponibles para promover
         loadUsuariosParaMedico();
 
+        // Mostrar modal
+        const medicoModal = new bootstrap.Modal('#medicoModal');
         medicoModal.show();
-    });
+    };
 
-    // Editar médico (CORREGIDO)
-    $('#medicosTable').on('click', '.edit-btn', function() {
-        const id = $(this).data('id');
-        fetch(`/api/medicos/${id}`)
+    // 4. Manejo del modal y formulario (VERSIÓN CORREGIDA)
+    const setupMedicoModal = (table) => {
+        const medicoModal = new bootstrap.Modal('#medicoModal');
+        const medicoForm = $('#medicoForm');
+        
+        // Autocompletar teléfono y correo al seleccionar usuario
+        $('#id_usuario').change(function() {
+            const selectedOption = $(this).find('option:selected');
+            const telefono = selectedOption.data('telefono') || '';
+            const correo = selectedOption.data('correo') || '';
+
+            $('#telefono').val(telefono);
+            $('#correo').val(correo);
+        });
+        
+        // Validación del formulario (CORREGIDO)
+        medicoForm.on('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Reiniciar validación
+            $(this).removeClass('was-validated');
+            
+            // Validar campos obligatorios según el modo (crear/editar)
+            let isValid = true;
+            
+            if ($('#id_medico').val()) {
+                // Modo edición - validar nombre completo
+                if (!$('#nombre_completo').val().trim()) {
+                    $('#nombre_completo').addClass('is-invalid');
+                    isValid = false;
+                }
+            } else {
+                // Modo creación - validar selección de usuario
+                if (!$('#id_usuario').val()) {
+                    $('#id_usuario').addClass('is-invalid');
+                    isValid = false;
+                }
+            }
+            
+            // Validar campos comunes
+            if (!$('#id_especialidad').val()) {
+                $('#id_especialidad').addClass('is-invalid');
+                isValid = false;
+            }
+            
+            if (!$('#numero_colegiado').val().trim()) {
+                $('#numero_colegiado').addClass('is-invalid');
+                isValid = false;
+            }
+            
+            // Validar email si está presente
+            const email = $('#correo').val().trim();
+            if (email && !isValidEmail(email)) {
+                $('#correo').addClass('is-invalid');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                $(this).addClass('was-validated');
+                return;
+            }
+            
+            // Preparar datos para enviar
+            const id = $('#id_medico').val();
+            let formData = {
+                id_especialidad: $('#id_especialidad').val(),
+                numero_colegiado: $('#numero_colegiado').val().trim(),
+                años_experiencia: $('#años_experiencia').val() || 0,
+                telefono: $('#telefono').val().trim(),
+                correo: email,
+                estado: $('#estado').val()
+            };
+
+            if (id) {
+                // Modo edición
+                formData.nombre_completo = $('#nombre_completo').val().trim();
+            } else {
+                // Modo creación
+                formData.id_usuario = $('#id_usuario').val();
+            }
+
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `/api/medicos/${id}` : '/api/medicos';
+            
+            // Mostrar estado de carga
+            $('#saveSpinner').removeClass('d-none');
+            $('#saveText').text('Guardando...');
+            $('button[type="submit"]').prop('disabled', true);
+            
+            // Enviar datos
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
             .then(response => {
-                if (!response.ok) throw new Error('Médico no encontrado');
+                if (!response.ok) {
+                    return response.json().then(err => { 
+                        throw new Error(err.error || 'Error del servidor'); 
+                    });
+                }
                 return response.json();
             })
-            .then(medico => {
-                medicoForm[0].reset();
-                medicoForm.removeClass('was-validated');
-                $('.is-invalid').removeClass('is-invalid');
-                
-                $('#modalTitle').text(`Editar Médico: ${medico.nombre_completo}`);
-                
-                // Ocultar selector de usuario y mostrar campo de nombre
-                $('#usuarioSelectGroup').hide();
-                $('#nombreCompletoGroup').show();
-
-                // Llenar el formulario
-                $('#id_medico').val(medico.id_medico);
-                $('#nombre_completo').val(medico.nombre_completo);
-                $('#id_especialidad').val(medico.id_especialidad);
-                $('#numero_colegiado').val(medico.numero_colegiado);
-                $('#años_experiencia').val(medico.años_experiencia);
-                $('#telefono').val(medico.telefono);
-                $('#correo').val(medico.correo);
-                $('#estado').val(medico.estado);
-
-                medicoModal.show();
+            .then(data => {
+                table.ajax.reload(null, false);
+                medicoModal.hide();
+                showAlert(data.message || `Médico ${id ? 'actualizado' : 'creado'} exitosamente`, 'success');
             })
             .catch(error => {
                 console.error('Error:', error);
-                showAlert(error.message || 'Error al cargar datos del médico', 'danger');
+                showAlert(error.message || 'Error al guardar el médico', 'danger');
+            })
+            .finally(() => {
+                $('#saveSpinner').addClass('d-none');
+                $('#saveText').text('Guardar');
+                $('button[type="submit"]').prop('disabled', false);
             });
-    });
+        });
 
-    // Limpiar validación cuando se cambian los campos
-    $('#medicoForm input, #medicoForm select').on('input change', function() {
-        $(this).removeClass('is-invalid');
-    });
+        // Nuevo médico (CORREGIDO - usando la nueva función)
+        $('#nuevoMedicoBtn').click(function() {
+            openCreateModal();
+        });
 
-    // Cerrar modal con el botón de cancelar o la 'X'
-    $('#medicoModal .btn-secondary, #medicoModal .btn-close').click(function() {
-        medicoModal.hide();
-    });
+        // Editar médico (CORREGIDO)
+        $('#medicosTable').on('click', '.edit-btn', function() {
+            const id = $(this).data('id');
+            fetch(`/api/medicos/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Médico no encontrado');
+                    return response.json();
+                })
+                .then(medico => {
+                    medicoForm[0].reset();
+                    medicoForm.removeClass('was-validated');
+                    $('.is-invalid').removeClass('is-invalid');
+                    
+                    $('#modalTitle').text(`Editar Médico: ${medico.nombre_completo}`);
+                    
+                    // Ocultar selector de usuario y mostrar campo de nombre
+                    $('#usuarioSelectGroup').hide();
+                    $('#nombreCompletoGroup').show();
 
-    medicoModal._element.addEventListener('hidden.bs.modal', function () {
-        medicoForm.removeClass('was-validated');
-        $('.is-invalid').removeClass('is-invalid');
-    });
-};
+                    // Llenar el formulario
+                    $('#id_medico').val(medico.id_medico);
+                    $('#nombre_completo').val(medico.nombre_completo);
+                    $('#id_especialidad').val(medico.id_especialidad);
+                    $('#numero_colegiado').val(medico.numero_colegiado);
+                    $('#años_experiencia').val(medico.años_experiencia);
+                    $('#telefono').val(medico.telefono);
+                    $('#correo').val(medico.correo);
+                    $('#estado').val(medico.estado);
 
-// ... (el resto del código se mantiene igual)
+                    medicoModal.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert(error.message || 'Error al cargar datos del médico', 'danger');
+                });
+        });
+
+        // Limpiar validación cuando se cambian los campos
+        $('#medicoForm input, #medicoForm select').on('input change', function() {
+            $(this).removeClass('is-invalid');
+        });
+
+        // Cerrar modal con el botón de cancelar o la 'X'
+        $('#medicoModal .btn-secondary, #medicoModal .btn-close').click(function() {
+            medicoModal.hide();
+        });
+
+        medicoModal._element.addEventListener('hidden.bs.modal', function () {
+            medicoForm.removeClass('was-validated');
+            $('.is-invalid').removeClass('is-invalid');
+        });
+    };
 
     // 5. Manejo de acciones
     const setupActions = (table) => {
