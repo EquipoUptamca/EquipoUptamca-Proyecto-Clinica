@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let allCitas = [];
     let citaToConfirmId = null;
+    let citaToCancelId = null;
 
     const fetchCitas = async () => {
         showLoading(true);
@@ -101,24 +102,29 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     const handleAction = async (citaId, action) => {
-        let url, method, successMessage;
+        let url, method, successMessage, notificationType, notificationTitle;
 
         switch (action) {
             case 'confirm':
                 url = `/api/citas/${citaId}/confirm`;
                 method = 'PATCH';
-                successMessage = 'Cita confirmada exitosamente.';
+                successMessage = 'La cita ha sido confirmada exitosamente.';
+                notificationType = 'success';
+                notificationTitle = '¡Cita Confirmada!';
                 break;
             case 'complete':
                 url = `/api/citas/${citaId}/complete`;
                 method = 'PATCH';
-                successMessage = 'Cita completada exitosamente.';
+                successMessage = 'La cita ha sido marcada como completada.';
+                notificationType = 'completed';
+                notificationTitle = '¡Cita Completada!';
                 break;
             case 'cancel':
-                if (!confirm('¿Está seguro de que desea cancelar esta cita?')) return;
                 url = `/api/citas/${citaId}/cancel`;
                 method = 'PATCH';
-                successMessage = 'Cita cancelada exitosamente.';
+                successMessage = 'La cita ha sido cancelada exitosamente.';
+                notificationType = 'info';
+                notificationTitle = 'Cita Cancelada';
                 break;
             default:
                 return;
@@ -132,13 +138,94 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(result.error || 'Ocurrió un error.');
             }
 
-            alert(successMessage); // Simple alert for feedback
+            // Mostrar notificación mejorada
+            showNotification(notificationTitle, successMessage, notificationType);
             fetchCitas(); // Refresh the list
 
         } catch (error) {
             console.error(`Error en la acción ${action}:`, error);
-            alert(`Error: ${error.message}`);
+            showNotification('Error', `Error: ${error.message}`, 'error');
         }
+    };
+
+    // Función mejorada para mostrar notificaciones
+    const showNotification = (title, message, type = 'info') => {
+        // Crear elemento de notificación
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        
+        // Determinar icono según el tipo
+        let iconClass;
+        switch(type) {
+            case 'success':
+                iconClass = 'fas fa-check-circle';
+                break;
+            case 'completed':
+                iconClass = 'fas fa-check-double';
+                break;
+            case 'error':
+                iconClass = 'fas fa-exclamation-circle';
+                break;
+            case 'warning':
+                iconClass = 'fas fa-exclamation-triangle';
+                break;
+            default:
+                iconClass = 'fas fa-info-circle';
+        }
+        
+        notification.innerHTML = `
+            <i class="${iconClass} notification-icon"></i>
+            <div class="notification-content">
+                <div class="notification-title">${title}</div>
+                <div class="notification-message">${message}</div>
+            </div>
+            <button class="notification-close">&times;</button>
+            <div class="notification-progress"></div>
+        `;
+        
+        // Añadir al DOM
+        document.body.appendChild(notification);
+        
+        // Mostrar con animación
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        // Configurar cierre automático después de 5 segundos
+        const autoClose = setTimeout(() => {
+            closeNotification(notification);
+        }, 5000);
+        
+        // Configurar cierre manual
+        const closeBtn = notification.querySelector('.notification-close');
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(autoClose);
+            closeNotification(notification);
+        });
+        
+        // Pausar el progreso al hacer hover
+        notification.addEventListener('mouseenter', () => {
+            const progressBar = notification.querySelector('.notification-progress');
+            if (progressBar) {
+                progressBar.style.animationPlayState = 'paused';
+            }
+        });
+        
+        notification.addEventListener('mouseleave', () => {
+            const progressBar = notification.querySelector('.notification-progress');
+            if (progressBar) {
+                progressBar.style.animationPlayState = 'running';
+            }
+        });
+    };
+
+    const closeNotification = (notification) => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 400);
     };
 
     const openConfirmModal = (citaId) => {
@@ -153,9 +240,87 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.confirmModal.classList.remove('hidden');
     };
 
+    const openCancelModal = (citaId) => {
+        const cita = allCitas.find(c => c.id_cita === citaId);
+        if (!cita) return;
+
+        citaToCancelId = citaId;
+        
+        // Crear o actualizar el modal de cancelación
+        let cancelModal = document.getElementById('cancel-modal');
+        if (!cancelModal) {
+            cancelModal = document.createElement('div');
+            cancelModal.id = 'cancel-modal';
+            cancelModal.className = 'modal modal-cancel hidden';
+            cancelModal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fas fa-exclamation-triangle modal-icon"></i> Cancelar Cita</h2>
+                        <button class="close-btn">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="warning-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <h3 style="color: var(--warning-color); margin-bottom: 15px; text-align: center;">¿Está seguro de que desea cancelar esta cita?</h3>
+                        
+                        <div class="warning-message">
+                            <p><i class="fas fa-info-circle"></i> Esta acción no se puede deshacer</p>
+                        </div>
+                        
+                        <div class="cita-info-cancel">
+                            <p><strong>Paciente:</strong> <span id="cancel-modal-paciente"></span></p>
+                            <p><strong>Fecha:</strong> <span id="cancel-modal-fecha"></span></p>
+                            <p><strong>Hora:</strong> <span id="cancel-modal-hora"></span></p>
+                            <p><strong>Motivo:</strong> <span id="cancel-modal-motivo"></span></p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn-cancel-secondary" id="cancel-modal-cancel">No, Conservar Cita</button>
+                        <button class="btn-cancel-confirm" id="cancel-modal-confirm">Sí, Cancelar Cita</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(cancelModal);
+
+            // Event listeners para el modal de cancelación
+            cancelModal.querySelector('.close-btn').addEventListener('click', closeCancelModal);
+            cancelModal.querySelector('#cancel-modal-cancel').addEventListener('click', closeCancelModal);
+            cancelModal.querySelector('#cancel-modal-confirm').addEventListener('click', () => {
+                if (citaToCancelId) {
+                    handleAction(citaToCancelId, 'cancel');
+                    closeCancelModal();
+                }
+            });
+
+            // Cerrar al hacer click fuera del modal
+            cancelModal.addEventListener('click', (e) => {
+                if (e.target === cancelModal) {
+                    closeCancelModal();
+                }
+            });
+        }
+
+        // Actualizar la información de la cita en el modal
+        document.getElementById('cancel-modal-paciente').textContent = cita.paciente_nombre;
+        document.getElementById('cancel-modal-fecha').textContent = cita.fecha_cita;
+        document.getElementById('cancel-modal-hora').textContent = cita.hora_cita;
+        document.getElementById('cancel-modal-motivo').textContent = cita.motivo_consulta;
+
+        cancelModal.classList.remove('hidden');
+    };
+
     const closeConfirmModal = () => {
         elements.confirmModal.classList.add('hidden');
         citaToConfirmId = null;
+    };
+
+    const closeCancelModal = () => {
+        const cancelModal = document.getElementById('cancel-modal');
+        if (cancelModal) {
+            cancelModal.classList.add('hidden');
+        }
+        citaToCancelId = null;
     };
 
     // Event Listeners
@@ -170,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (target.classList.contains('btn-complete')) {
             handleAction(citaId, 'complete');
         } else if (target.classList.contains('btn-cancel')) {
-            handleAction(citaId, 'cancel');
+            openCancelModal(citaId);
         }
     });
 

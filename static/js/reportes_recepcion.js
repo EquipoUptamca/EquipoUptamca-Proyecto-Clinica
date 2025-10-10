@@ -109,6 +109,10 @@ $(document).ready(function() {
 
             fetch(`/api/reports/activity?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => {
+                    if (response.status === 401) {
+                        window.location.href = '/login'; // Redirigir si no está autenticado
+                        throw new Error('Sesión expirada. Redirigiendo al login...');
+                    }
                     if (!response.ok) throw new Error(`Error del servidor: ${response.statusText}`);
                     return response.json();
                 })
@@ -172,24 +176,37 @@ $(document).ready(function() {
                         });
                     }
 
-                    // 2. Gráfico de estados (dona)
+                    // 2. Gráfico de estados (dona) - COLORES CORREGIDOS
                     const statusCtx = document.getElementById('activityStatusChart');
                     if (statusCtx && data.summary) {
                         const statusLabels = Object.keys(data.summary);
                         const statusData = Object.values(data.summary);
                         
-                        // Colores para diferentes estados
+                        // Colores para diferentes estados - CORREGIDOS
                         const statusColors = {
-                            'programada': 'rgba(52, 152, 219, 0.7)',
-                            'confirmada': 'rgba(243, 156, 18, 0.7)',
-                            'completada': 'rgba(46, 204, 113, 0.7)',
-                            'cancelada': 'rgba(231, 76, 60, 0.7)',
-                            'pendiente': 'rgba(149, 165, 166, 0.7)',
-                            'ausente': 'rgba(153, 102, 255, 0.7)'
+                            'programada': 'rgba(52, 152, 219, 0.8)',
+                            'confirmada': 'rgba(243, 156, 18, 0.8)',
+                            'completada': 'rgba(46, 204, 113, 0.8)',
+                            'cancelada': 'rgba(231, 76, 60, 0.8)',
+                            'pendiente': 'rgba(149, 165, 166, 0.8)',
+                            'ausente': 'rgba(155, 89, 182, 0.8)'
+                        };
+
+                        const borderColors = {
+                            'programada': 'rgba(52, 152, 219, 1)',
+                            'confirmada': 'rgba(243, 156, 18, 1)',
+                            'completada': 'rgba(46, 204, 113, 1)',
+                            'cancelada': 'rgba(231, 76, 60, 1)',
+                            'pendiente': 'rgba(149, 165, 166, 1)',
+                            'ausente': 'rgba(155, 89, 182, 1)'
                         };
 
                         const backgroundColors = statusLabels.map(label => 
-                            statusColors[label.toLowerCase()] || 'rgba(201, 203, 207, 0.7)'
+                            statusColors[label.toLowerCase()] || 'rgba(201, 203, 207, 0.8)'
+                        );
+
+                        const borderColorsArray = statusLabels.map(label => 
+                            borderColors[label.toLowerCase()] || 'rgba(201, 203, 207, 1)'
                         );
 
                         activityStatusChart = new Chart(statusCtx, {
@@ -199,8 +216,8 @@ $(document).ready(function() {
                                 datasets: [{
                                     data: statusData,
                                     backgroundColor: backgroundColors,
-                                    borderWidth: 2,
-                                    borderColor: '#fff'
+                                    borderColor: borderColorsArray,
+                                    borderWidth: 2
                                 }]
                             },
                             options: {
@@ -295,6 +312,10 @@ $(document).ready(function() {
 
             fetch(`/api/reports/new-patients?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => {
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        throw new Error('Sesión expirada. Redirigiendo al login...');
+                    }
                     if (!response.ok) throw new Error(`Error del servidor: ${response.statusText}`);
                     return response.json();
                 })
@@ -319,7 +340,7 @@ $(document).ready(function() {
                                     datasets: [{
                                         label: 'Nuevos Pacientes',
                                         data: data.time_series.data,
-                                        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
                                         borderColor: 'rgba(75, 192, 192, 1)',
                                         borderWidth: 1
                                     }]
@@ -362,7 +383,7 @@ $(document).ready(function() {
                         }
                     }
 
-                    // 2. Gráfico de género - CORRECCIÓN PRINCIPAL
+                    // 2. Gráfico de género - COLORES CORREGIDOS
                     const genderCtx = document.getElementById('newPatientsGenderChart');
                     if (genderCtx) {
                         const genderData = data.gender_summary || {};
@@ -377,7 +398,15 @@ $(document).ready(function() {
                                 'Femenino': 'rgba(255, 99, 132, 0.8)',
                                 'No especificado': 'rgba(201, 203, 207, 0.8)'
                             };
+                            
+                            const borderColorMap = {
+                                'Masculino': 'rgba(54, 162, 235, 1)',
+                                'Femenino': 'rgba(255, 99, 132, 1)',
+                                'No especificado': 'rgba(201, 203, 207, 1)'
+                            };
+                            
                             const backgroundColors = labels.map(label => colorMap[label] || colorMap['No especificado']);
+                            const borderColors = labels.map(label => borderColorMap[label] || borderColorMap['No especificado']);
 
                             newPatientsGenderChart = new Chart(genderCtx, {
                                 type: 'doughnut',
@@ -386,8 +415,8 @@ $(document).ready(function() {
                                     datasets: [{
                                         data: values,
                                         backgroundColor: backgroundColors,
+                                        borderColor: borderColors,
                                         borderWidth: 3,
-                                        borderColor: '#fff',
                                         hoverOffset: 15
                                     }]
                                 },
@@ -510,6 +539,10 @@ $(document).ready(function() {
 
             fetch(`/api/reports/appointment-compliance?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => {
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        throw new Error('Sesión expirada. Redirigiendo al login...');
+                    }
                     if (!response.ok) throw new Error(`Error del servidor: ${response.statusText}`);
                     return response.json();
                 })
@@ -518,31 +551,55 @@ $(document).ready(function() {
                         throw new Error("Datos de reporte de cumplimiento incompletos.");
                     }
 
-                    // Gráfico de cumplimiento
+                    // Gráfico de cumplimiento - COLORES CORREGIDOS
                     const ctx = document.getElementById('complianceChart');
                     if (ctx) {
                         const labels = Object.keys(data.summary);
                         const values = Object.values(data.summary);
                         
+                        // PALETA DE COLORES CORREGIDA - Usar colores sólidos en formato rgba
                         const colorMap = {
-                            'Completada': 'rgba(46, 204, 113, 0.7)',
-                            'Cancelada': 'rgba(231, 76, 60, 0.7)',
-                            'Ausente': 'rgba(149, 165, 166, 0.7)',
-                            'Programada': 'rgba(52, 152, 219, 0.7)',
-                            'Confirmada': 'rgba(243, 156, 18, 0.7)'
+                            'Completada': 'rgba(46, 204, 113, 0.8)',
+                            'Cancelada': 'rgba(231, 76, 60, 0.8)',
+                            'Ausente': 'rgba(155, 89, 182, 0.8)',
+                            'Programada': 'rgba(52, 152, 219, 0.8)',
+                            'Confirmada': 'rgba(243, 156, 18, 0.8)',
+                            'Pendiente': 'rgba(149, 165, 166, 0.8)'
                         };
 
-                        const backgroundColors = labels.map(label => colorMap[label] || 'rgba(201, 203, 207, 0.7)');
+                        const borderColorMap = {
+                            'Completada': 'rgba(46, 204, 113, 1)',
+                            'Cancelada': 'rgba(231, 76, 60, 1)', 
+                            'Ausente': 'rgba(155, 89, 182, 1)',
+                            'Programada': 'rgba(52, 152, 219, 1)',
+                            'Confirmada': 'rgba(243, 156, 18, 1)',
+                            'Pendiente': 'rgba(149, 165, 166, 1)'
+                        };
+
+                        const backgroundColors = labels.map((label, index) => 
+    colorMap[label] || ['rgba(12, 148, 23, 1)', 'rgba(7, 96, 102, 0.8)'][index % 2]
+);
+
+                        const borderColors = labels.map(label => 
+                            borderColorMap[label] || 'rgba(243, 239, 18, 1)'
+                        );
+
+                        const hoverBackgroundColors = labels.map(label => 
+                            colorMap[label] ? colorMap[label].replace('0.8', '1') : 'rgba(135, 37, 155, 1)'
+                        );
 
                         complianceChart = new Chart(ctx, { 
-                            type: 'pie',
+                            type: 'doughnut',
                             data: {
                                 labels: labels,
                                 datasets: [{
                                     data: values,
                                     backgroundColor: backgroundColors,
-                                    borderWidth: 2,
-                                    borderColor: '#fff'
+                                    borderColor: borderColors,
+                                    borderWidth: 3,
+                                    hoverBackgroundColor: hoverBackgroundColors,
+                                    hoverBorderColor: borderColors,
+                                    hoverBorderWidth: 4
                                 }]
                             },
                             options: {
@@ -552,22 +609,53 @@ $(document).ready(function() {
                                     title: {
                                         display: true,
                                         text: 'Distribución de Estados de Citas',
-                                        font: { size: 14, weight: 'bold' }
+                                        font: { 
+                                            size: 16, 
+                                            weight: 'bold',
+                                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                        },
+                                        color: '#2c3e50',
+                                        padding: 20
                                     },
                                     legend: {
-                                        position: 'bottom'
+                                        position: 'bottom',
+                                        labels: {
+                                            padding: 20,
+                                            usePointStyle: true,
+                                            pointStyle: 'circle',
+                                            font: {
+                                                size: 12,
+                                                weight: '600'
+                                            },
+                                            color: '#34495e'
+                                        }
                                     },
                                     tooltip: {
+                                        backgroundColor: 'rgba(44, 62, 80, 0.9)',
+                                        titleFont: {
+                                            size: 13,
+                                            weight: 'bold'
+                                        },
+                                        bodyFont: {
+                                            size: 12
+                                        },
+                                        padding: 12,
+                                        cornerRadius: 8,
                                         callbacks: {
                                             label: function(context) {
                                                 const label = context.label || '';
                                                 const value = context.raw || 0;
                                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                                 const percentage = Math.round((value / total) * 100);
-                                                return `${label}: ${value} (${percentage}%)`;
+                                                return `${label}: ${value} cita${value !== 1 ? 's' : ''} (${percentage}%)`;
                                             }
                                         }
                                     }
+                                },
+                                cutout: '50%',
+                                animation: {
+                                    animateScale: true,
+                                    animateRotate: true
                                 }
                             }
                         });
@@ -585,23 +673,47 @@ $(document).ready(function() {
                             { 
                                 data: 'fecha',
                                 render: function(data) {
-                                    return new Date(data).toLocaleDateString('es-ES');
+                                    const date = new Date(data);
+                                    return `
+                                        <div class="text-center">
+                                            <div class="fw-bold">${date.toLocaleDateString('es-ES', { weekday: 'short' })}</div>
+                                            <div>${date.toLocaleDateString('es-ES')}</div>
+                                        </div>
+                                    `;
                                 }
                             },
-                            { data: 'paciente' },
-                            { data: 'medico' },
+                            { 
+                                data: 'paciente',
+                                render: function(data) {
+                                    return `<strong class="text-dark">${data}</strong>`;
+                                }
+                            },
+                            { 
+                                data: 'medico',
+                                render: function(data) {
+                                    return `<span class="text-primary">${data}</span>`;
+                                }
+                            },
                             { 
                                 data: 'estado',
                                 render: function(data, type, row) {
-                                    const statusClass = {
-                                        'Completada': 'badge bg-success',
-                                        'Cancelada': 'badge bg-danger',
-                                        'Ausente': 'badge bg-secondary',
-                                        'Programada': 'badge bg-primary',
-                                        'Confirmada': 'badge bg-warning'
-                                    }[data] || 'badge bg-light text-dark';
+                                    const statusConfig = {
+                                        'Completada': { class: 'badge-estado status-completada', icon: 'fa-check-circle' },
+                                        'Cancelada': { class: 'badge-estado status-cancelada', icon: 'fa-times-circle' },
+                                        'Ausente': { class: 'badge-estado status-ausente', icon: 'fa-user-slash' },
+                                        'Programada': { class: 'badge-estado status-programada', icon: 'fa-calendar' },
+                                        'Confirmada': { class: 'badge-estado status-confirmada', icon: 'fa-calendar-check' },
+                                        'Pendiente': { class: 'badge-estado status-pendiente', icon: 'fa-clock' }
+                                    };
                                     
-                                    return `<span class="${statusClass}">${data}</span>`;
+                                    const config = statusConfig[data] || { class: 'badge-estado bg-light text-dark', icon: 'fa-question-circle' };
+                                    
+                                    return `
+                                        <span class="${config.class} position-relative overflow-hidden">
+                                            <i class="fas ${config.icon} me-1"></i>
+                                            ${data}
+                                        </span>
+                                    `;
                                 }
                             }
                         ],
@@ -610,14 +722,17 @@ $(document).ready(function() {
                         buttons: getExportButtons('Reporte_Cumplimiento'),
                         responsive: true,
                         order: [[0, 'desc']],
-                        pageLength: 10
+                        pageLength: 10,
+                        createdRow: function(row, data, dataIndex) {
+                            $(row).addClass('transition-all');
+                        }
                     });
 
                     resolve();
                 })
                 .catch(error => {
                     console.error('Error en reporte de cumplimiento:', error);
-                    $('#complianceTable tbody').html(`<tr><td colspan="4" class="text-center text-danger">Error al cargar el reporte: ${error.message}</td></tr>`);
+                    $('#complianceTable tbody').html(`<tr><td colspan="4" class="text-center text-danger py-4"><i class="fas fa-exclamation-triangle me-2"></i>Error al cargar el reporte: ${error.message}</td></tr>`);
                     showChartError('complianceChart', 'Error al cargar datos');
                     reject(error);
                 });
@@ -633,6 +748,10 @@ $(document).ready(function() {
 
             fetch(`/api/reports/doctor-occupancy?start_date=${startDate}&end_date=${endDate}`)
                 .then(response => {
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        throw new Error('Sesión expirada. Redirigiendo al login...');
+                    }
                     if (!response.ok) throw new Error(`Error del servidor: ${response.statusText}`);
                     return response.json();
                 })
@@ -654,7 +773,7 @@ $(document).ready(function() {
                                 datasets: [{
                                     label: 'Total de Citas',
                                     data: data.ranking.data,
-                                    backgroundColor: 'rgba(26, 147, 111, 0.7)',
+                                    backgroundColor: 'rgba(26, 147, 111, 0.8)',
                                     borderColor: 'rgba(26, 147, 111, 1)',
                                     borderWidth: 1
                                 }]
@@ -797,8 +916,10 @@ $(document).ready(function() {
         const summaryContainer = $('#complianceSummary');
         summaryContainer.empty();
         
-        Object.keys(summaryData).forEach(status => {
-            const count = summaryData[status];
+        // Ordenar por cantidad (opcional)
+        const sortedEntries = Object.entries(summaryData).sort((a, b) => b[1] - a[1]);
+        
+        sortedEntries.forEach(([status, count]) => {
             const colorClass = {
                 'Completada': 'text-success',
                 'Cancelada': 'text-danger',
@@ -807,12 +928,21 @@ $(document).ready(function() {
                 'Confirmada': 'text-warning'
             }[status] || 'text-dark';
             
+            const iconClass = {
+                'Completada': 'fa-check-circle',
+                'Cancelada': 'fa-times-circle',
+                'Ausente': 'fa-user-slash',
+                'Programada': 'fa-calendar',
+                'Confirmada': 'fa-calendar-check'
+            }[status] || 'fa-question-circle';
+            
             summaryContainer.append(`
-                <div class="col">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body text-center py-3">
-                            <h3 class="${colorClass} mb-1">${count}</h3>
-                            <small class="text-muted">${status}</small>
+                <div class="col-md-3 col-6 mb-3">
+                    <div class="card gradient-border h-100">
+                        <div class="card-body text-center py-4">
+                            <i class="fas ${iconClass} ${colorClass} fa-2x mb-3"></i>
+                            <h3 class="${colorClass} mb-2 contador-animado">${count}</h3>
+                            <small class="text-muted fw-bold text-uppercase">${status}</small>
                         </div>
                     </div>
                 </div>
