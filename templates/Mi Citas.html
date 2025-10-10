@@ -85,11 +85,11 @@
         </div>
     </div>
 
-    <!-- Modal de confirmación -->
-    <div id="confirm-modal" class="modal hidden">
+    <!-- Modal de confirmación de cita -->
+    <div id="confirm-modal" class="modal modal-confirm hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Confirmar Cita</h2>
+                <h2><i class="fas fa-check-circle modal-icon"></i> Confirmar Cita</h2>
                 <button id="close-modal" class="close-btn">&times;</button>
             </div>
             <div class="modal-body">
@@ -107,6 +107,10 @@
             </div>
         </div>
     </div>
+
+    <!-- El modal de cancelación se creará dinámicamente en el JavaScript -->
+
+    <!-- Las notificaciones se crearán dinámicamente aquí -->
 
     <script src="{{ url_for('static', filename='js/Mi Citas.js') }}"></script>
 </body>

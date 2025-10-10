@@ -108,29 +108,26 @@ def get_compliance_report(current_user):
 
     try:
         with conn.cursor() as cursor:
-            today_str = date.today().strftime('%Y-%m-%d')
             query = """
                 SELECT 
                     c.fecha_cita, p.nombre_completo AS paciente_nombre, 
                     m.nombre_completo AS medico_nombre, c.estado
                 FROM Citas c
-                LEFT JOIN Pacientes pac ON c.id_paciente = pac.id_paciente
-                LEFT JOIN Usuarios p ON pac.id_usuario = p.id_usuario
-                LEFT JOIN Medicos med ON c.id_medico = med.id_medico
-                LEFT JOIN Usuarios m ON med.id_usuario = m.id_usuario
+                JOIN Pacientes pac ON c.id_paciente = pac.id_paciente
+                JOIN Usuarios p ON pac.id_usuario = p.id_usuario
+                JOIN Medicos med ON c.id_medico = med.id_medico
+                JOIN Usuarios m ON med.id_usuario = m.id_usuario
                 WHERE c.fecha_cita BETWEEN ? AND ?
             """
             cursor.execute(query, (start_date, end_date))
             
             rows = cursor.fetchall()
             
-            summary = {'Completada': 0, 'Cancelada': 0, 'Ausente': 0, 'Programada': 0, 'Confirmada': 0}
+            summary = {'Completada': 0, 'Cancelada': 0, 'Programada': 0, 'Confirmada': 0, 'Pendiente': 0, 'Ausente': 0}
             details = []
 
             for row in rows:
-                final_status = row.estado
-                if row.estado in ('programada', 'confirmada') and row.fecha_cita.strftime('%Y-%m-%d') < today_str:
-                    final_status = 'Ausente'
+                final_status = row.estado or 'Pendiente'
                 
                 if final_status in summary:
                     summary[final_status] += 1
@@ -144,7 +141,10 @@ def get_compliance_report(current_user):
                     'estado': final_status
                 })
 
-            return jsonify({'summary': summary, 'details': details})
+            # Filtrar estados con cero citas para no enviarlos al frontend
+            final_summary = {k: v for k, v in summary.items() if v > 0}
+
+            return jsonify({'summary': final_summary, 'details': details})
 
     except Exception as e:
         logging.error(f"Error en reporte de cumplimiento: {e}")
