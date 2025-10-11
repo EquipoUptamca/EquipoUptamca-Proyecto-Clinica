@@ -10,11 +10,15 @@ MedAsistencia es un sistema de gestión médica diseñado para optimizar las ope
 
 ### Características Principales
 -   **Gestión por Roles:** Acceso seguro y diferenciado para Administradores, Médicos, Recepcionistas y Pacientes.
--   **Dashboard Interactivo:** Paneles de control personalizados para cada rol con estadísticas y accesos directos.
+-   **Dashboards Interactivos:** Paneles de control personalizados para cada rol con estadísticas y accesos directos.
 -   **Gestión Integral:** Administración completa de usuarios, perfiles de médicos, expedientes de pacientes y horarios.
 -   **Sistema de Citas Avanzado:** Programación, confirmación, cancelación y seguimiento del estado de las citas.
+-   **Gestión de Asistencia:** Registro y seguimiento de la asistencia del personal médico.
+-   **Reportes y Análisis:** Módulo para generar reportes de actividad, ocupación, nuevos pacientes y más.
+-   **Historial Clínico:** Gestión de consultas y seguimiento del historial médico de los pacientes.
 -   **Seguridad Robusta:** Autenticación segura, recuperación de contraseña y protección de roles privilegiados.
 -   **Asistente Virtual (Chatbot):** Ayuda contextual y accesos directos para roles administrativos y médicos.
+-   **Demo Interactiva:** Una página de demostración pública que muestra las características clave del sistema.
 
 ---
 
@@ -63,6 +67,13 @@ El Administrador tiene control total sobre el sistema.
 -   **Buscar y Filtrar:** Utilice la barra de búsqueda y los filtros por rol y estado para encontrar usuarios rápidamente.
 -   **Cambio de Rol:** Modifique el rol de un usuario (ej. de Paciente a Recepción), lo que ajustará sus permisos automáticamente.
 
+#### **Gestión de Asistencias (`/asistencias`)**
+-   Registre la entrada y salida de los médicos.
+-   Filtre y visualice el historial de asistencias por fecha o por médico.
+
+#### **Reportes Avanzados**
+-   Acceda a reportes detallados sobre la actividad de citas, cumplimiento, nuevos pacientes y ocupación de médicos.
+
 #### **Gestión de Médicos y Pacientes (`/medicos`, `/pacientes`)**
 -   Promueva usuarios existentes a perfiles de Médico o Paciente.
 -   Edite perfiles profesionales, especialidades y datos de contacto.
@@ -81,14 +92,15 @@ El rol de Médico está enfocado en la gestión de su agenda y pacientes.
 -   **Resumen Diario:** Vea de un vistazo sus citas para hoy, citas pendientes y las completadas recientemente.
 -   **Estadísticas Personales:** Monitoree su rendimiento, como el total de citas en el mes.
 
-#### **Mis Citas (`/mis-citas`)**
--   **Visualización Completa:** Acceda a un listado detallado de todas sus citas.
--   **Filtrar Citas:** Busque por fecha o estado (Programada, Confirmada, Completada, Cancelada).
--   **Gestionar Citas:** Confirme, complete o cancele citas con un solo clic.
+#### **Mis Consultas (`/mis_consultas`)**
+-   **Visualización Completa:** Acceda a un listado detallado de todas sus citas y consultas pasadas.
+-   **Filtrar y Gestionar:** Busque por fecha o estado (Programada, Completada, Cancelada) y gestione el estado de sus citas.
+-   **Historial Clínico:** Registre y consulte el historial de consultas de sus pacientes.
 
-#### **Mi Horario (`/mi-horario`)**
+#### **Mi Horario (`/horarios`)**
 -   **Vista Semanal:** Visualice su horario de trabajo, con bloques de tiempo disponibles y citas programadas.
 -   **Navegación:** Avance o retroceda entre semanas para planificar a futuro.
+-   **Impresión:** Genere una versión imprimible de su horario semanal.
 
 #### **Asistente Virtual (Chatbot del Médico)**
 Su asistente personal para consultas rápidas. Pruebe a preguntar:
@@ -106,9 +118,10 @@ Rol clave para la gestión diaria de la clínica.
 
 #### **Funcionalidades Principales**
 -   **Gestión de Citas (`/citas_recep`):** Agende, reagende o cancele citas para cualquier médico.
--   **Gestión de Pacientes (`/paciente_recep`):** Registre nuevos pacientes y actualice su información.
+-   **Gestión de Pacientes (`/pacientes_recep`):** Registre nuevos pacientes y actualice su información.
 -   **Horarios Médicos (`/horarios_recep`):** Consulte la disponibilidad de todos los médicos para una mejor planificación.
 -   **Directorio Médico (`/directorio_medico_recep`):** Acceda a la información de contacto de los especialistas.
+-   **Registro de Asistencia (`/asistencias`):** Marque la entrada y salida de los médicos.
 
 #### **Asistente Virtual (Chatbot de Recepción)**
 Resuelve dudas operativas. Pruebe comandos como:
@@ -122,16 +135,16 @@ Acceso simplificado para gestionar su salud.
 
 #### **Dashboard del Paciente**
 -   **Próximas Citas:** Vea una lista de sus citas futuras, con fecha, hora y médico.
--   **Historial de Citas:** Consulte sus citas pasadas.
--   **Perfil Personal:** Acceda y actualice su información de contacto.
+-   **Mis Citas (`/mis_citas_paciente`):** Consulte el historial completo de sus citas pasadas y futuras.
+-   **Mi Perfil (`/mi_perfil`):** Acceda y actualice su información de contacto y contraseña.
 
 ---
 
 ## 4. Funcionalidades Comunes
 
-Ciertas funcionalidades están disponibles para todos los usuarios que han iniciado sesión.
+Todos los usuarios que han iniciado sesión pueden gestionar su propia información.
 
-### Actualizar Perfil
+### Mi Perfil (`/mi_perfil`)
 -   Cualquier usuario puede actualizar su **nombre completo, email y teléfono** desde la configuración de su perfil.
 
 ### Cambiar Contraseña

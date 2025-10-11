@@ -1,18 +1,22 @@
 /el-paso
 ├── app.py
 ├── app.log
+├── asistencia.py
 ├── auth_middleware.py
 ├── appointments.py
 ├── auth.py
 ├── chatbot.py
 ├── config.py
+├── consultas.py
 ├── dashboard.py
 ├── database.py
 ├── doctors.py
 ├── Estructura.txt
 ├── logger.py
 ├── main.py
+├── MEJORAS_ESTILO.md
 ├── patients.py
+├── reports.py
 ├── requirements.txt
 ├── schedule_manager.py
 ├── schedules.py
@@ -20,8 +24,8 @@
 ├── utils.py
 ├── validators.py
 ├── views.py
+├── user_profile.py
 ├── README.md
-├── MEJORAS_ESTILO.md
 ├── /respaldo
 │   └──asistencia_medica_clinica.bak
 ├── /templates
@@ -31,17 +35,31 @@
 │   ├── users.html
 │   ├── admin_dashboard.html
 │   ├── doctor_dashboard.html
+│   ├── paciente_dashboard.html
 │   ├── reception_dashboard.html
-│   ├── Mi Citas.html
-│   ├── Mi Horario.html
+│   ├── mi_perfil.html
+│   ├── mis_citas_paciente.html
+│   ├── mis_consultas.html
+│   ├── Mi Citas.html (obsoleto, usar mis_citas_paciente.html)
+│   ├── Mi Horario.html (obsoleto, usar horarios.html)
 │   ├── horarios.html
 │   ├── pacientes.html
+│   ├── pacientes_recep.html
 │   ├── medicos.html
+│   ├── perfil_medico.html
 │   ├── nueva_cita.html
 │   ├── nuevo_usuario.html
+│   ├── asistencias.html
+│   ├── citas.html
+│   ├── citas_recep.html
+│   ├── directorio_medico_recep.html
+│   ├── horarios_recep.html
 │   ├── forgot_contraseña.html
 │   ├── reset_contraseña.html
+│   ├── reportes_medico.html
+│   ├── reportes_recepcion.html
 │   ├── faq.html
+│   ├── demo.html
 │   ├── 404.html
 │   └── 500.html
 └── /static
@@ -52,6 +70,7 @@
     │   ├── admin-global.css
     │   ├── admin-citas.css
     │   ├── admin-usuarios.css
+    │   ├── asistencias.css
     │   ├── Mi Citas.css
     │   ├── Mi Horario.css
     │   ├── index.css
@@ -66,6 +85,7 @@
         ├── admin-medico.js
         ├── admin-pacientes.js
         ├── admin-usuarios-dashboard.js
+        ├── asistencias.js
         ├── doctor_dashboard.js
         ├── index.js
         ├── login.js
@@ -76,25 +96,30 @@
         ├── toast-notifications.js
         ├── forgot-password.js
         ├── reset-password.js
+        └── server.js
 
 Archivos de configuración y utilidades:
 config.py - Configuración de base de datos y constantes
 auth_middleware.py - Middleware para proteger rutas
 database.py - Función de conexión a la base de datos
-validators.py - Funciones de validación (versión original)
+validators.py - Funciones de validación
 utils.py - Funciones de utilidades mejoradas
 logger.py - Configuración de logging
 
 Blueprints por funcionalidad:
 views.py - Rutas para renderizar templates
 auth.py - Autenticación y registro
+asistencia.py - Gestión de asistencias de médicos
+appointments.py - Gestión de citas médicas
 chatbot.py - Lógica del asistente virtual
+consultas.py - Gestión de consultas médicas (historial clínico)
 dashboard.py - Funciones del dashboard administrativo
-users.py - Gestión de usuarios
 doctors.py - Gestión completa de médicos
 patients.py - Gestión completa de pacientes
-appointments.py - Gestión de citas médicas
+reports.py - Generación de reportes
 schedules.py - Gestión de horarios médicos
+users.py - Gestión de usuarios
+user_profile.py - Gestión del perfil del usuario logueado
 
 Archivos principales:
 app.py - Configuración y registro de blueprints
