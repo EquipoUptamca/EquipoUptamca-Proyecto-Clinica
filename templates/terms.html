@@ -11,6 +11,70 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <style>
+    .terms-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content-card {
+      background: var(--surface-color);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--secondary-color);
+      transition: var(--transition);
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .terms-content .content-card:nth-child(1) { animation-delay: 0.2s; }
+    .terms-content .content-card:nth-child(2) { animation-delay: 0.3s; }
+    .terms-content .content-card:nth-child(3) { animation-delay: 0.4s; }
+    .terms-content .content-card:nth-child(4) { animation-delay: 0.5s; }
+    .terms-content .content-card:nth-child(5) { animation-delay: 0.6s; }
+
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .content-card h2 {
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .content-card ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .content-card li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-card li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--secondary-color);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .warning-note {
+      background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+      border-left: 4px solid var(--warning-color);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 2rem 0;
+      animation: fadeInUp 0.6s ease-out 0.7s both;
+    }
+  </style>
   <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
@@ -21,19 +85,23 @@
         <span>MedAsistencia</span>
       </a>
       <div class="navbar-actions">
-        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
-        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+        <a href="{{ url_for('views.login_page') }}" class="btn btn-secondary">Iniciar Sesión</a>
+        <a href="{{ url_for('views.register_page') }}" class="btn btn-primary">Registrarse</a>
       </div>
     </nav>
   </header>
   
   <main class="container" style="padding: 4rem 0; min-height: 70vh;">
     <section class="terms-content">
-      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Términos de Servicio</h1>
+      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem; animation: fadeInUp 0.8s ease-out;">Términos de Servicio</h1>
+      
+      <div class="warning-note">
+        <strong>⚠️ Importante:</strong> Al utilizar MedAsistencia, usted acepta cumplir con estos términos y todas las leyes aplicables de protección de datos médicos.
+      </div>
       
       <div class="content-card">
         <h2>1. Aceptación de los Términos</h2>
-        <p>Al utilizar MedAsistencia, usted acepta cumplir con estos términos de servicio y todas las leyes y regulaciones aplicables.</p>
+        <p>Al utilizar MedAsistencia, usted acepta cumplir con estos términos de servicio y todas las leyes y regulaciones aplicables relacionadas con la práctica médica y protección de datos.</p>
       </div>
 
       <div class="content-card">
@@ -44,6 +112,7 @@
           <li>Programación de citas médicas</li>
           <li>Mantenimiento de registros médicos</li>
           <li>Comunicación médico-paciente</li>
+          <li>Generación de reportes clínicos</li>
         </ul>
       </div>
 
@@ -51,10 +120,11 @@
         <h2>3. Responsabilidades del Usuario</h2>
         <p>Los usuarios se comprometen a:</p>
         <ul>
-          <li>Proporcionar información verídica</li>
+          <li>Proporcionar información verídica y actualizada</li>
           <li>Mantener la confidencialidad de sus credenciales</li>
           <li>Utilizar el servicio de manera ética y profesional</li>
           <li>Respetar la privacidad de los pacientes</li>
+          <li>Reportar cualquier uso no autorizado inmediatamente</li>
         </ul>
       </div>
 
@@ -65,12 +135,16 @@
           <li>Uso indebido de la plataforma</li>
           <li>Problemas derivados de información incorrecta</li>
           <li>Interrupciones del servicio por causas ajenas a nuestro control</li>
+          <li>Decisiones médicas basadas en la información proporcionada</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>5. Modificaciones</h2>
-        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Las actualizaciones serán notificadas a los usuarios.</p>
+        <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Las actualizaciones serán notificadas a los usuarios con 30 días de anticipación.</p>
+        <p style="margin-top: 1rem; font-style: italic; color: var(--text-light);">
+          Última actualización: Enero 2025
+        </p>
       </div>
     </section>
   </main>

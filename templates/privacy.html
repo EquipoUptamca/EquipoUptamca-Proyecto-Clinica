@@ -11,6 +11,60 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <style>
+    .privacy-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content-card {
+      background: var(--surface-color);
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--primary-color);
+      transition: var(--transition);
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .privacy-content .content-card:nth-child(1) { animation-delay: 0.2s; }
+    .privacy-content .content-card:nth-child(2) { animation-delay: 0.3s; }
+    .privacy-content .content-card:nth-child(3) { animation-delay: 0.4s; }
+    .privacy-content .content-card:nth-child(4) { animation-delay: 0.5s; }
+    .privacy-content .content-card:nth-child(5) { animation-delay: 0.6s; }
+
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .content-card h2 {
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .content-card ul {
+      list-style: none;
+      padding-left: 1rem;
+    }
+
+    .content-card li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-card li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+  </style>
   <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
@@ -21,15 +75,15 @@
         <span>MedAsistencia</span>
       </a>
       <div class="navbar-actions">
-        <button id="loginBtn" class="btn btn-secondary">Iniciar Sesión</button>
-        <button id="registerBtn" class="btn btn-primary">Registrarse</button>
+        <a href="{{ url_for('views.login_page') }}" class="btn btn-secondary">Iniciar Sesión</a>
+        <a href="{{ url_for('views.register_page') }}" class="btn btn-primary">Registrarse</a>
       </div>
     </nav>
   </header>
   
   <main class="container" style="padding: 4rem 0; min-height: 70vh;">
     <section class="privacy-content">
-      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Política de Privacidad</h1>
+      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem; animation: fadeInUp 0.8s ease-out;">Política de Privacidad</h1>
       
       <div class="content-card">
         <h2>1. Recopilación de Información</h2>
@@ -39,6 +93,7 @@
           <li>Historial médico y clínico</li>
           <li>Información de contacto</li>
           <li>Datos de seguros médicos</li>
+          <li>Información demográfica básica</li>
         </ul>
       </div>
 
@@ -50,12 +105,16 @@
           <li>Mantenimiento de historiales clínicos</li>
           <li>Comunicación con pacientes</li>
           <li>Mejora de servicios médicos</li>
+          <li>Análisis estadísticos anónimos</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>3. Confidencialidad y Seguridad</h2>
         <p>Implementamos medidas de seguridad avanzadas para proteger la información personal y médica de nuestros pacientes, cumpliendo con las normativas de protección de datos y confidencialidad médica.</p>
+        <p style="margin-top: 1rem; padding: 1rem; background: var(--bg-color); border-radius: 8px;">
+          <strong>Medidas de seguridad:</strong> Encriptación de datos, accesos controlados por roles, auditorías regulares y cumplimiento de normativas HIPAA y GDPR.
+        </p>
       </div>
 
       <div class="content-card">
@@ -66,12 +125,18 @@
           <li>Solicitar correcciones</li>
           <li>Limitar el uso de sus datos</li>
           <li>Revocar consentimientos</li>
+          <li>Solicitar eliminación de datos</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>5. Contacto</h2>
-        <p>Para consultas sobre privacidad, contacte a nuestro oficial de protección de datos: privacidad@medasistencia.com</p>
+        <p>Para consultas sobre privacidad, contacte a nuestro oficial de protección de datos:</p>
+        <div style="background: var(--bg-color); padding: 1.5rem; border-radius: 8px; margin-top: 1rem;">
+          <p><strong>Email:</strong> privacidad@medasistencia.com</p>
+          <p><strong>Teléfono:</strong> +58 424-263-7306</p>
+          <p><strong>Horario de atención:</strong> Lunes a Viernes 8:00 - 18:00</p>
+        </div>
       </div>
     </section>
   </main>

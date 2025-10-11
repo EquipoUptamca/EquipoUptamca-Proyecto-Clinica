@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Demo de la plataforma de gestión médica MedAsistencia" />
+  <meta name="keywords" content="demo, gestión médica, citas médicas, historiales electrónicos, centro médico">
+  <meta name="author" content="Centro Médico Docente El Paso">
+  <title>Demo - MedAsistencia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+  <style>
+    /* Estilos específicos para la demo */
+    .demo-section {
+      padding: 5rem 0;
+      background-color: var(--surface-color);
+    }
+    
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    
+    .demo-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .demo-header h2 {
+      font-size: 2.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+    
+    .demo-header p {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .demo-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .demo-tab {
+      padding: 1rem 2rem;
+      background: var(--bg-color);
+      border: 2px solid transparent;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      color: var(--text-dark);
+    }
+    
+    .demo-tab.active {
+      background: var(--primary-color);
+      color: var(--white);
+      border-color: var(--primary-color);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .demo-tab:hover:not(.active) {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+    
+    .demo-content {
+      background: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      min-height: 500px;
+    }
+    
+    .demo-panel {
+      display: none;
+      padding: 2rem;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .demo-panel.active {
+      display: block;
+    }
+    
+    .demo-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .demo-panel-header h3 {
+      color: var(--secondary-color);
+      font-size: 1.8rem;
+      margin: 0;
+    }
+    
+    .demo-panel-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    .demo-feature-list {
+      list-style: none;
+    }
+    
+    .demo-feature-list li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .demo-feature-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .demo-feature-list li::before {
+      content: "✓";
+      color: var(--primary-color);
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      background: rgba(26, 147, 111, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    
+    .demo-screenshot {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      background: var(--bg-color);
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .demo-screenshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .demo-screenshot .expand-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+    
+    .demo-screenshot-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .demo-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    
+    .demo-video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .demo-video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .demo-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .demo-stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--bg-color);
+      border-radius: var(--border-radius);
+    }
+    
+    .demo-stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .demo-stat-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    /* Responsive */
+    @media (max-width: 968px) {
+      .demo-panel-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .demo-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .demo-tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .demo-tab {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+      }
+      
+      .demo-stats {
+        grid-template-columns: 1fr;
+      }
+      
+      .demo-panel {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Estilos para el modal de imagen */
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      animation: fadeIn 0.3s;
+    }
+
+    .image-modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 1200px;
+      animation: zoomIn 0.3s;
+    }
+
+    #imageModalCaption {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      text-align: center;
+      color: #ccc;
+      padding: 10px 0;
+      height: 150px;
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .image-modal-close:hover,
+    .image-modal-close:focus {
+      color: #bbb;
+      text-decoration: none;
+    }
+
+    .expand-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .expand-icon:hover {
+      background: rgba(0,0,0,0.8);
+      transform: scale(1.1);
+    }
+    .expand-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="main-header">
+    <nav class="navbar container">
+      <a href="{{ url_for('views.index') }}" class="navbar-logo" aria-label="Página de inicio de MedAsistencia">
+        <img src="{{ url_for('static', filename='img/Logo.webp') }}" alt="Logo MedAsistencia">
+        <span>MedAsistencia</span>
+      </a>
+      <div class="navbar-actions">
+        <a href="{{ url_for('views.login_page') }}" class="btn btn-secondary">Iniciar Sesión</a>
+        <a href="{{ url_for('views.register_page') }}" class="btn btn-primary">Registrarse</a>
+      </div>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="demo-section">
+      <div class="demo-container">
+        <div class="demo-header">
+          <h2>Demo Interactiva de MedAsistencia</h2>
+          <p>Descubre cómo nuestra plataforma puede transformar la gestión de tu centro médico. Explora las principales funcionalidades a continuación.</p>
+        </div>
+        
+        <div class="demo-tabs">
+          <div class="demo-tab active" data-tab="dashboard">Dashboard</div>
+          <div class="demo-tab" data-tab="pacientes">Gestión de Pacientes</div>
+          <div class="demo-tab" data-tab="citas">Agenda de Citas</div>
+          <div class="demo-tab" data-tab="medicos">Directorio Médico</div>
+          <div class="demo-tab" data-tab="reportes">Reportes y Análisis</div>
+        </div>
+        
+        <div class="demo-content">
+          <!-- Panel Dashboard -->
+          <div class="demo-panel active" id="dashboard-panel">
+            <div class="demo-panel-header">
+              <h3>Dashboard Principal</h3>
+            </div>
+            <div class="demo-panel-content">
+              <div>
+                <h4>Visión General en Tiempo Real</h4>
+                <p>El dashboard centraliza toda la información clave de tu centro médico:</p>
+                <ul class="demo-feature-list">
+                  <li>Estadísticas de pacientes activos</li>
+                  <li>Citas programadas para hoy</li>
+                  <li>Indicadores de rendimiento</li>
+                  <li>Alertas y notificaciones</li>
+                  <li>Gráficos de actividad mensual</li>
+                  <li>Acceso rápido a funciones principales</li>
+                </ul>
+                
+                <div class="demo-stats">
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">156</div>
+                    <div class="demo-stat-label">Pacientes Hoy</div>
+                  </div>
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">42</div>
+                    <div class="demo-stat-label">Citas Pendientes</div>
+                  </div>
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">98%</div>
+                    <div class="demo-stat-label">Satisfacción</div>
+                  </div>
+                </div>
+              </div>
+              <div class="demo-screenshot">
+                <img src="{{ url_for('static', filename='img/Dashboard.png') }}" alt="Vista Previa del Dashboard Principal">
+                <div class="expand-icon" title="Ampliar imagen">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96v-64c0-17.7-14.3-32-32-32zM448 32h-96c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32zM416 352c-17.7 0-32 14.3-32 32v64h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Panel Gestión de Pacientes -->
+          <div class="demo-panel" id="pacientes-panel">
+            <div class="demo-panel-header">
+              <h3>Gestión Integral de Pacientes</h3>
+            </div>
+            <div class="demo-panel-content">
+              <div>
+                <h4>Historiales Médicos Completos</h4>
+                <p>Administra toda la información de tus pacientes de forma segura y organizada:</p>
+                <ul class="demo-feature-list">
+                  <li>Registro completo de datos personales</li>
+                  <li>Historial médico detallado</li>
+                  <li>Expedientes digitales seguros</li>
+                  <li>Búsqueda avanzada por múltiples criterios</li>
+                  <li>Alertas de alergias y condiciones especiales</li>
+                  <li>Acceso controlado por roles</li>
+                </ul>
+              </div>
+              <div class="demo-screenshot">
+                <img src="{{ url_for('static', filename='img/Gestión de Pacientes.png') }}" alt="Vista Previa de Gestión de Pacientes">
+                <div class="expand-icon" title="Ampliar imagen">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96v-64c0-17.7-14.3-32-32-32zM448 32h-96c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32zM416 352c-17.7 0-32 14.3-32 32v64h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Panel Agenda de Citas -->
+          <div class="demo-panel" id="citas-panel">
+            <div class="demo-panel-header">
+              <h3>Agenda de Citas Inteligente</h3>
+            </div>
+            <div class="demo-panel-content">
+              <div>
+                <h4>Programación y Seguimiento</h4>
+                <p>Optimiza la gestión de citas con nuestra agenda inteligente:</p>
+                <ul class="demo-feature-list">
+                  <li>Calendario visual interactivo</li>
+                  <li>Disponibilidad de médicos en tiempo real</li>
+                  <li>Recordatorios automáticos</li>
+                  <li>Confirmación de citas</li>
+                  <li>Reagendamiento fácil</li>
+                  <li>Historial de consultas</li>
+                </ul>
+                
+                <div class="demo-actions">
+                  <a href="#" class="btn btn-primary">Ver Video Demo</a>
+                </div>
+              </div>
+              <div class="demo-screenshot">
+                <img src="{{ url_for('static', filename='img/Agenda de Citas.png') }}" alt="Vista Previa de Agenda de Citas">
+                <div class="expand-icon" title="Ampliar imagen">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96v-64c0-17.7-14.3-32-32-32zM448 32h-96c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32zM416 352c-17.7 0-32 14.3-32 32v64h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Panel Directorio Médico -->
+          <div class="demo-panel" id="medicos-panel">
+            <div class="demo-panel-header">
+              <h3>Directorio Médico Especializado</h3>
+            </div>
+            <div class="demo-panel-content">
+              <div>
+                <h4>Gestión de Profesionales</h4>
+                <p>Administra toda la información de tu equipo médico:</p>
+                <ul class="demo-feature-list">
+                  <li>Perfiles completos de médicos</li>
+                  <li>Especialidades y subespecialidades</li>
+                  <li>Horarios de disponibilidad</li>
+                  <li>Información de contacto</li>
+                  <li>Estadísticas de rendimiento</li>
+                  <li>Gestión de permisos y accesos</li>
+                </ul>
+              </div>
+              <div class="demo-screenshot">
+                <img src="{{ url_for('static', filename='img/Directorio Médico.png') }}" alt="Vista Previa del Directorio Médico">
+                <div class="expand-icon" title="Ampliar imagen">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96v-64c0-17.7-14.3-32-32-32zM448 32h-96c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32zM416 352c-17.7 0-32 14.3-32 32v64h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Panel Reportes y Análisis -->
+          <div class="demo-panel" id="reportes-panel">
+            <div class="demo-panel-header">
+              <h3>Reportes y Análisis Avanzados</h3>
+            </div>
+            <div class="demo-panel-content">
+              <div>
+                <h4>Business Intelligence Médico</h4>
+                <p>Genera reportes detallados para la toma de decisiones:</p>
+                <ul class="demo-feature-list">
+                  <li>Reportes financieros</li>
+                  <li>Estadísticas de pacientes</li>
+                  <li>Rendimiento de médicos</li>
+                  <li>Análisis de ocupación</li>
+                  <li>Indicadores de calidad</li>
+                  <li>Exportación a múltiples formatos</li>
+                </ul>
+                
+                <div class="demo-stats">
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">+35%</div>
+                    <div class="demo-stat-label">Eficiencia</div>
+                  </div>
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">-40%</div>
+                    <div class="demo-stat-label">Tiempo Admin</div>
+                  </div>
+                  <div class="demo-stat">
+                    <div class="demo-stat-number">2.5x</div>
+                    <div class="demo-stat-label">Más Pacientes</div>
+                  </div>
+                </div>
+              </div>
+              <div class="demo-screenshot">
+                <img src="{{ url_for('static', filename='img/Reportes.png') }}" alt="Vista Previa de Reportes y Análisis">
+                <div class="expand-icon" title="Ampliar imagen">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M32 32C14.3 32 0 46.3 0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V96h64c17.7 0 32-14.3 32-32s-14.3-32-32-32H32zM64 352c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96v-64c0-17.7-14.3-32-32-32zM448 32h-96c-17.7 0-32 14.3-32 32s14.3 32 32 32h64v64c0 17.7 14.3 32 32 32s32-14.3 32-32V64c0-17.7-14.3-32-32-32zM416 352c-17.7 0-32 14.3-32 32v64h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h96c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons" style="margin-top: 3rem; text-align: center;">
+          <a href="{{ url_for('views.register_page') }}" class="btn btn-cta btn-cta-large">
+            Comenzar Prueba
+          </a>
+          <a href="{{ url_for('views.index') }}" class="btn btn-secondary">
+            Volver al Inicio
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <p>Av. Principal, El Paso</p>
+        <p>Teléfono: 58+424 263 7306</p>
+        <p>Email: equipo.docente@hospitalelpaso.com</p>
+      </div>
+      <div class="footer-section">
+        <h4>Horario</h4>
+        <p>Lunes a Viernes: 8:00 - 18:00</p>
+        <p>Sábados: 9:00 - 13:00</p>
+      </div>
+      <div class="footer-section">
+        <h4>Enlaces rápidos</h4>
+        <ul>
+          <li><a href="/privacy">Política de Privacidad</a></li>
+          <li><a href="/terms">Términos de Servicio</a></li>
+          <li><a href="/faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Centro Médico Docente El Paso - Todos los derechos reservados</p>
+      <p>MedAsistencia v2.1</p>
+    </div>
+  </footer>
+  
+  <!-- Modal para ampliar imagen -->
+  <div id="imageModal" class="image-modal">
+    <span class="image-modal-close">&times;</span>
+    <img class="image-modal-content" id="modalImage">
+    <div id="imageModalCaption"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Funcionalidad de pestañas
+      const tabs = document.querySelectorAll('.demo-tab');
+      const panels = document.querySelectorAll('.demo-panel');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remover clase activa de todas las pestañas
+          tabs.forEach(t => t.classList.remove('active'));
+          // Añadir clase activa a la pestaña clickeada
+          this.classList.add('active');
+          
+          // Ocultar todos los paneles
+          panels.forEach(panel => panel.classList.remove('active'));
+          
+          // Mostrar el panel correspondiente
+          const tabId = this.getAttribute('data-tab');
+          const targetPanel = document.getElementById(`${tabId}-panel`);
+          if (targetPanel) {
+            targetPanel.classList.add('active');
+          }
+        });
+      });
+      
+      // Simulación de datos en tiempo real para el dashboard
+      function updateDemoStats() {
+        const stats = document.querySelectorAll('.demo-stat-number');
+        if (stats.length > 0) {
+          // Simular cambios en las estadísticas
+          stats.forEach(stat => {
+            const currentValue = parseInt(stat.textContent);
+            if (!isNaN(currentValue)) {
+              const change = Math.floor(Math.random() * 5) - 2; // Cambio entre -2 y +2
+              const newValue = Math.max(0, currentValue + change);
+              stat.textContent = newValue;
+            }
+          });
+        }
+      }
+      
+      // Actualizar estadísticas cada 5 segundos (solo en el panel activo)
+      setInterval(() => {
+        const activePanel = document.querySelector('.demo-panel.active');
+        if (activePanel && activePanel.id === 'dashboard-panel') {
+          updateDemoStats();
+        }
+      }, 5000);
+
+      // Funcionalidad del modal de imagen
+      const modal = document.getElementById("imageModal");
+      const modalImg = document.getElementById("modalImage");
+      const captionText = document.getElementById("imageModalCaption");
+      const expandIcons = document.querySelectorAll('.expand-icon');
+
+      expandIcons.forEach(icon => {
+        icon.onclick = function(){
+          const screenshotDiv = this.parentElement;
+          const img = screenshotDiv.querySelector('img');
+          modal.style.display = "block";
+          modalImg.src = img.src;
+          captionText.innerHTML = img.alt;
+        }
+      });
+
+      // Obtener el elemento <span> que cierra el modal
+      const span = document.getElementsByClassName("image-modal-close")[0];
+
+      // Cuando el usuario hace clic en <span> (x), cierra el modal
+      span.onclick = function() { 
+        modal.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -12,45 +12,119 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
   <style>
+    .faq-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
     .faq-image {
       max-width: 100%;
       height: auto;
       border-radius: 8px;
       margin-top: 1rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: var(--transition);
     }
 
-    /* Estilos para el Acordeón de FAQ */
-    .faq-accordion-item {
-      border-bottom: 1px solid #e0e0e0;
-      margin-bottom: 1rem;
+    .faq-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     }
+
+    /* Estilos para el Acordeón de FAQ Mejorado */
+    .faq-accordion-item {
+      border: 1px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+      background: var(--surface-color);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .faq-accordion-item:nth-child(1) { animation-delay: 0.2s; }
+    .faq-accordion-item:nth-child(2) { animation-delay: 0.3s; }
+    .faq-accordion-item:nth-child(3) { animation-delay: 0.4s; }
+    .faq-accordion-item:nth-child(4) { animation-delay: 0.5s; }
+    .faq-accordion-item:nth-child(5) { animation-delay: 0.6s; }
 
     .faq-accordion-header {
-      background-color: transparent;
+      background: linear-gradient(135deg, var(--surface-color), #f8f9fa);
       border: none;
       width: 100%;
       text-align: left;
-      padding: 1rem 0.5rem;
+      padding: 1.5rem;
       font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #333;
-      transition: background-color 0.3s ease;
+      color: var(--secondary-color);
+      transition: var(--transition);
+      position: relative;
     }
 
     .faq-accordion-header:hover {
-      background-color: #f9f9f9;
+      background: linear-gradient(135deg, #f8f9fa, var(--surface-color));
+      color: var(--primary-color);
+    }
+
+    .faq-accordion-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .faq-accordion-header:hover::after {
+      transform: scaleX(1);
+    }
+
+    .faq-icon {
+      font-size: 1.5rem;
+      font-weight: 300;
+      transition: var(--transition);
+      color: var(--primary-color);
+    }
+
+    .faq-accordion-item.active .faq-icon {
+      transform: rotate(45deg);
+      color: var(--accent-color);
     }
 
     .faq-accordion-content {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
+      background: var(--surface-color);
+    }
+
+    .faq-accordion-item.active .faq-accordion-content {
+      padding: 1.5rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .support-cta {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      margin-top: 3rem;
+      animation: fadeInUp 0.8s ease-out 0.7s both;
+    }
+
+    .support-cta h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
     }
   </style>
   <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
@@ -71,7 +145,7 @@
   
   <main class="container" style="padding: 4rem 0; min-height: 70vh;">
     <section class="faq-content">
-      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem;">Preguntas Frecuentes</h1>
+      <h1 class="section-title" style="text-align: left; margin-bottom: 2rem; animation: fadeInUp 0.8s ease-out;">Preguntas Frecuentes</h1>
       
       <div class="faq-accordion">
         <div class="faq-accordion-item">
@@ -80,8 +154,14 @@
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-accordion-content">
-            <p>Puede registrarse haciendo clic en el botón "Registrarse" en la página principal y completando el formulario con sus datos profesionales.</p>
-            <img src="{{ url_for('static', filename='img/register.png') }}" alt="Proceso de registro" class="faq-image">
+            <p>Puede registrarse haciendo clic en el botón "Registrarse" en la página principal y completando el formulario con sus datos profesionales. El proceso incluye:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>Verificación de credenciales médicas</li>
+              <li>Configuración de perfil profesional</li>
+              <li>Activación de cuenta por administrador</li>
+              <li>Capacitación inicial opcional</li>
+            </ul>
+            <img src="{{ url_for('static', filename='img/register.png') }}" alt="Proceso de registro" class="faq-image lazy-load" data-src="{{ url_for('static', filename='img/register.png') }}">
           </div>
         </div>
 
@@ -91,8 +171,14 @@
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-accordion-content">
-            <p>La plataforma está diseñada para administradores, médicos, personal de enfermería y personal administrativo del centro médico.</p>
-            <img src="{{ url_for('static', filename='img/user.png') }}" alt="Tipos de usuario" class="faq-image">
+            <p>La plataforma está diseñada específicamente para profesionales de la salud:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li><strong>Administradores:</strong> Gestión global del sistema</li>
+              <li><strong>Médicos:</strong> Acceso completo a historiales y citas</li>
+              <li><strong>Enfermería:</strong> Acceso limitado según responsabilidades</li>
+              <li><strong>Personal administrativo:</strong> Gestión de citas y facturación</li>
+            </ul>
+            <img src="{{ url_for('static', filename='img/user.png') }}" alt="Tipos de usuario" class="faq-image lazy-load" data-src="{{ url_for('static', filename='img/user.png') }}">
           </div>
         </div>
 
@@ -102,8 +188,16 @@
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-accordion-content">
-            <p>Una vez iniciada sesión, acceda al módulo de "Citas" y seleccione "Nueva Cita". Complete los datos requeridos y guarde la información.</p>
-            <img src="{{ url_for('static', filename='img/citas.png') }}" alt="Programación de citas" class="faq-image">
+            <p>El proceso de programación de citas es simple e intuitivo:</p>
+            <ol style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>Inicie sesión en su cuenta</li>
+              <li>Acceda al módulo "Citas" en el menú principal</li>
+              <li>Seleccione "Nueva Cita"</li>
+              <li>Complete los datos del paciente y tipo de consulta</li>
+              <li>Seleccione fecha y hora disponible</li>
+              <li>Confirme la cita</li>
+            </ol>
+            <img src="{{ url_for('static', filename='img/citas.png') }}" alt="Programación de citas" class="faq-image lazy-load" data-src="{{ url_for('static', filename='img/citas.png') }}">
           </div>
         </div>
 
@@ -113,12 +207,46 @@
             <span class="faq-icon">+</span>
           </button>
           <div class="faq-accordion-content">
-            <p>Sí, implementamos medidas de seguridad avanzadas y cumplimos con todas las normativas de protección de datos médicos.</p>
+            <p><strong>Sí, la seguridad es nuestra máxima prioridad.</strong> Implementamos:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>Encriptación de extremo a extremo</li>
+              <li>Autenticación de dos factores</li>
+              <li>Control de acceso por roles</li>
+              <li>Auditorías de seguridad regulares</li>
+              <li>Cumplimiento de normativas HIPAA y GDPR</li>
+              <li>Copias de seguridad automáticas</li>
+            </ul>
+            <p>Todos los datos médicos se almacenan en servidores seguros con certificación de protección de datos médicos.</p>
           </div>
         </div>
 
-        <!-- Agrega más preguntas aquí siguiendo la misma estructura -->
+        <div class="faq-accordion-item">
+          <button class="faq-accordion-header">
+            <span>¿Qué sucede si tengo problemas técnicos?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-accordion-content">
+            <p>Contamos con un equipo de soporte técnico especializado disponible:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li><strong>Soporte por chat:</strong> Disponible 24/7 en la plataforma</li>
+              <li><strong>Teléfono:</strong> +58 424-263-7306 (Lunes a Viernes 8:00-18:00)</li>
+              <li><strong>Email:</strong> soporte@medasistencia.com</li>
+              <li><strong>Documentación:</strong> Manuales y tutoriales disponibles</li>
+            </ul>
+            <p>El tiempo promedio de respuesta para problemas críticos es menor a 2 horas.</p>
+          </div>
+        </div>
 
+      </div>
+
+      <div class="support-cta">
+        <h3>¿No encontraste tu respuesta?</h3>
+        <p>Nuestro equipo de soporte está listo para ayudarte personalmente</p>
+        <div style="margin-top: 1.5rem;">
+          <a href="mailto:soporte@medasistencia.com" class="btn btn-cta" style="background: var(--accent-color); color: var(--secondary-color);">
+            Contactar Soporte
+          </a>
+        </div>
       </div>
       
     </section>
@@ -162,23 +290,40 @@
         const icon = header.querySelector('.faq-icon');
 
         header.addEventListener('click', () => {
-          // Cierra otros items abiertos si quieres un acordeón exclusivo
-          // accordionItems.forEach(otherItem => {
-          //   if (otherItem !== item) {
-          //     otherItem.querySelector('.faq-accordion-content').style.maxHeight = null;
-          //     otherItem.querySelector('.faq-icon').textContent = '+';
-          //   }
-          // });
+          const isActive = item.classList.contains('active');
+          
+          // Cierra todos los items
+          accordionItems.forEach(otherItem => {
+            otherItem.classList.remove('active');
+            otherItem.querySelector('.faq-accordion-content').style.maxHeight = null;
+            otherItem.querySelector('.faq-icon').textContent = '+';
+          });
 
-          if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-            icon.textContent = '+';
-          } else {
+          // Si no estaba activo, ábrelo
+          if (!isActive) {
+            item.classList.add('active');
             content.style.maxHeight = content.scrollHeight + 'px';
-            icon.textContent = '−'; // Usamos un signo menos para 'abierto'
+            icon.textContent = '×';
           }
         });
       });
+
+      // Lazy loading para imágenes FAQ
+      const faqImages = document.querySelectorAll('.faq-image.lazy-load');
+      const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            if (img.dataset.src) {
+              img.src = img.dataset.src;
+            }
+            img.classList.remove('lazy-load');
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+      
+      faqImages.forEach(img => imageObserver.observe(img));
     });
   </script>
 </body>
