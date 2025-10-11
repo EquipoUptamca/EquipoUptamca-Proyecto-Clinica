@@ -1,11 +1,15 @@
 # views.py
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, session
 
 views_bp = Blueprint('views', __name__)
 
 @views_bp.route('/')
 def index():
     return render_template('index.html')
+
+@views_bp.route('/demo')
+def demo():
+    return render_template('demo.html')
 
 @views_bp.route('/privacy')
 def privacy():
@@ -37,19 +41,19 @@ def register_page():
 
 @views_bp.route('/doctor_dashboard')
 def doctor_dashboard():
-    return render_template('doctor_dashboard.html')
+    return render_template('doctor_dashboard.html', current_user=session)
 
 @views_bp.route('/admin_dashboard')
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    return render_template('admin_dashboard.html', current_user=session)
 
 @views_bp.route('/reception_dashboard')
 def reception_dashboard():
-    return render_template('reception_dashboard.html')
+    return render_template('reception_dashboard.html', current_user=session)
 
 @views_bp.route('/nuevo_usuario')
 def nuevo_usuario():
-    return render_template('nuevo_usuario.html')
+    return render_template('nuevo_usuario.html', current_user=session)
 
 @views_bp.route('/citas')
 def citas():
@@ -61,7 +65,7 @@ def nueva_cita():
 
 @views_bp.route('/pacientes')
 def pacientes():
-    return render_template('pacientes.html')
+    return render_template('pacientes.html', current_user=session)
 
 @views_bp.route('/paciente_recep')
 def paciente_recep():
@@ -85,15 +89,15 @@ def nuevo_paciente():
 
 @views_bp.route('/medicos')
 def medicos():
-    return render_template('medicos.html')
+    return render_template('medicos.html', current_user=session)
 
 @views_bp.route('/horarios')
 def horarios():
-    return render_template('horarios.html')
+    return render_template('horarios.html', current_user=session)
 
 @views_bp.route('/users')
 def users():
-    return render_template('users.html')
+    return render_template('users.html', current_user=session)
 
 @views_bp.route('/asistencias')
 def asistencias_page():
