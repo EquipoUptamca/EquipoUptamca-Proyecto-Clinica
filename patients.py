@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from middleware import token_required # Assuming you have this middleware
+from auth_middleware import role_required, login_required
 import pyodbc
 import logging
 from datetime import datetime
@@ -11,23 +12,34 @@ logger = logging.getLogger(__name__)
 
 # Endpoint para obtener pacientes
 @patients_bp.route('/api/pacientes', methods=['GET'])
-def get_pacientes():
+@login_required
+@role_required(1, 3) # Admin y Recepcionista
+def get_pacientes(current_user):
     conn = get_db_connection()
+    search_term = request.args.get('term', '') # Obtener término de búsqueda de Select2
+
     if not conn:
         return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
     try:
         with conn.cursor() as cursor:
-            cursor.execute("""
+            query = """
                 SELECT p.id_paciente, u.nombre_completo
                 FROM Pacientes p
                 JOIN Usuarios u ON p.id_usuario = u.id_usuario
                 WHERE p.estado = 'A'
-                ORDER BY u.nombre_completo
-            """)
+            """
+            params = []
+            if search_term:
+                query += " AND (u.nombre_completo LIKE ? OR u.cedula LIKE ?)"
+                params.extend([f'%{search_term}%', f'%{search_term}%'])
+
+            query += " ORDER BY u.nombre_completo"
+            cursor.execute(query, params)
+            
             pacientes = [{
-                'id_paciente': row[0],
-                'nombre_completo': row[1]
+                'id_paciente': row.id_paciente,
+                'nombre_completo': row.nombre_completo
             } for row in cursor.fetchall()]
             
             return jsonify(pacientes)

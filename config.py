@@ -6,7 +6,7 @@ DATABASE = os.getenv('DB_DATABASE', 'MedAsistencia')
 USE_WINDOWS_AUTH = os.getenv('USE_WINDOWS_AUTH', 'True').lower() == 'true'
 
 # Only use these if Windows Auth is False
-USERNAME = os.getenv('DB_USERNAME', r'RAFA2004\yepbuddy')  # Raw string
+USERNAME = os.getenv('DB_USERNAME', r'RAFA2004\fonch')  # Raw string
 PASSWORD = os.getenv('DB_PASSWORD', 'your_secure_password')  # Never leave empty
 
 # Diccionario de nombres de días

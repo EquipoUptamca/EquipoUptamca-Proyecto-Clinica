@@ -815,3 +815,48 @@ def get_all_pacientes():
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+# Endpoint para obtener el perfil del usuario logueado
+@users_bp.route('/api/my-profile', methods=['GET'])
+def get_my_profile():
+    if 'id_usuario' not in session:
+        return jsonify({'error': 'No autorizado'}), 401
+
+    user_id = session['id_usuario']
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                SELECT 
+                    u.nombre_completo, u.usuario_login, u.cedula, u.telefono, u.gmail,
+                    r.nombre_rol,
+                    m.especialidad, m.numero_colegiado
+                FROM Usuarios u
+                JOIN Roles r ON u.id_rol = r.id_rol
+                LEFT JOIN Medicos m ON u.id_usuario = m.id_usuario
+                WHERE u.id_usuario = ?
+            """, (user_id,))
+            
+            profile_data = cursor.fetchone()
+
+            if not profile_data:
+                return jsonify({'error': 'Perfil no encontrado'}), 404
+
+            return jsonify({
+                'nombre_completo': profile_data.nombre_completo,
+                'usuario_login': profile_data.usuario_login,
+                'cedula': profile_data.cedula,
+                'telefono': profile_data.telefono,
+                'gmail': profile_data.gmail,
+                'rol': profile_data.nombre_rol,
+                'especialidad': profile_data.especialidad,
+                'numero_colegiado': profile_data.numero_colegiado
+            })
+    except pyodbc.Error as e:
+        logging.error(f"Error en base de datos al obtener perfil: {str(e)}")
+        return jsonify({'error': 'Error al obtener el perfil'}), 500
+    finally:
+        conn.close()

@@ -30,14 +30,24 @@ def consultas_login():
         with conn.cursor() as cursor:
             # Búsqueda flexible: por cédula exacta o por la parte numérica
             cursor.execute("""
-                SELECT id_usuario, nombre_completo, id_rol, cedula
-                FROM usuarios
-                WHERE (cedula = ? OR REPLACE(REPLACE(REPLACE(cedula, 'V-', ''), 'E-', ''), 'J-', '') = ?) 
-                AND activo = 1
+                SELECT u.id_usuario, u.nombre_completo, u.id_rol, u.cedula, m.id_medico
+                FROM Usuarios u
+                LEFT JOIN Medicos m ON u.id_usuario = m.id_usuario
+                WHERE (u.cedula = ? OR REPLACE(REPLACE(REPLACE(u.cedula, 'V-', ''), 'E-', ''), 'J-', '') = ?) 
+                AND u.activo = 1
             """, (cedula, cedula_numerica))
 
             user = cursor.fetchone()
             if user:
+                # Asegurarse de que el usuario tenga un perfil de médico
+                if user[4] is None:
+                    return jsonify({'error': 'Acceso denegado. El usuario no tiene un perfil de médico activo.'}), 403
+                id_medico = user[4]
+                # Verificar que el usuario tenga el rol de Médico (id_rol = 2)
+                user_rol = user[2]
+                if user_rol != 2:
+                    return jsonify({'error': 'Acceso denegado. Esta función es solo para médicos.'}), 403
+
                 # Guardar en sesión
                 # La sesión utilizará la configuración global de la aplicación,
                 # incluyendo el tiempo de vida (PERMANENT_SESSION_LIFETIME) y
@@ -45,8 +55,9 @@ def consultas_login():
                 
                 session['user_id'] = user[0]
                 session['user_name'] = user[1]
-                session['user_rol'] = user[2]
+                session['user_rol'] = user_rol
                 session['user_cedula'] = user[3] # Guardar la cédula correcta de la BD
+                session['id_medico'] = id_medico # Guardar el id_medico
 
                 return jsonify({
                     'message': 'Inicio de sesión exitoso',
@@ -74,7 +85,7 @@ def get_pacientes_asignados():
     if 'user_id' not in session:
         return jsonify({'error': 'Sesión no válida'}), 401
 
-    # doctor_id = session['doctor_id']  # No se usa más
+    id_medico = session.get('id_medico')
 
     conn = get_db_connection()
     if not conn:
@@ -82,10 +93,10 @@ def get_pacientes_asignados():
 
     try:
         with conn.cursor() as cursor:
-            # Obtener todos los pacientes activos (sin filtrar por médico)
+            # Obtener solo los pacientes que tienen o han tenido una cita con el médico logueado
             cursor.execute("""
                 SELECT
-                    p.id_paciente,
+                    DISTINCT p.id_paciente,
                     u.nombre_completo,
                     p.fecha_nacimiento,
                     u.telefono,
@@ -95,9 +106,10 @@ def get_pacientes_asignados():
                     p.tipo_sangre
                 FROM Pacientes p
                 JOIN Usuarios u ON p.id_usuario = u.id_usuario
-                WHERE estado = 'A'
+                JOIN Citas c ON p.id_paciente = c.id_paciente
+                WHERE c.id_medico = ? AND p.estado = 'A'
                 ORDER BY u.nombre_completo
-            """)
+            """, (id_medico,))
 
             pacientes = []
             for row in cursor.fetchall():

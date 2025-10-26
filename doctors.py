@@ -143,24 +143,34 @@ def get_medico(current_user, id_medico):
 # Endpoint para obtener médicos disponibles para citas
 @doctors_bp.route('/api/medicos/disponibles', methods=['GET'])
 @login_required
+@role_required(1, 3) # Admin y Recepcionista
 def get_medicos_disponibles(current_user):
     conn = get_db_connection()
+    search_term = request.args.get('term', '') # Obtener término de búsqueda de Select2
+
     if not conn:
         return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
     try:
         with conn.cursor() as cursor:
-            cursor.execute("""
-                SELECT m.id_medico, u.nombre_completo, m.especialidad
+            query = """
+                SELECT m.id_medico, u.nombre_completo, e.nombre_especialidad as especialidad
                 FROM Medicos m
                 JOIN Usuarios u ON m.id_usuario = u.id_usuario
-                WHERE m.estado = 'A'
-                ORDER BY u.nombre_completo
-            """)
+                LEFT JOIN Especialidades e ON m.especialidad = e.nombre_especialidad
+                WHERE m.estado = 'A' 
+            """
+            params = []
+            if search_term:
+                query += " AND (u.nombre_completo LIKE ? OR u.cedula LIKE ?)"
+                params.extend([f'%{search_term}%', f'%{search_term}%'])
+            
+            query += " ORDER BY u.nombre_completo"
+            cursor.execute(query, params)
             medicos = [{
-                'id_medico': row[0],
-                'nombre_completo': row[1],
-                'especialidad': row[2]
+                'id_medico': row.id_medico,
+                'nombre_completo': row.nombre_completo,
+                'especialidad': row.especialidad
             } for row in cursor.fetchall()]
             
             return jsonify(medicos)

@@ -144,6 +144,10 @@ def perfil_medico():
 def reportes_medico():
     return render_template('reportes_medico.html')
 
+@views_bp.route('/perfil_recepcion')
+def perfil_recepcion():
+    return render_template('perfil_recepcion.html')
+
 @views_bp.route('/mis_consultas')
 def mis_citas_medico():
     return render_template('mis_consultas.html')
