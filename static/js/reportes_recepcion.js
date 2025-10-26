@@ -577,7 +577,7 @@ $(document).ready(function() {
                         };
 
                         const backgroundColors = labels.map((label, index) => 
-    colorMap[label] || ['rgba(12, 148, 23, 1)', 'rgba(7, 96, 102, 0.8)'][index % 2]
+    colorMap[label] || ['rgba(46, 204, 113, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(243, 156, 18, 0.8)' ][index % 3]
 );
 
                         const borderColors = labels.map(label => 

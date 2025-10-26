@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="text-center text-danger my-5">
                             <i class="fas fa-chart-bar fa-3x mb-3 opacity-50"></i>
                             <p>No se pudo cargar el gráfico de citas</p>
-                            <button class="btn btn-sm btn-outline-danger mt-2" onclick="initAppointmentsChart()">
+                            <button class="btn btn-sm btn-outline-danger mt-2" onclick="window.retryAppointmentsChart()">
                                 <i class="fas fa-redo me-1"></i> Reintentar
                             </button>
                         </div>
@@ -796,6 +796,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Hacer funciones disponibles globalmente para reintentos
     window.initAppointmentsChart = initAppointmentsChart;
+    window.retryAppointmentsChart = () => {
+        const startDate = document.getElementById('chartDateFrom').value;
+        const endDate = document.getElementById('chartDateTo').value;
+        initAppointmentsChart(startDate || null, endDate || null);
+    };
     window.initStatusChart = initStatusChart;
     window.exportChartToPdf = exportChartToPdf;
 });
