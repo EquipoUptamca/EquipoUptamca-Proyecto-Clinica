@@ -102,6 +102,29 @@
         #logoutBtn {
             cursor: pointer;
         }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .main-container {
+                display: block;
+                height: auto;
+                overflow: visible;
+            }
+            .sidebar, .sidebar * {
+                display: none !important;
+            }
+            #patient-detail-container, #patient-detail-container * {
+                visibility: visible;
+            }
+            .content {
+                padding: 0;
+            }
+            .btn, #logoutBtn {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -254,14 +277,21 @@
                     </div>
                     
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0"><i class="fas fa-file-medical-alt me-2"></i> Historial de Citas</h5>
+                            <button id="print-history-btn" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-print me-1"></i> Imprimir Historial
+                            </button>
                         </div>
                         <div class="card-body">
                             ${historyHtml}
                         </div>
                     </div>
                 `;
+
+                document.getElementById('print-history-btn').addEventListener('click', () => {
+                    window.print();
+                });
             }
 
             searchInput.addEventListener('input', function() {
@@ -274,10 +304,8 @@
             });
 
             logoutBtn.addEventListener('click', function() {
-                fetch('/consultas/logout', { method: 'POST' })
-                    .then(() => {
-                        window.location.href = '/consultas/login';
-                    });
+                // Simplemente redirige al dashboard del médico, manteniendo la sesión principal activa.
+                window.location.href = "{{ url_for('views.doctor_dashboard') }}";
             });
 
             // Init

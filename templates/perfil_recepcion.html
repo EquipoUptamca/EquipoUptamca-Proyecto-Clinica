@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - MedAsistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+    <style>
+        .profile-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.08);
+        }
+        .form-control:disabled {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Sistema Clínico</h4>
+            </div>
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name={{ session.nombre_completo | urlencode }}&background=3498DB&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+                <div class="text-white">
+                    <strong id="sidebar-username">{{ session.nombre_completo or 'Recepción' }}</strong>
+                    <small class="d-block">Recepción</small>
+                </div>
+            </div>
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('views.reception_dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('views.citas_recep') }}"><i class="fas fa-calendar-check"></i> <span class="nav-link-text">Citas</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('views.paciente_recep') }}"><i class="fas fa-procedures"></i> <span class="nav-link-text">Pacientes</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('views.horarios_recep') }}"><i class="fas fa-calendar-alt"></i> <span class="nav-link-text">Horarios Médicos</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('views.directorio_medico_recep') }}"><i class="fas fa-address-book"></i> <span class="nav-link-text">Directorio Médico</span></a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('views.perfil_recepcion') }}"><i class="fas fa-user-circle"></i> <span class="nav-link-text">Mi Perfil</span></a></li>
+                                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="{{ url_for('views.reportes_recepcion') }}"><i class="fas fa-chart-line"></i> <span class="nav-link-text">Reportes</span></a>
+                </li>
+                <li class="nav-item mt-auto"><a class="nav-link text-danger" href="/login"><i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content flex-grow-1 fade-in" id="mainContent">
+            <div class="header-bar">
+                <h1 class="h2"><i class="fas fa-user-cog me-2 text-primary"></i> Mi Perfil</h1>
+            </div>
+
+            <div class="container-fluid py-4">
+                <div id="alert-container"></div>
+                <div class="row">
+                    <!-- Formulario de Datos Personales -->
+                    <div class="col-lg-7 mb-4">
+                        <div class="card profile-card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-id-card me-2"></i>Información de la Cuenta</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="profile-loader" class="text-center"><div class="spinner-border text-primary" role="status"></div></div>
+                                <form id="profileForm" class="d-none">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="nombre_completo" class="form-label">Nombre Completo</label>
+                                            <input type="text" class="form-control" id="nombre_completo" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="usuario_login" class="form-label">Nombre de Usuario</label>
+                                            <input type="text" class="form-control" id="usuario_login" disabled>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cedula" class="form-label">Cédula</label>
+                                            <input type="text" class="form-control" id="cedula" disabled>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Correo Electrónico</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telefono" class="form-label">Teléfono</label>
+                                            <input type="tel" class="form-control" id="telefono">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 mt-3">
+                                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de Cambio de Contraseña -->
+                    <div class="col-lg-5 mb-4">
+                        <div class="card profile-card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-key me-2"></i>Cambiar Contraseña</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="passwordForm">
+                                    <div class="mb-3">
+                                        <label for="current_password" class="form-label">Contraseña Actual</label>
+                                        <input type="password" class="form-control" id="current_password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="new_password" class="form-label">Nueva Contraseña</label>
+                                        <input type="password" class="form-control" id="new_password" required minlength="8">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirm_password" class="form-label">Confirmar Nueva Contraseña</label>
+                                        <input type="password" class="form-control" id="confirm_password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="fas fa-sync-alt me-2"></i>Actualizar Contraseña
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alertContainer = document.getElementById('alert-container');
+            const profileLoader = document.getElementById('profile-loader');
+            const profileFormEl = document.getElementById('profileForm');
+
+            function showAlert(message, type = 'success') {
+                const alertHTML = `<div class="alert alert-${type} alert-dismissible fade show" role="alert">${message}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>`;
+                alertContainer.innerHTML = alertHTML;
+            }
+
+            // Cargar datos del perfil
+            fetch('/api/my-profile')
+                .then(response => {
+                    if (response.status === 401 || response.redirected) {
+                        window.location.href = '/login';
+                        return Promise.reject('Sesión expirada');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) throw new Error(data.error);
+                    document.getElementById('usuario_login').value = data.usuario_login || '';
+                    document.getElementById('nombre_completo').value = data.nombre_completo || '';
+                    document.getElementById('email').value = data.gmail || '';
+                    document.getElementById('telefono').value = data.telefono || '';
+                    document.getElementById('cedula').value = data.cedula || '';
+                    
+                    profileLoader.classList.add('d-none');
+                    profileFormEl.classList.remove('d-none');
+                })
+                .catch(error => {
+                    profileLoader.innerHTML = `<div class="alert alert-danger">Error al cargar el perfil: ${error.message}</div>`;
+                });
+
+            // Manejar actualización de perfil
+            profileFormEl.addEventListener('submit', function(e) {
+                e.preventDefault();
+                showAlert('Funcionalidad de edición aún no implementada.', 'info');
+            });
+
+            // Manejar cambio de contraseña
+            document.getElementById('passwordForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showAlert('Funcionalidad de cambio de contraseña aún no implementada.', 'info');
+            });
+
+            // Toggle del sidebar
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                    document.getElementById('mainContent').classList.toggle('collapsed');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
