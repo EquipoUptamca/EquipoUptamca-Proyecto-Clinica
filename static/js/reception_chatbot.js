@@ -156,8 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mensaje de bienvenida inicial
     function showWelcomeMessage() {
-        const welcomeText = `
-            ¡Bienvenido/a al asistente de recepción!
+        const welcomeText = `¡Hola! Soy MediBot, tu asistente de recepción.
             <br><br>
             Puedes preguntarme sobre:
             <ul>

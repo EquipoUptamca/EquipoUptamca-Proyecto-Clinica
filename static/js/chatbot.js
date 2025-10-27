@@ -170,7 +170,7 @@ class ChatbotWidget {
             const data = await response.json();
             this.addMessage(data.text, 'bot');
         } catch (error) {
-            this.addMessage('¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte?', 'bot');
+            this.addMessage('¡Hola! Soy MediBot, tu asistente virtual. ¿En qué puedo ayudarte?', 'bot');
         }
     }
 

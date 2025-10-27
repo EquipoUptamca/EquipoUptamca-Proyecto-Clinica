@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             addMessage(data.text, 'bot');
         } catch (error) {
-            addMessage('¡Hola, Admin! Bienvenido al asistente virtual.', 'bot');
+            addMessage('¡Hola, Admin! Soy MediBot, tu asistente virtual.', 'bot');
         }
     }
 
