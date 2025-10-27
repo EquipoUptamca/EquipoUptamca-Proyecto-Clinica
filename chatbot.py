@@ -74,10 +74,54 @@ def close_thread_connection():
         finally:
             del _connection_pool[thread_id]
 
+# --- Lógica del Chatbot Público (Página Principal) ---
+PUBLIC_RESPONSES = {
+    ('hola', 'buenos dias', 'hey'): {
+        'text': '¡Hola! 👋 Soy MediBot, tu asistente virtual en MedAsistencia. Estoy aquí para ayudarte. ¿Qué te gustaría saber?',
+        'suggestions': ['¿Qué es MedAsistencia?', '¿Cómo me registro?', '¿Es seguro?']
+    },
+    ('qué es', 'que es', 'plataforma', 'funcionalidades'): {
+        'text': 'MedAsistencia es una plataforma integral para la gestión de centros médicos. Ayudamos a optimizar la administración de pacientes, citas, historiales clínicos y mucho más. Puedes ver una <a href="/demo">demo interactiva</a> para conocerla a fondo.',
+        'suggestions': ['¿Cómo me registro?', '¿Para quién es?', 'Ver precios']
+    },
+    ('para quién es', 'roles', 'tipos de usuario', 'quien puede usar'): {
+        'text': 'MedAsistencia está diseñada para todos los miembros de un centro médico: <strong>Administradores</strong> para la gestión total, <strong>Médicos</strong> para el seguimiento de pacientes, <strong>Personal de Recepción</strong> para la organización de citas y, por supuesto, <strong>Pacientes</strong> para ver su información.',
+        'suggestions': ['¿Cómo me registro como médico?', '¿Qué puede hacer un paciente?']
+    },
+    ('registrar', 'registro', 'crear cuenta'): {
+        'text': '¡Excelente! Puedes registrarte fácilmente haciendo clic en el botón "Registrarse" en la parte superior. El proceso es rápido y te guiará paso a paso. Si eres personal médico, necesitarás un código de seguridad.',
+        'suggestions': ['¿Qué es un código de seguridad?', '¿Es gratis?']
+    },
+    ('código de seguridad', 'codigo de seguridad', 'clave de seguridad'): {
+        'text': 'El código de seguridad es una clave interna que proporcionamos a los centros médicos para asegurar que solo el personal autorizado (médicos, administradores, etc.) pueda registrarse con roles privilegiados. Los pacientes no necesitan este código.',
+        'suggestions': ['¿Cómo obtengo un código?', '¿Cómo me registro?']
+    },
+    ('seguro', 'seguridad', 'privacidad'): {
+        'text': 'La seguridad es nuestra máxima prioridad. Utilizamos encriptación de extremo a extremo y cumplimos con normativas como HIPAA para garantizar que la información de los pacientes esté siempre protegida. Lee más en nuestra <a href="/privacy">Política de Privacidad</a>.',
+        'suggestions': ['¿Qué es MedAsistencia?', '¿Cómo me registro?']
+    },
+    ('precio', 'costo', 'gratis'): {
+        'text': 'Actualmente, el registro para pacientes es completamente gratuito. Para centros médicos, ofrecemos planes personalizados. Te invitamos a <a href="#contact">contactarnos</a> para una cotización.',
+        'suggestions': ['Ver funcionalidades', '¿Cómo me registro?']
+    },
+    ('soporte', 'contacto', 'ayuda', 'problema'): {
+        'text': 'Si necesitas ayuda o tienes alguna pregunta, puedes contactarnos a través de la sección de <a href="/#contact">Contacto</a> en la parte inferior de esta página. Nuestro equipo estará encantado de atenderte.',
+        'suggestions': ['Ver precios', '¿Es seguro?']
+    },
+    ('demo', 'demostración', 'ver como funciona'): {
+        'text': '¡Claro! Tenemos una <a href="/demo">demo interactiva</a> donde puedes explorar las principales funcionalidades de la plataforma para cada tipo de rol. ¡Te invito a probarla!',
+        'suggestions': ['¿Qué es MedAsistencia?', '¿Cómo me registro?']
+    },
+    ('gracias', 'ok', 'entiendo'): {
+        'text': '¡De nada!  Si tienes alguna otra pregunta, no dudes en consultarme. Estoy aquí para ayudarte.',
+        'suggestions': ['Ver funcionalidades', 'Ver precios', '¿Es seguro?']
+    },
+}
+
 # --- Lógica del Chatbot de Recepción ---
 RECEPTION_RESPONSES = {
     ('hola', 'buenos dias', 'buenas tardes'): {
-        'text': '¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre pacientes, citas, horarios o el directorio médico.'
+        'text': '¡Hola! Soy MediBot, tu asistente virtual. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre pacientes, citas, horarios o el directorio médico.'
     },
     ('nuevo paciente', 'crear paciente', 'registrar paciente'): {
         'text': 'Para registrar un nuevo paciente, ve a la sección de <a href="/paciente_recep">Pacientes</a> y haz clic en "Nuevo Paciente".'
@@ -117,7 +161,7 @@ def get_reception_response(lc_input):
 
 # --- Lógica del Chatbot de Administrador ---
 ADMIN_RESPONSES = {
-    ('hola', 'buenos dias'): {'text': '¡Hola, Admin! Soy tu asistente. ¿Qué tarea administrativa necesitas realizar?'},
+    ('hola', 'buenos dias'): {'text': '¡Hola, Admin! Soy MediBot, tu asistente. ¿Qué tarea administrativa necesitas realizar?'},
     ('usuario', 'buscar usuario'): {'text': 'Claro, puedes buscar un usuario por nombre o cédula a continuación.', 'action': 'render_user_search'},
     ('médico', 'doctor'): {'text': 'Para administrar los perfiles profesionales de los médicos, incluyendo sus especialidades y datos, dirígete a <a href="/medicos">Gestión de Médicos</a>.'},
     ('paciente',): {'text': 'La lista completa de pacientes y sus perfiles se encuentra en la sección de <a href="/pacientes">Gestión de Pacientes</a>.'},
@@ -134,6 +178,13 @@ def get_admin_response(lc_input):
         if any(keyword in lc_input for keyword in keywords):
             return response
     return {'text': "No estoy seguro de cómo ayudarte con eso. Prueba preguntando sobre 'usuarios', 'médicos', 'pacientes' u 'horarios'."}
+
+def get_public_response(lc_input):
+    """Genera respuestas para el chatbot público."""
+    for keywords, response in PUBLIC_RESPONSES.items():
+        if any(keyword in lc_input for keyword in keywords):
+            return response
+    return {'text': "No he entendido tu pregunta. Podrías intentar preguntar '¿Qué es MedAsistencia?' o '¿Cómo me registro?'.", 'suggestions': ['¿Qué es MedAsistencia?', '¿Cómo me registro?', '¿Es seguro?']}
 
 # --- Lógica del Chatbot del Médico ---
 DOCTOR_RESPONSES = {
@@ -227,7 +278,7 @@ def handle_doctor_greeting(current_user):
     """Maneja los saludos del médico."""
     nombre_medico = current_user.nombre_completo.split()[0] if current_user.nombre_completo else 'Doctor/a'
     return {
-        'text': f'¡Hola, Dr/a. {nombre_medico}! 👋 Soy tu asistente personal. ¿En qué puedo ayudarte hoy?'
+        'text': f'¡Hola, Dr/a. {nombre_medico}! 👋 Soy MediBot, tu asistente personal. ¿En qué puedo ayudarte hoy?'
     }
 
 def handle_doctor_schedule(current_user):
@@ -490,3 +541,22 @@ def chatbot_response(current_user):
         return jsonify({
             'text': '❌ Error interno del servidor. Por favor, inténtalo de nuevo.'
         }), 500
+
+@chatbot_bp.route('/api/public-chatbot/response', methods=['POST'])
+def public_chatbot_response():
+    """Endpoint público para el chatbot de la página principal."""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'text': 'Error: No se recibieron datos.'}), 400
+        
+        message = data.get('message', '').lower().strip()
+        if not message:
+            return jsonify({'text': 'Por favor, escribe un mensaje.'}), 400
+
+        response = get_public_response(message)
+        return jsonify(response)
+
+    except Exception as e:
+        logging.error(f"Error en endpoint de chatbot público: {e}")
+        return jsonify({'text': 'Lo siento, estoy teniendo problemas para conectarme. Inténtalo de nuevo más tarde.'}), 500

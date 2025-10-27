@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <!-- Estilos para el nuevo chatbot público -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/public_chatbot.css') }}">
   <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
@@ -258,6 +260,40 @@
       <p>MedAsistencia v2.1</p>
     </div>
   </footer>
+
+  <!-- Chatbot de Asistencia para la página principal -->
+  <div class="chatbot-fab" id="public-chatbot-fab" title="¡Hola! Soy MediBot 🤖">
+    <div class="robot-icon">
+      <div class="robot-head">
+        <div class="robot-antenna"></div>
+        <div class="robot-eyes"></div>
+      </div>
+      <div class="robot-body"></div>
+    </div>
+    <div class="waving-hand">👋</div>
+  </div>
+
+  <div class="chat-widget" id="public-chat-widget">
+      <div class="chat-header">
+          <h5><span class="robot-icon-small">🤖</span> MediBot</h5>
+          <button type="button" class="chat-close-btn" id="chat-close-btn" aria-label="Cerrar"></button>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+          <!-- Los mensajes se insertarán aquí -->
+      </div>
+      <div class="chat-footer">
+          <div class="chat-suggestions" id="chat-suggestions">
+              <!-- Sugerencias dinámicas -->
+          </div>
+          <div class="chat-input">
+              <input type="text" id="chat-input-field" placeholder="Escribe tu pregunta...">
+              <button id="chat-send-btn">➤</button>
+          </div>
+      </div>
+  </div>
+
   <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/public_chatbot.js') }}"></script>
 </body>
 </html>
