@@ -198,7 +198,37 @@ Documentos legales que detallan las condiciones de uso del servicio y cómo se g
 
 ---
 
-## 6. Soporte y Contacto
+## 6. Arquitectura Técnica
+
+Esta sección describe los componentes técnicos y la estructura del proyecto MedAsistencia.
+
+### 6.1. Backend (Python + Flask)
+-   **Framework:** El backend está construido con [Flask](https://flask.palletsprojects.com/), un microframework de Python ligero y extensible.
+-   **Estructura Modular:** El proyecto utiliza **Blueprints** de Flask para organizar el código en módulos cohesivos y reutilizables (ej. `auth.py`, `patients.py`, `appointments.py`). Esto mejora la mantenibilidad y escalabilidad.
+-   **Seguridad:** La autenticación se gestiona mediante sesiones seguras y un middleware (`auth_middleware.py`) que protege las rutas que requieren inicio de sesión.
+-   **Manejo de Base de Datos:** La interacción con la base de datos se realiza a través de la biblioteca `pyodbc`, con un sistema de pool de conexiones por thread para garantizar un manejo eficiente y seguro de las conexiones.
+
+### 6.2. Frontend (HTML, CSS, JavaScript)
+-   **Tecnologías:** El frontend está construido con HTML5, CSS3 y JavaScript puro (Vanilla JS), sin depender de frameworks pesados de frontend.
+-   **Renderizado del Lado del Servidor:** Las plantillas se renderizan en el servidor utilizando el motor de plantillas **Jinja2**, integrado en Flask.
+-   **Interactividad:** La interactividad del lado del cliente, como los dashboards dinámicos y los chatbots, se maneja con JavaScript, realizando llamadas asíncronas (Fetch API) a los endpoints de la API del backend.
+-   **Diseño Responsivo:** La interfaz está diseñada para ser completamente responsiva y adaptable a diferentes tamaños de pantalla, desde ordenadores de escritorio hasta dispositivos móviles.
+
+### 6.3. Base de Datos
+-   **Motor:** El sistema utiliza una base de datos relacional para garantizar la integridad y consistencia de los datos. La estructura es compatible con sistemas como SQL Server, MySQL o PostgreSQL.
+-   **Esquema:** El esquema de la base de datos está diseñado para reflejar las relaciones entre usuarios, médicos, pacientes, citas, horarios y otros componentes clave del sistema.
+
+### 6.4. Estructura del Proyecto
+El proyecto sigue una organización clara para separar las responsabilidades:
+-   `/templates`: Contiene todas las plantillas HTML que se renderizan para el usuario.
+-   `/static`: Almacena los archivos estáticos como CSS, JavaScript e imágenes.
+-   `app.py` / `main.py`: Punto de entrada que inicializa la aplicación Flask y registra los Blueprints.
+-   **Blueprints (`*.py`):** Archivos como `users.py`, `doctors.py`, etc., que contienen la lógica de negocio y las rutas para cada módulo principal.
+-   **Utilidades y Configuración:** Archivos como `database.py`, `config.py`, y `validators.py` que centralizan la configuración y las funciones de ayuda.
+
+---
+
+## 7. Soporte y Contacto
 
 **Horario de Atención:**
 -   Lunes a Viernes: 8:00 - 18:00
