@@ -641,7 +641,12 @@ def get_my_schedule(current_user):
                 SELECT id_horario, dia_semana, hora_inicio, hora_fin
                 FROM Horarios_disponibles
                 WHERE id_medico = ?
-                ORDER BY dia_semana, hora_inicio
+                ORDER BY 
+                    CASE dia_semana 
+                        WHEN 'Lunes' THEN 1 WHEN 'Martes' THEN 2 WHEN 'Miércoles' THEN 3 
+                        WHEN 'Jueves' THEN 4 WHEN 'Viernes' THEN 5 WHEN 'Sábado' THEN 6 
+                        ELSE 7 
+                    END, hora_inicio
             """, (doctor_id,))
 
             schedules = cursor.fetchall()
@@ -657,7 +662,23 @@ def get_my_schedule(current_user):
                         'hora_fin': str(schedule[3])
                     })
 
-            return jsonify(weekly_schedule)
+            # --- CORRECCIÓN ---
+            # El frontend espera un objeto con las claves 'schedule' y 'appointments'.
+            # Se añade la consulta de citas para este médico.
+            cursor.execute("""
+                SELECT c.id_cita, p_user.nombre_completo as paciente_nombre, c.fecha_cita, c.hora_cita, c.motivo_consulta, c.estado
+                FROM Citas c
+                JOIN Pacientes p ON c.id_paciente = p.id_paciente
+                JOIN Usuarios p_user ON p.id_usuario = p_user.id_usuario
+                WHERE c.id_medico = ?
+            """, (doctor_id,))
+            
+            appointments = [{
+                'id_cita': row.id_cita, 'paciente_nombre': row.paciente_nombre, 'fecha_cita': row.fecha_cita.strftime('%Y-%m-%d'),
+                'hora_cita': str(row.hora_cita)[:5], 'motivo_consulta': row.motivo_consulta, 'estado': row.estado
+            } for row in cursor.fetchall()]
+
+            return jsonify({'schedule': weekly_schedule, 'appointments': appointments})
 
     except pyodbc.Error as e:
         logging.error(f"Error al obtener mi horario semanal: {str(e)}")

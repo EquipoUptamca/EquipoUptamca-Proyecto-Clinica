@@ -10,7 +10,7 @@ def check_session_hijacking():
     Protector contra Secuestro de Sesión e Integridad.
     Verifica que la IP y el User-Agent coincidan con los de la sesión.
     """
-    if 'id_usuario' in session and not request.endpoint.startswith('static'):
+    if 'id_usuario' in session and request.endpoint and not request.endpoint.startswith('static'):
         ip_mismatch = session.get('ip_address') != request.remote_addr
         user_agent_mismatch = session.get('user_agent') != request.user_agent.string
         

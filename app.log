@@ -23428,3 +23428,897 @@
 2025-10-26 22:23:13,329 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 22:23:13] "[36mGET /static/img/photo_2022-10-31_09-49-44_wRX4Ib7.jpg HTTP/1.1[0m" 304 -
 2025-10-26 22:23:13,329 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 22:23:13] "[36mGET /static/img/IMG_20221104_105135_091_6i5Z4XS.png HTTP/1.1[0m" 304 -
 2025-10-26 22:23:15,355 - werkzeug - INFO - 127.0.0.1 - - [26/Oct/2025 22:23:15] "POST /api/public-chatbot/response HTTP/1.1" 200 -
+2025-11-02 17:47:08,712 - root - INFO - Database connection established successfully
+2025-11-02 17:47:08,713 - root - INFO - Creando tablas si no existen...
+2025-11-02 17:47:08,809 - root - INFO - Insertando datos básicos (roles, admin)...
+2025-11-02 17:47:08,834 - root - INFO - Insertando especialidades médicas si no existen...
+2025-11-02 17:47:08,918 - root - INFO - Base de datos inicializada y/o verificada correctamente.
+2025-11-02 17:47:08,918 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 17:47:08,980 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.106:5000
+2025-11-02 17:47:08,980 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-11-02 17:47:08,982 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 17:47:09,563 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 17:47:09,589 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 17:47:09,594 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 17:47:17,335 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:17] "GET / HTTP/1.1" 200 -
+2025-11-02 17:47:18,125 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/js/index.js HTTP/1.1" 200 -
+2025-11-02 17:47:18,134 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/js/public_chatbot.js HTTP/1.1" 200 -
+2025-11-02 17:47:18,166 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/css/index.css HTTP/1.1" 200 -
+2025-11-02 17:47:18,178 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/css/public_chatbot.css HTTP/1.1" 200 -
+2025-11-02 17:47:18,196 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/img/Logo.webp HTTP/1.1" 200 -
+2025-11-02 17:47:18,228 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/js/chatbot.js HTTP/1.1" 200 -
+2025-11-02 17:47:18,298 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/img/director-medico.jpeg HTTP/1.1" 200 -
+2025-11-02 17:47:18,324 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/img/1670334129861_srE7YZj.png HTTP/1.1" 200 -
+2025-11-02 17:47:18,387 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/img/IMG_20221104_105135_091_6i5Z4XS.png HTTP/1.1" 200 -
+2025-11-02 17:47:18,413 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "GET /static/img/photo_2022-10-31_09-49-44_wRX4Ib7.jpg HTTP/1.1" 200 -
+2025-11-02 17:47:18,479 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:18] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:47:20,196 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:20] "GET /login HTTP/1.1" 200 -
+2025-11-02 17:47:20,244 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:20] "GET /static/css/login.css HTTP/1.1" 200 -
+2025-11-02 17:47:20,245 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:20] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:47:20,246 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:20] "GET /static/js/login.js HTTP/1.1" 200 -
+2025-11-02 17:47:24,744 - root - INFO - Database connection established successfully
+2025-11-02 17:47:25,700 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:25] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 17:47:27,247 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 17:47:27,292 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /static/js/doctor_dashboard.js HTTP/1.1" 200 -
+2025-11-02 17:47:27,293 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /static/css/doctor_chatbot.css HTTP/1.1" 200 -
+2025-11-02 17:47:27,295 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /static/css/admin-pacientes-styles.css HTTP/1.1" 200 -
+2025-11-02 17:47:27,298 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /static/js/doctor_chatbot.js HTTP/1.1" 200 -
+2025-11-02 17:47:27,408 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,546 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,567 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,567 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,576 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,588 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,637 - root - INFO - Database connection established successfully
+2025-11-02 17:47:27,684 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:47:27,708 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 17:47:27,921 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:27] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 17:47:59,220 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:59] "GET /Mi%20Citas.html HTTP/1.1" 200 -
+2025-11-02 17:47:59,278 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:59] "GET /static/css/Mi%20Citas.css HTTP/1.1" 200 -
+2025-11-02 17:47:59,289 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:59] "GET /static/js/Mi%20Citas.js HTTP/1.1" 200 -
+2025-11-02 17:47:59,323 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:59] "[35m[1mGET /Mi%20Citas.css HTTP/1.1[0m" 500 -
+2025-11-02 17:47:59,483 - root - INFO - Database connection established successfully
+2025-11-02 17:47:59,569 - root - INFO - Database connection established successfully
+2025-11-02 17:47:59,603 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:47:59] "GET /api/citas/detalladas HTTP/1.1" 200 -
+2025-11-02 17:48:11,201 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 17:48:11,261 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 17:48:11,267 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 17:48:11,268 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 17:48:11,306 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 17:48:11,407 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,445 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,477 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,478 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:48:11,530 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,533 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,534 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,540 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 17:48:11,540 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,564 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 17:48:11,581 - root - INFO - Database connection established successfully
+2025-11-02 17:48:11,591 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:48:11,593 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:48:11] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 17:49:35,897 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:35] "GET /login HTTP/1.1" 200 -
+2025-11-02 17:49:35,943 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:35] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 17:49:35,944 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:35] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:49:35,944 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:35] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 17:49:40,058 - root - INFO - Database connection established successfully
+2025-11-02 17:49:41,120 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:41] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 17:49:42,670 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "GET /reception_dashboard HTTP/1.1" 200 -
+2025-11-02 17:49:42,721 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "[33mGET /static/js/logout.js HTTP/1.1[0m" 404 -
+2025-11-02 17:49:42,722 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 17:49:42,723 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "GET /static/img/icon-256x256.png HTTP/1.1" 200 -
+2025-11-02 17:49:42,725 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "GET /static/css/reception_chatbot.css HTTP/1.1" 200 -
+2025-11-02 17:49:42,726 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "GET /static/js/reception_dashboard.js HTTP/1.1" 200 -
+2025-11-02 17:49:42,741 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:42] "GET /static/js/reception_chatbot.js HTTP/1.1" 200 -
+2025-11-02 17:49:43,207 - root - INFO - Database connection established successfully
+2025-11-02 17:49:43,264 - root - INFO - Database connection established successfully
+2025-11-02 17:49:43,267 - root - INFO - Database connection established successfully
+2025-11-02 17:49:43,270 - root - INFO - Database connection established successfully
+2025-11-02 17:49:43,271 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:43] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:49:43,316 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:49:43] "GET /api/reception/stats HTTP/1.1" 200 -
+2025-11-02 17:50:15,852 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "GET /reception_dashboard HTTP/1.1" 200 -
+2025-11-02 17:50:15,906 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 17:50:15,912 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "GET /static/css/reception_chatbot.css HTTP/1.1" 200 -
+2025-11-02 17:50:15,918 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "[36mGET /static/img/icon-256x256.png HTTP/1.1[0m" 304 -
+2025-11-02 17:50:15,920 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "[36mGET /static/js/reception_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 17:50:15,922 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "[33mGET /static/js/logout.js HTTP/1.1[0m" 404 -
+2025-11-02 17:50:15,948 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:15] "[36mGET /static/js/reception_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 17:50:16,165 - root - INFO - Database connection established successfully
+2025-11-02 17:50:16,228 - root - INFO - Database connection established successfully
+2025-11-02 17:50:16,239 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:16] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:50:16,259 - root - INFO - Database connection established successfully
+2025-11-02 17:50:16,303 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:16] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:50:16,313 - root - INFO - Database connection established successfully
+2025-11-02 17:50:16,352 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:16] "GET /api/reception/stats HTTP/1.1" 200 -
+2025-11-02 17:50:54,374 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "GET /reception_dashboard HTTP/1.1" 200 -
+2025-11-02 17:50:54,435 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 17:50:54,436 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "GET /static/css/reception_chatbot.css HTTP/1.1" 200 -
+2025-11-02 17:50:54,436 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[33mGET /static/js/logout.js HTTP/1.1[0m" 404 -
+2025-11-02 17:50:54,442 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[36mGET /static/img/icon-256x256.png HTTP/1.1[0m" 304 -
+2025-11-02 17:50:54,454 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[36mGET /static/js/reception_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 17:50:54,506 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[36mGET /static/js/reception_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 17:50:54,583 - root - INFO - Database connection established successfully
+2025-11-02 17:50:54,589 - root - INFO - Database connection established successfully
+2025-11-02 17:50:54,616 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:50:54,660 - root - INFO - Database connection established successfully
+2025-11-02 17:50:54,661 - root - INFO - Database connection established successfully
+2025-11-02 17:50:54,695 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:50:54,730 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:50:54] "GET /api/reception/stats HTTP/1.1" 200 -
+2025-11-02 17:51:15,003 - root - INFO - Database connection established successfully
+2025-11-02 17:51:15,011 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:15] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-02 17:51:22,124 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:22] "GET /login HTTP/1.1" 200 -
+2025-11-02 17:51:22,170 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:22] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 17:51:22,171 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:22] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:51:22,173 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:22] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 17:51:25,675 - root - INFO - Database connection established successfully
+2025-11-02 17:51:26,572 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:26] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 17:51:28,110 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 17:51:28,159 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 17:51:28,163 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 17:51:28,166 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 17:51:28,169 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /static/js/doctor_chatbot.js HTTP/1.1" 200 -
+2025-11-02 17:51:28,292 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,334 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,383 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,400 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,426 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 17:51:28,427 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,462 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,472 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,492 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:51:28,498 - root - INFO - Database connection established successfully
+2025-11-02 17:51:28,502 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 17:51:28,541 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:28] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 17:51:35,734 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 17:51:35,777 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /static/css/Mi%20Horario.css HTTP/1.1" 200 -
+2025-11-02 17:51:35,779 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /static/js/Mi%20Horario.js HTTP/1.1" 200 -
+2025-11-02 17:51:35,796 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,797 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,800 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,802 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,805 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 17:51:35,809 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 17:51:35,915 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,916 - root - INFO - Database connection established successfully
+2025-11-02 17:51:35,940 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:51:35] "GET /api/citas/detalladas?start_date=2025-10-27&end_date=2025-11-03 HTTP/1.1" 200 -
+2025-11-02 17:52:52,101 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\schedules.py', reloading
+2025-11-02 17:52:52,101 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-02 17:52:52,250 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 17:52:53,001 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 17:52:53,027 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 17:52:53,032 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 17:54:09,849 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\main.py', reloading
+2025-11-02 17:54:09,849 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-02 17:54:09,928 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 17:54:10,667 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 17:54:10,695 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 17:54:10,699 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 17:54:54,471 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:54:54] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 17:54:54,680 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:54:54] "GET /static/js/Mi%20Horario.js HTTP/1.1" 200 -
+2025-11-02 17:54:54,711 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:54:54] "GET /static/css/Mi%20Horario.css HTTP/1.1" 200 -
+2025-11-02 17:54:54,853 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:54:54] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 17:54:54,971 - root - INFO - Database connection established successfully
+2025-11-02 17:54:55,001 - root - INFO - Database connection established successfully
+2025-11-02 17:54:55,017 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 17:54:55] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:00:18,152 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\schedules.py', reloading
+2025-11-02 18:00:18,152 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-02 18:00:18,254 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 18:00:18,948 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 18:00:18,973 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 18:00:18,979 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 18:02:42,384 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:42] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:02:42,617 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:42] "GET /static/js/Mi%20Horario.js HTTP/1.1" 200 -
+2025-11-02 18:02:42,625 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:42] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:02:42,717 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:42] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:02:59,527 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:59] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:02:59,585 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:59] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:02:59,585 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:59] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:02:59,651 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:02:59] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:10:23,677 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:23] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:10:23,723 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:23] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:10:23,728 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:23] "GET /static/js/Mi%20Horario.js HTTP/1.1" 200 -
+2025-11-02 18:10:23,911 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:23] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:10:24,063 - root - INFO - Database connection established successfully
+2025-11-02 18:10:24,085 - root - INFO - Database connection established successfully
+2025-11-02 18:10:24,096 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:10:24,097 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:24] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:10:34,109 - root - INFO - Database connection established successfully
+2025-11-02 18:10:34,118 - root - INFO - Database connection established successfully
+2025-11-02 18:10:34,129 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:10:34,141 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:34] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:10:47,535 - root - INFO - Database connection established successfully
+2025-11-02 18:10:47,542 - root - INFO - Database connection established successfully
+2025-11-02 18:10:47,552 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:10:47,554 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:47] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:10:50,372 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:10:50,436 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:10:50,439 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:10:50,440 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:10:50,441 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:10:50,507 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,601 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,602 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,603 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,605 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,605 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,606 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,775 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:10:50,789 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:10:50,812 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:10:50,904 - root - INFO - Database connection established successfully
+2025-11-02 18:10:50,908 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:10:50,978 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:10:50] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:11:14,286 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:11:14,339 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:11:14,340 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:11:14,341 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:11:14,342 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:11:14,385 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,396 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,417 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,452 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:11:14,461 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,463 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,502 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,503 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:11:14,503 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:11:14,505 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,534 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:11:14,542 - root - INFO - Database connection established successfully
+2025-11-02 18:11:14,542 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:11:14,582 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:11:14] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:12:32,729 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:12:32,786 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:12:32,790 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:12:32,794 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:12:32,797 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:12:32,916 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:12:32,960 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,960 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,961 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,961 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,976 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,988 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,995 - root - INFO - Database connection established successfully
+2025-11-02 18:12:32,997 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:32] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:12:33,008 - root - INFO - Database connection established successfully
+2025-11-02 18:12:33,019 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:33] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:12:33,080 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:12:33,083 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:33] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:12:33,083 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:33] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:12:36,018 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:36] "GET /Mi%20Citas.html HTTP/1.1" 200 -
+2025-11-02 18:12:36,066 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:36] "[33mGET /Mi%20Citas.css HTTP/1.1[0m" 404 -
+2025-11-02 18:12:36,071 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:36] "[36mGET /static/css/Mi%20Citas.css HTTP/1.1[0m" 304 -
+2025-11-02 18:12:36,072 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:36] "[36mGET /static/js/Mi%20Citas.js HTTP/1.1[0m" 304 -
+2025-11-02 18:12:36,094 - root - INFO - Database connection established successfully
+2025-11-02 18:12:36,101 - root - INFO - Database connection established successfully
+2025-11-02 18:12:36,120 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:36] "GET /api/citas/detalladas HTTP/1.1" 200 -
+2025-11-02 18:12:43,016 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:43] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:12:43,056 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:43] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:12:43,056 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:43] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:12:43,130 - root - INFO - Database connection established successfully
+2025-11-02 18:12:43,195 - root - INFO - Database connection established successfully
+2025-11-02 18:12:43,198 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:12:43,210 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:12:43] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:13:20,447 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:13:20,509 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:13:20,509 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:13:20,513 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:13:20,514 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:13:20,552 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,591 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,611 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,620 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,697 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,700 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,707 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,720 - root - INFO - Database connection established successfully
+2025-11-02 18:13:20,742 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:13:20,744 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:13:20,745 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:13:20,758 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:13:20,801 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:13:20] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:14:50,604 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:14:50,665 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:14:50,665 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:14:50,670 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:14:50,675 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:14:50,927 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:50] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:14:50,996 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,023 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,024 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,039 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,068 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,090 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,126 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:51] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:14:51,127 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,164 - root - INFO - Database connection established successfully
+2025-11-02 18:14:51,169 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:51] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:14:51,293 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:51] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:14:51,320 - root - INFO - Devolviendo 1 citas para el médico 2
+2025-11-02 18:14:51,387 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:14:51] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:16:13,793 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\schedules.py', reloading
+2025-11-02 18:16:13,795 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-02 18:16:13,899 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 18:16:14,727 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 18:16:14,751 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 18:16:14,756 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 18:16:21,069 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:16:21,392 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:16:21,442 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:16:21,445 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:16:21,458 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:16:21,556 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:16:21,700 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,700 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,700 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,702 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,727 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,728 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,745 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,746 - root - INFO - Database connection established successfully
+2025-11-02 18:16:21,753 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:16:21,765 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:16:21,785 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:16:21,804 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:21] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:16:24,529 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:24] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:16:24,568 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:24] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:16:24,571 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:24] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:16:24,630 - root - INFO - Database connection established successfully
+2025-11-02 18:16:24,633 - root - INFO - Database connection established successfully
+2025-11-02 18:16:24,697 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:24] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:16:45,307 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:45] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:16:45,369 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:45] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:16:45,370 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:45] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:16:45,430 - root - INFO - Database connection established successfully
+2025-11-02 18:16:45,433 - root - INFO - Database connection established successfully
+2025-11-02 18:16:45,446 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:45] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:16:45,603 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:16:45] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:17:06,030 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:17:06,079 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:17:06,083 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:17:06,084 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:17:06,086 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:17:06,151 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,154 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,175 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,180 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,210 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,210 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:17:06,222 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,224 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,243 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:17:06,400 - root - INFO - Database connection established successfully
+2025-11-02 18:17:06,446 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:17:06,510 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:06] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:17:10,910 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:10] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:17:10,953 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:10] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:17:10,953 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:10] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:17:10,969 - root - INFO - Database connection established successfully
+2025-11-02 18:17:10,971 - root - INFO - Database connection established successfully
+2025-11-02 18:17:10,977 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:17:10] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:18:20,115 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\schedules.py', reloading
+2025-11-02 18:18:20,115 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-02 18:18:20,200 - werkzeug - INFO -  * Restarting with stat
+2025-11-02 18:18:20,810 - app - INFO - Iniciando aplicación Flask...
+2025-11-02 18:18:20,874 - werkzeug - WARNING -  * Debugger is active!
+2025-11-02 18:18:20,877 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-02 18:18:31,206 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:31] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:18:31,432 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:31] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:18:31,444 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:31] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:18:31,556 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:31] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:18:31,730 - root - INFO - Database connection established successfully
+2025-11-02 18:18:31,747 - root - INFO - Database connection established successfully
+2025-11-02 18:18:31,776 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:31] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:18:39,698 - root - INFO - Database connection established successfully
+2025-11-02 18:18:39,701 - root - INFO - Database connection established successfully
+2025-11-02 18:18:39,740 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:18:39] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:24:17,410 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:24:17] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:24:17,459 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:24:17] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:24:17,461 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:24:17] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:24:17,574 - root - INFO - Database connection established successfully
+2025-11-02 18:24:17,578 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:24:17] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:24:17,738 - root - INFO - Database connection established successfully
+2025-11-02 18:24:17,789 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:24:17] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:26:25,816 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:26:25] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:26:25,864 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:26:25] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:26:25,864 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:26:25] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:26:26,002 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:26:26] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:26:26,055 - root - INFO - Database connection established successfully
+2025-11-02 18:26:26,117 - root - INFO - Database connection established successfully
+2025-11-02 18:26:26,165 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:26:26] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:31:31,819 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:31] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:31:31,873 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:31] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:31:31,875 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:31] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:31:31,923 - root - INFO - Database connection established successfully
+2025-11-02 18:31:31,998 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:31] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:31:32,056 - root - INFO - Database connection established successfully
+2025-11-02 18:31:32,086 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:32] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:31:37,662 - root - INFO - Database connection established successfully
+2025-11-02 18:31:37,687 - root - INFO - Database connection established successfully
+2025-11-02 18:31:37,708 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:31:37] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:33:27,098 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:27] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:33:27,154 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:27] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:33:27,158 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:27] "GET /static/js/Mi%20Horario.js HTTP/1.1" 200 -
+2025-11-02 18:33:27,306 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:27] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:33:27,559 - root - INFO - Database connection established successfully
+2025-11-02 18:33:27,587 - root - INFO - Database connection established successfully
+2025-11-02 18:33:27,603 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:27] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:33:30,156 - root - INFO - Database connection established successfully
+2025-11-02 18:33:30,160 - root - INFO - Database connection established successfully
+2025-11-02 18:33:30,163 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:30] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:33:39,397 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:33:39,446 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:33:39,448 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:33:39,449 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:33:39,458 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:33:39,478 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,573 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,573 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,619 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,623 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,623 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,626 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,640 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:33:39,652 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:33:39,693 - root - INFO - Database connection established successfully
+2025-11-02 18:33:39,694 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:33:39,723 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:33:39] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:34:01,547 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:01] "GET /login HTTP/1.1" 200 -
+2025-11-02 18:34:01,593 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:01] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:01,595 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:01] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:34:01,599 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:01] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 18:34:05,129 - root - INFO - Database connection established successfully
+2025-11-02 18:34:05,307 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:05] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 18:34:06,852 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:06] "GET /admin_dashboard HTTP/1.1" 200 -
+2025-11-02 18:34:06,901 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:06] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:06,912 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:06] "GET /static/css/admin_chatbot.css HTTP/1.1" 200 -
+2025-11-02 18:34:06,913 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:06] "GET /static/js/admin_chatbot.js HTTP/1.1" 200 -
+2025-11-02 18:34:06,926 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:06] "GET /static/js/admin_dashboard.js HTTP/1.1" 200 -
+2025-11-02 18:34:07,062 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,066 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,074 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,078 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,121 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,124 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,130 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,135 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,141 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:34:07,169 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/admin/appointments-status-chart HTTP/1.1" 200 -
+2025-11-02 18:34:07,202 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,260 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,308 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,319 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:34:07,371 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,383 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-02 18:34:07,507 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/admin/appointments-chart HTTP/1.1" 200 -
+2025-11-02 18:34:07,563 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,618 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,623 - root - INFO - Database connection established successfully
+2025-11-02 18:34:07,625 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-02 18:34:07,959 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-02 18:34:07,969 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:07] "GET /api/admin/recent-activity HTTP/1.1" 200 -
+2025-11-02 18:34:17,025 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:17] "GET /citas HTTP/1.1" 200 -
+2025-11-02 18:34:17,086 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:17] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:17,087 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:17] "GET /static/js/admin-citas.js HTTP/1.1" 200 -
+2025-11-02 18:34:17,181 - root - INFO - Database connection established successfully
+2025-11-02 18:34:17,183 - root - INFO - Database connection established successfully
+2025-11-02 18:34:17,233 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:17] "GET /api/citas/calendar HTTP/1.1" 200 -
+2025-11-02 18:34:17,283 - root - INFO - Database connection established successfully
+2025-11-02 18:34:17,293 - root - INFO - Database connection established successfully
+2025-11-02 18:34:17,316 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:17] "GET /api/citas/stats HTTP/1.1" 200 -
+2025-11-02 18:34:22,942 - root - INFO - Database connection established successfully
+2025-11-02 18:34:22,944 - root - INFO - Database connection established successfully
+2025-11-02 18:34:22,952 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:22] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:34:24,640 - root - INFO - Database connection established successfully
+2025-11-02 18:34:24,642 - root - INFO - Database connection established successfully
+2025-11-02 18:34:24,656 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:24] "GET /api/medicos/2/horarios?fecha=2025-11-04 HTTP/1.1" 200 -
+2025-11-02 18:34:32,028 - root - INFO - Database connection established successfully
+2025-11-02 18:34:32,030 - root - INFO - Database connection established successfully
+2025-11-02 18:34:32,035 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:32] "GET /api/pacientes?_type=query HTTP/1.1" 200 -
+2025-11-02 18:34:41,932 - root - INFO - Database connection established successfully
+2025-11-02 18:34:41,934 - root - INFO - Database connection established successfully
+2025-11-02 18:34:41,975 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:41] "[35m[1mPOST /api/citas HTTP/1.1[0m" 201 -
+2025-11-02 18:34:42,000 - root - INFO - Database connection established successfully
+2025-11-02 18:34:42,024 - root - INFO - Database connection established successfully
+2025-11-02 18:34:42,028 - root - INFO - Database connection established successfully
+2025-11-02 18:34:42,031 - root - INFO - Database connection established successfully
+2025-11-02 18:34:42,032 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:42] "GET /api/citas/calendar HTTP/1.1" 200 -
+2025-11-02 18:34:42,042 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:42] "GET /api/citas/stats HTTP/1.1" 200 -
+2025-11-02 18:34:44,281 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:44] "GET /login HTTP/1.1" 200 -
+2025-11-02 18:34:44,325 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:44] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:44,331 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:44] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:34:44,337 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:44] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 18:34:48,240 - root - INFO - Database connection established successfully
+2025-11-02 18:34:49,130 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:49] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 18:34:50,661 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:50] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:34:50,712 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:50] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:34:50,712 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:50] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:50,712 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:50] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:50,716 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:50] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:34:50,979 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,084 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,223 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,225 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,254 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,267 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,280 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,280 - root - INFO - Database connection established successfully
+2025-11-02 18:34:51,323 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:51] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:34:51,323 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:51] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:34:51,364 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:51] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:34:51,399 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:51] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:34:54,486 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:54] "GET /Mi%20Citas.html HTTP/1.1" 200 -
+2025-11-02 18:34:54,536 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:54] "[33mGET /Mi%20Citas.css HTTP/1.1[0m" 404 -
+2025-11-02 18:34:54,538 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:54] "[36mGET /static/css/Mi%20Citas.css HTTP/1.1[0m" 304 -
+2025-11-02 18:34:54,546 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:54] "[36mGET /static/js/Mi%20Citas.js HTTP/1.1[0m" 304 -
+2025-11-02 18:34:54,560 - root - INFO - Database connection established successfully
+2025-11-02 18:34:54,594 - root - INFO - Database connection established successfully
+2025-11-02 18:34:54,606 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:54] "GET /api/citas/detalladas HTTP/1.1" 200 -
+2025-11-02 18:34:58,494 - root - INFO - Database connection established successfully
+2025-11-02 18:34:58,528 - root - INFO - Database connection established successfully
+2025-11-02 18:34:58,543 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:58] "PATCH /api/citas/22/confirm HTTP/1.1" 200 -
+2025-11-02 18:34:58,557 - root - INFO - Database connection established successfully
+2025-11-02 18:34:58,561 - root - INFO - Database connection established successfully
+2025-11-02 18:34:58,606 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:34:58] "GET /api/citas/detalladas HTTP/1.1" 200 -
+2025-11-02 18:35:03,387 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:03] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:35:03,428 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:03] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:35:03,430 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:03] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:35:03,507 - root - INFO - Database connection established successfully
+2025-11-02 18:35:03,511 - root - INFO - Database connection established successfully
+2025-11-02 18:35:03,582 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:03] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:35:05,135 - root - INFO - Database connection established successfully
+2025-11-02 18:35:05,136 - root - INFO - Database connection established successfully
+2025-11-02 18:35:05,142 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:05] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:35:31,770 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:35:31,822 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:35:31,825 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:35:31,829 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:35:31,836 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:35:31,917 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,920 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,927 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,930 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,931 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,966 - root - INFO - Database connection established successfully
+2025-11-02 18:35:31,967 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:31] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:35:31,972 - root - INFO - Database connection established successfully
+2025-11-02 18:35:32,154 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:32] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:35:32,198 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:32] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:35:32,239 - root - INFO - Database connection established successfully
+2025-11-02 18:35:32,347 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:35:32] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:36:03,479 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:03] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:36:03,523 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:03] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:03,524 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:03] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:03,543 - root - INFO - Database connection established successfully
+2025-11-02 18:36:03,597 - root - INFO - Database connection established successfully
+2025-11-02 18:36:03,618 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:03] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:36:05,605 - root - INFO - Database connection established successfully
+2025-11-02 18:36:05,608 - root - INFO - Database connection established successfully
+2025-11-02 18:36:05,610 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:05] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:36:10,143 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:36:10,197 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:10,200 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:10,201 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:10,208 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:10,223 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,226 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,277 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,286 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,444 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,449 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,451 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,453 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:36:10,505 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:36:10,525 - root - INFO - Database connection established successfully
+2025-11-02 18:36:10,539 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:36:10,596 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:10] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:36:12,137 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:12] "GET /login HTTP/1.1" 200 -
+2025-11-02 18:36:12,184 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:12] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:12,188 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:12] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:36:12,192 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:12] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:41,555 - root - INFO - Database connection established successfully
+2025-11-02 18:36:41,720 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:41] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 18:36:43,255 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /admin_dashboard HTTP/1.1" 200 -
+2025-11-02 18:36:43,311 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "[36mGET /static/css/admin_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:43,311 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:43,312 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:43,313 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "[36mGET /static/js/admin_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:43,481 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,486 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,488 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,492 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,615 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,662 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,675 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,779 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:36:43,835 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,857 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,860 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /api/admin/appointments-status-chart HTTP/1.1" 200 -
+2025-11-02 18:36:43,878 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,883 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,884 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,901 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-02 18:36:43,907 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /api/admin/appointments-chart HTTP/1.1" 200 -
+2025-11-02 18:36:43,966 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,969 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:36:43,974 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,980 - root - INFO - Database connection established successfully
+2025-11-02 18:36:43,986 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:43] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-02 18:36:44,046 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:44] "GET /api/admin/recent-activity HTTP/1.1" 200 -
+2025-11-02 18:36:44,074 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:44] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-02 18:36:55,415 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:55] "GET /citas HTTP/1.1" 200 -
+2025-11-02 18:36:55,468 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:55] "[36mGET /static/js/admin-citas.js HTTP/1.1[0m" 304 -
+2025-11-02 18:36:55,471 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:55] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:36:55,533 - root - INFO - Database connection established successfully
+2025-11-02 18:36:55,541 - root - INFO - Database connection established successfully
+2025-11-02 18:36:55,572 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:55] "GET /api/citas/calendar HTTP/1.1" 200 -
+2025-11-02 18:36:55,643 - root - INFO - Database connection established successfully
+2025-11-02 18:36:55,647 - root - INFO - Database connection established successfully
+2025-11-02 18:36:55,696 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:36:55] "GET /api/citas/stats HTTP/1.1" 200 -
+2025-11-02 18:37:01,569 - root - INFO - Database connection established successfully
+2025-11-02 18:37:01,591 - root - INFO - Database connection established successfully
+2025-11-02 18:37:01,603 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:01] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:37:04,535 - root - INFO - Database connection established successfully
+2025-11-02 18:37:04,554 - root - INFO - Database connection established successfully
+2025-11-02 18:37:04,564 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:04] "GET /api/medicos/2/horarios?fecha=2025-11-10 HTTP/1.1" 200 -
+2025-11-02 18:37:19,177 - root - INFO - Database connection established successfully
+2025-11-02 18:37:19,201 - root - INFO - Database connection established successfully
+2025-11-02 18:37:19,214 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:19] "GET /api/pacientes?_type=query HTTP/1.1" 200 -
+2025-11-02 18:37:20,521 - root - INFO - Database connection established successfully
+2025-11-02 18:37:20,522 - root - INFO - Database connection established successfully
+2025-11-02 18:37:20,536 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:20] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:37:24,327 - root - INFO - Database connection established successfully
+2025-11-02 18:37:24,332 - root - INFO - Database connection established successfully
+2025-11-02 18:37:24,349 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:24] "GET /api/medicos/2/horarios?fecha=2025-11-05 HTTP/1.1" 200 -
+2025-11-02 18:37:32,053 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:32] "GET /horarios HTTP/1.1" 200 -
+2025-11-02 18:37:32,106 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:32] "[33mGET /static/img/icon-256x256.png=Rafael%20Alfonzo%20Vera&background=1a936f&color=fff HTTP/1.1[0m" 404 -
+2025-11-02 18:37:32,107 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:32] "GET /static/css/schedules.css HTTP/1.1" 200 -
+2025-11-02 18:37:32,113 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:32] "GET /static/js/schedules.js HTTP/1.1" 200 -
+2025-11-02 18:37:32,131 - root - INFO - Database connection established successfully
+2025-11-02 18:37:32,133 - root - INFO - Database connection established successfully
+2025-11-02 18:37:32,137 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:32] "GET /api/medicos HTTP/1.1" 200 -
+2025-11-02 18:37:42,058 - root - INFO - Database connection established successfully
+2025-11-02 18:37:42,059 - root - INFO - Database connection established successfully
+2025-11-02 18:37:42,062 - root - INFO - Database connection established successfully
+2025-11-02 18:37:42,062 - root - INFO - Database connection established successfully
+2025-11-02 18:37:42,113 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:42] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:37:42,113 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:42] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:37:58,261 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,266 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,283 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:58] "DELETE /api/horarios/medico/2 HTTP/1.1" 200 -
+2025-11-02 18:37:58,297 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,315 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,315 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,321 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:58] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:37:58,321 - root - INFO - Database connection established successfully
+2025-11-02 18:37:58,323 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:37:58] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:38:33,278 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,302 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,317 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:38:33] "[35m[1mPOST /api/horarios HTTP/1.1[0m" 201 -
+2025-11-02 18:38:33,331 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,332 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,334 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,334 - root - INFO - Database connection established successfully
+2025-11-02 18:38:33,348 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:38:33] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:38:33,356 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:38:33] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:39:26,711 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,733 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,743 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:39:26] "[35m[1mPOST /api/horarios HTTP/1.1[0m" 201 -
+2025-11-02 18:39:26,766 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,771 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,774 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,774 - root - INFO - Database connection established successfully
+2025-11-02 18:39:26,777 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:39:26] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:39:26,790 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:39:26] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:40:07,477 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,478 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,490 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:07] "[35m[1mPOST /api/horarios HTTP/1.1[0m" 201 -
+2025-11-02 18:40:07,507 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,513 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,519 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:07] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:40:07,537 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,539 - root - INFO - Database connection established successfully
+2025-11-02 18:40:07,541 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:07] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:40:39,769 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,806 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,870 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:39] "[35m[1mPOST /api/horarios HTTP/1.1[0m" 201 -
+2025-11-02 18:40:39,924 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,929 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,941 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,945 - root - INFO - Database connection established successfully
+2025-11-02 18:40:39,977 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:39] "GET /api/horarios/2/semanal HTTP/1.1" 200 -
+2025-11-02 18:40:39,977 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:39] "GET /api/horarios/2 HTTP/1.1" 200 -
+2025-11-02 18:40:45,735 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:45] "GET /citas HTTP/1.1" 200 -
+2025-11-02 18:40:45,783 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:45] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:40:45,787 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:45] "[36mGET /static/js/admin-citas.js HTTP/1.1[0m" 304 -
+2025-11-02 18:40:45,847 - root - INFO - Database connection established successfully
+2025-11-02 18:40:45,852 - root - INFO - Database connection established successfully
+2025-11-02 18:40:45,886 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:45] "GET /api/citas/calendar HTTP/1.1" 200 -
+2025-11-02 18:40:45,941 - root - INFO - Database connection established successfully
+2025-11-02 18:40:45,942 - root - INFO - Database connection established successfully
+2025-11-02 18:40:45,969 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:45] "GET /api/citas/stats HTTP/1.1" 200 -
+2025-11-02 18:40:52,379 - root - INFO - Database connection established successfully
+2025-11-02 18:40:52,381 - root - INFO - Database connection established successfully
+2025-11-02 18:40:52,394 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:52] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:40:58,428 - root - INFO - Database connection established successfully
+2025-11-02 18:40:58,431 - root - INFO - Database connection established successfully
+2025-11-02 18:40:58,454 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:40:58] "GET /api/citas/22 HTTP/1.1" 200 -
+2025-11-02 18:41:06,824 - root - INFO - Database connection established successfully
+2025-11-02 18:41:06,827 - root - INFO - Database connection established successfully
+2025-11-02 18:41:06,829 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:06] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:41:08,343 - root - INFO - Database connection established successfully
+2025-11-02 18:41:08,348 - root - INFO - Database connection established successfully
+2025-11-02 18:41:08,354 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:08] "GET /api/medicos/2/horarios?fecha=2025-11-04 HTTP/1.1" 200 -
+2025-11-02 18:41:17,384 - root - INFO - Database connection established successfully
+2025-11-02 18:41:17,386 - root - INFO - Database connection established successfully
+2025-11-02 18:41:17,390 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:17] "GET /api/medicos/disponibles?_type=query HTTP/1.1" 200 -
+2025-11-02 18:41:22,160 - root - INFO - Database connection established successfully
+2025-11-02 18:41:22,164 - root - INFO - Database connection established successfully
+2025-11-02 18:41:22,169 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:22] "GET /api/medicos/2/horarios?fecha=2025-11-03 HTTP/1.1" 200 -
+2025-11-02 18:41:29,226 - root - INFO - Database connection established successfully
+2025-11-02 18:41:29,252 - root - INFO - Database connection established successfully
+2025-11-02 18:41:29,260 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:29] "GET /api/pacientes?_type=query HTTP/1.1" 200 -
+2025-11-02 18:41:42,341 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,347 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,377 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:42] "[35m[1mPOST /api/citas HTTP/1.1[0m" 201 -
+2025-11-02 18:41:42,409 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,441 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,443 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,446 - root - INFO - Database connection established successfully
+2025-11-02 18:41:42,449 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:42] "GET /api/citas/calendar HTTP/1.1" 200 -
+2025-11-02 18:41:42,452 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:42] "GET /api/citas/stats HTTP/1.1" 200 -
+2025-11-02 18:41:44,697 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:44] "GET /login HTTP/1.1" 200 -
+2025-11-02 18:41:44,749 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:44] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-02 18:41:44,752 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:44] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:41:44,756 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:44] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-02 18:41:51,879 - root - INFO - Database connection established successfully
+2025-11-02 18:41:52,772 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:52] "POST /api/login HTTP/1.1" 200 -
+2025-11-02 18:41:54,303 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:41:54,351 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:41:54,353 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:41:54,353 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:41:54,361 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:41:54,451 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,477 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,535 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,578 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:41:54,608 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,611 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,638 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,646 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,653 - root - INFO - Database connection established successfully
+2025-11-02 18:41:54,668 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:41:54,696 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:41:54,696 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:41:54] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:44:41,283 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:44:41,336 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:44:41,338 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:44:41,338 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /static/js/doctor_dashboard.js HTTP/1.1" 200 -
+2025-11-02 18:44:41,343 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:44:41,585 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:44:41,708 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,708 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,718 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,724 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,788 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,793 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,805 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,805 - root - INFO - Database connection established successfully
+2025-11-02 18:44:41,841 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:44:41,847 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:44:41,857 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:44:41,927 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:41] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:44:47,519 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,552 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,565 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:47] "PATCH /api/citas/23/confirm HTTP/1.1" 200 -
+2025-11-02 18:44:47,588 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,592 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,613 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,614 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:47] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:44:47,615 - root - INFO - Database connection established successfully
+2025-11-02 18:44:47,658 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:47] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:44:51,862 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:51] "GET /Mi%20Citas.html HTTP/1.1" 200 -
+2025-11-02 18:44:51,908 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:51] "[33mGET /Mi%20Citas.css HTTP/1.1[0m" 404 -
+2025-11-02 18:44:51,915 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:51] "[36mGET /static/css/Mi%20Citas.css HTTP/1.1[0m" 304 -
+2025-11-02 18:44:51,919 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:51] "[36mGET /static/js/Mi%20Citas.js HTTP/1.1[0m" 304 -
+2025-11-02 18:44:51,949 - root - INFO - Database connection established successfully
+2025-11-02 18:44:51,962 - root - INFO - Database connection established successfully
+2025-11-02 18:44:51,986 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:51] "GET /api/citas/detalladas HTTP/1.1" 200 -
+2025-11-02 18:44:56,052 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:56] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:44:56,095 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:56] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:44:56,095 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:56] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:44:56,116 - root - INFO - Database connection established successfully
+2025-11-02 18:44:56,117 - root - INFO - Database connection established successfully
+2025-11-02 18:44:56,135 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:56] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:44:58,686 - root - INFO - Database connection established successfully
+2025-11-02 18:44:58,693 - root - INFO - Database connection established successfully
+2025-11-02 18:44:58,697 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:44:58] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:45:16,294 - root - INFO - Database connection established successfully
+2025-11-02 18:45:16,298 - root - INFO - Database connection established successfully
+2025-11-02 18:45:16,302 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:16] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:45:20,394 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:45:20,450 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:45:20,452 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:45:20,455 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:45:20,456 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:45:20,550 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,555 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,598 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,603 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,604 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,615 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,678 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,680 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:45:20,683 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:45:20,719 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:45:20,754 - root - INFO - Database connection established successfully
+2025-11-02 18:45:20,961 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:20] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:45:24,405 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:45:24,464 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:45:24,473 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:45:24,473 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:45:24,478 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:45:24,557 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,576 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,604 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,624 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:45:24,627 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,634 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,651 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,655 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:45:24,655 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:45:24,659 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:45:24,675 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,753 - root - INFO - Database connection established successfully
+2025-11-02 18:45:24,761 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:45:24] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:46:53,121 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:46:53,175 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:46:53,176 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:46:53,180 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /static/js/doctor_dashboard.js HTTP/1.1" 200 -
+2025-11-02 18:46:53,185 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:46:53,325 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:46:53,395 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,399 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,399 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,401 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,448 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,454 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,456 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,493 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:46:53,506 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:46:53,506 - root - INFO - Database connection established successfully
+2025-11-02 18:46:53,521 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:46:53,532 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:46:53] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:47:00,450 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:00] "GET /consultas_login HTTP/1.1" 200 -
+2025-11-02 18:47:00,505 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:00] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-02 18:47:02,333 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:02] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-02 18:47:02,385 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:02] "[36mGET /static/js/doctor_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-02 18:47:02,385 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:02] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-02 18:47:02,385 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:02] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-02 18:47:02,388 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:02] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-02 18:47:02,491 - root - INFO - Database connection established successfully
+2025-11-02 18:47:02,502 - root - INFO - Database connection established successfully
+2025-11-02 18:47:02,534 - root - INFO - Database connection established successfully
+2025-11-02 18:47:02,991 - root - INFO - Database connection established successfully
+2025-11-02 18:47:03,022 - root - INFO - Database connection established successfully
+2025-11-02 18:47:03,022 - root - INFO - Database connection established successfully
+2025-11-02 18:47:03,026 - root - INFO - Database connection established successfully
+2025-11-02 18:47:03,030 - root - INFO - Database connection established successfully
+2025-11-02 18:47:03,090 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:03] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-02 18:47:03,132 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:03] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-02 18:47:03,179 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:03] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-02 18:47:03,182 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:03] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:47:05,956 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:05] "GET /Mi%20Horario.html HTTP/1.1" 200 -
+2025-11-02 18:47:06,003 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:06] "[36mGET /static/css/Mi%20Horario.css HTTP/1.1[0m" 304 -
+2025-11-02 18:47:06,009 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:06] "[36mGET /static/js/Mi%20Horario.js HTTP/1.1[0m" 304 -
+2025-11-02 18:47:06,095 - root - INFO - Database connection established successfully
+2025-11-02 18:47:06,120 - root - INFO - Database connection established successfully
+2025-11-02 18:47:06,126 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:06] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-02 18:47:16,828 - root - INFO - Database connection established successfully
+2025-11-02 18:47:16,830 - root - INFO - Database connection established successfully
+2025-11-02 18:47:16,834 - werkzeug - INFO - 127.0.0.1 - - [02/Nov/2025 18:47:16] "GET /api/doctor/my-schedule HTTP/1.1" 200 -

@@ -60,6 +60,14 @@
                 color: black !important;
             }
         }
+
+        /* Estilo para las citas en la tabla */
+        .slot-appointment {
+            background-color: #FFF3CD !important; /* Tono amarillo suave */
+            color: #664d03;
+            font-weight: 500;
+            }
+        }
         
         /* Estilos adicionales específicos para esta página */
         .schedule-row {
@@ -168,7 +176,7 @@
         </div>
 
         <!-- Resumen del Horario -->
-        <div class="row mt-4">
+        <div class="row mt-4 g-4">
             <div class="col-md-4">
                 <div class="card stat-card">
                     <div class="card-body">
@@ -214,44 +222,21 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Información Adicional -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card">
+            <!-- Información Adicional (Próximos Turnos) movida aquí -->
+            <div class="col-md-8">
+                <div class="card h-100">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <i class="fas fa-info-circle me-2"></i> Información del Horario
+                            <i class="fas fa-forward me-2 text-primary"></i> Próximos Turnos
                         </h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6 class="fw-bold text-primary">Leyenda:</h6>
-                                <div class="legend-item">
-                                    <div class="schedule-slot legend available me-2"></div>
-                                    <span>Horario disponible</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="schedule-slot legend break me-2"></div>
-                                    <span>Descanso/Almuerzo</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="schedule-slot legend appointment me-2"></div>
-                                    <span>Cita programada</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h6 class="fw-bold text-primary">Próximos turnos:</h6>
-                                <ul class="list-unstyled" id="nextShifts">
-                                    <li class="mb-2">
-                                        <i class="fas fa-chevron-right text-primary me-2"></i>
-                                        <span>Cargando...</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        <ul class="list-unstyled mb-0" id="nextShifts">
+                            <!-- Los próximos turnos se cargarán aquí dinámicamente -->
+                            <li class="text-center text-muted py-3">
+                                <div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Cargando...</span></div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
