@@ -96,13 +96,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(scheduleData => {
+                // --- CORRECCIÓN ---
+                // El backend devuelve un objeto {schedule: ..., appointments: ...}.
+                // Necesitamos acceder a la propiedad 'schedule' para obtener los horarios.
+                const weeklySchedule = scheduleData.schedule;
+
                 container.innerHTML = ''; // Clear spinner
                 const grid = document.createElement('div');
                 grid.className = 'weekly-schedule-grid';
 
                 const daysOrder = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
                 
-                const hasSchedules = Object.values(scheduleData).some(daySchedules => daySchedules.length > 0);
+                const hasSchedules = weeklySchedule && Object.values(weeklySchedule).some(daySchedules => daySchedules.length > 0);
 
                 if (!hasSchedules) {
                     container.innerHTML = `
@@ -116,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 daysOrder.forEach(dayName => {
-                    const schedules = scheduleData[dayName] || [];
+                    const schedules = weeklySchedule[dayName] || [];
                     
                     const dayColumn = document.createElement('div');
                     dayColumn.className = 'day-column';
@@ -241,11 +246,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalContent.innerHTML = `<div class="alert alert-danger">${error}</div>`;
             });    }
 
-    function confirmAppointment(citaId) {
-        if (!confirm('¿Está seguro de que desea confirmar esta cita?')) {
-            return;
-        }
+    /**
+     * Muestra un modal de confirmación genérico y ejecuta una acción.
+     * @param {string} title - Título del modal.
+     * @param {string} body - Mensaje del modal.
+     * @param {function} onConfirm - Callback a ejecutar si se confirma.
+     */
+    function showConfirmModal(title, body, onConfirm) {
+        const confirmModalHTML = `
+            <div class="modal fade" id="confirmActionModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title"><i class="fas fa-question-circle me-2"></i> ${title}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">${body}</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id="confirmActionBtn" class="btn btn-primary">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        // Eliminar modal anterior si existe
+        document.getElementById('confirmActionModal')?.remove();
+        document.body.insertAdjacentHTML('beforeend', confirmModalHTML);
 
+        const modalElement = document.getElementById('confirmActionModal');
+        const confirmModal = new bootstrap.Modal(modalElement);
+
+        modalElement.querySelector('#confirmActionBtn').onclick = () => {
+            onConfirm();
+            confirmModal.hide();
+        };
+
+        modalElement.addEventListener('hidden.bs.modal', () => modalElement.remove());
+        
+        confirmModal.show();
+    }
+
+    function confirmAppointment(citaId) {
+        const onConfirm = () => {
         const button = document.querySelector(`.confirm-btn[data-id='${citaId}']`);
         button.disabled = true;
         button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
@@ -270,6 +313,13 @@ document.addEventListener('DOMContentLoaded', function() {
             button.disabled = false;
             button.innerHTML = '<i class="fas fa-check"></i>';
         });
+        };
+
+        showConfirmModal(
+            'Confirmar Cita',
+            '¿Está seguro de que desea confirmar esta cita?',
+            onConfirm
+        );
     }
 
     // --- Iniciar la aplicación ---

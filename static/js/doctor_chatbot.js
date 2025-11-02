@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mensaje de bienvenida inicial
     function showWelcomeMessage() {
-        const welcomeText = `¡Hola! Soy tu asistente personal. Puedes preguntarme sobre tu horario o tus citas.`;
+        const welcomeText = `¡Hola! Soy MediBot, tu asistente virtual. Puedes preguntarme sobre tu horario o tus citas.`;
         addMessage(welcomeText, 'bot');
     }
 
