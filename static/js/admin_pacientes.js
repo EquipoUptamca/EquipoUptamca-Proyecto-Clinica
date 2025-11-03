@@ -52,9 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
         noResults.style.display = 'none';
 
         pacientes.forEach(paciente => {
-            const statusBadge = paciente.estado === 'A'
-                ? '<span class="status-badge active">Activo</span>' 
-                : '<span class="status-badge inactive">Inactivo</span>';
+            const estadoBadge = getEstadoBadge(paciente.estado);
+            const statusBadge = `<span class="badge ${estadoBadge.clase}">${estadoBadge.texto}</span>`;
 
             const fechaNac = paciente.fecha_nacimiento 
                 ? new Date(paciente.fecha_nacimiento).toLocaleDateString('es-ES')
@@ -86,6 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
         div.textContent = text;
         return div.innerHTML;
     }
+
+    function getEstadoBadge(estado) {
+        switch (estado) {
+            case 'A':
+                return { texto: 'Activo', clase: 'bg-success' };
+            case 'I':
+                return { texto: 'Inactivo', clase: 'bg-danger' };
+            default:
+                return { texto: 'Desconocido', clase: 'bg-secondary' };
+        }
+    }
+
 
     // --- Lógica del Modal ---
     function openModal(paciente = null) {

@@ -1,6 +1,6 @@
 :root {
     /* Paleta principal unificada */
-    --primary-color: #1a936f;
+    --primary-color: #1a936f; /* Verde principal */
     --primary-dark: #116c50;
     --primary-light: #2a9d6f;
     --primary-soft: #e8f5f0;
@@ -8,6 +8,7 @@
     --secondary-color: #0b3954;
     --secondary-dark: #08283d;
     --accent-color: #ffc857;
+    --accent-red: #e74c3c; /* Rojo para acentos/cancelaciones */
     
     /* Colores de estado para citas */
     --success-color: #5cb85c;
@@ -236,6 +237,33 @@ body {
     background: linear-gradient(135deg, #d4edda, #c8e6c9) !important;
 }
 
+.stat-card {
+    border: none;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.stat-card .stat-icon {
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.stat-card:hover .stat-icon {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 /* ==================== FILTER CARD ==================== */
 .filter-card {
     border-left: 4px solid var(--primary-color);
@@ -308,7 +336,8 @@ body {
 .pulse-animation {
     animation: pulse 2s infinite;
 }
- /* Estilos para los botones de exportación */
+
+/* Estilos para los botones de exportación */
 .btn-export {
     background: linear-gradient(135deg, #1e663e 0%, #268a53 100%);
     border: none;
@@ -332,10 +361,146 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 8px;
 }
+
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(26, 147, 111, 0.4); }
     70% { box-shadow: 0 0 0 10px rgba(26, 147, 111, 0); }
     100% { box-shadow: 0 0 0 0 rgba(26, 147, 111, 0); }
+}
+
+/* ==================== ESTADOS DE PACIENTES ==================== */
+.estado-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+}
+
+.estado-activo {
+    background: linear-gradient(135deg, #d4edda, #c8e6c9);
+    color: var(--cita-completada);
+    border-color: var(--cita-completada);
+}
+
+.estado-inactivo {
+    background: linear-gradient(135deg, #f8d7da, #ffcdd2);
+    color: var(--cita-cancelada);
+    border-color: var(--cita-cancelada);
+}
+
+/* ==================== TABLA DE PACIENTES ==================== */
+.table-card {
+    border-left: 4px solid var(--primary-color);
+    overflow: hidden;
+}
+
+.table-card .card-header {
+    background: linear-gradient(135deg, var(--primary-soft), #f0f8ff);
+    border-bottom: 2px solid var(--primary-color);
+    padding: 1rem 1.5rem;
+}
+
+#pacientesTable th {
+    background: linear-gradient(135deg, var(--primary-soft), #f0f8ff);
+    color: var(--secondary-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 1rem 0.75rem;
+    position: relative;
+}
+
+#pacientesTable th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+}
+
+#pacientesTable td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+#pacientesTable tbody tr {
+    transition: var(--transition);
+}
+
+#pacientesTable tbody tr:hover {
+    background: linear-gradient(135deg, var(--primary-soft), rgba(26, 147, 111, 0.05));
+    transform: translateX(5px);
+}
+
+#pacientesTable tbody tr:hover td {
+    background: transparent;
+}
+
+/* Botones de acción en la tabla */
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+    transition: var(--transition);
+    border: none;
+    font-size: 0.875rem;
+}
+
+.btn-edit {
+    background: linear-gradient(135deg, var(--info-color), #3498db);
+    color: white;
+}
+
+.btn-edit:hover {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-delete {
+    background: linear-gradient(135deg, var(--error-color), #c0392b);
+    color: white;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-view {
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    color: white;
+}
+
+.btn-view:hover {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(240, 173, 78, 0.3);
+}
+
+/* Badge para contador de pacientes */
+.badge.bg-primary-soft {
+    background: linear-gradient(135deg, var(--primary-soft), #e8f5f0) !important;
+    color: var(--primary-dark);
+    border: 1px solid var(--primary-color);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
 }
 
 /* ==================== FULLCALENDAR STYLES ==================== */
@@ -423,12 +588,24 @@ body {
     border: none;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-lg);
+    overflow: hidden;
 }
 
 .modal-header {
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     border-bottom: none;
     padding: 1.5rem;
+    position: relative;
+}
+
+.modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1.5rem;
+    right: 1.5rem;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
 }
 
 .modal-header.bg-primary {
@@ -471,6 +648,32 @@ body {
     color: var(--secondary-color);
     margin-bottom: 8px;
     font-size: 0.9rem;
+}
+
+/* Pestañas del formulario */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-color);
+}
+
+.nav-tabs .nav-link {
+    border: none;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 12px 20px;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.nav-tabs .nav-link:hover {
+    border: none;
+    color: var(--primary-color);
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-soft), #f0f8ff);
+    color: var(--primary-color);
+    border: none;
+    border-bottom: 3px solid var(--primary-color);
 }
 
 /* Time slots */
@@ -542,6 +745,7 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 9999;
+    backdrop-filter: blur(5px);
 }
 
 .spinner-border-custom {
@@ -567,6 +771,7 @@ body {
     box-shadow: var(--shadow-lg);
     border-left: 4px solid;
     animation: slideInRight 0.5s ease-out;
+    backdrop-filter: blur(10px);
 }
 
 .alert-success {
@@ -610,8 +815,23 @@ body {
     }
 }
 
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .fade-in {
     animation: fadeIn 0.6s ease-out forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
 }
 
 /* ==================== RESPONSIVE STYLES ==================== */
@@ -651,6 +871,16 @@ body {
         width: calc(100% - 80px);
         padding: 1.5rem;
     }
+    
+    .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .stat-card .card-body {
+        padding: 1rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -677,6 +907,58 @@ body {
     .time-slots {
         grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     }
+    
+    .table-card .card-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    #pacientesTable {
+        font-size: 0.875rem;
+    }
+    
+    .btn-action {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+    }
+    
+    .estado-badge {
+        min-width: 70px;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+    
+    .header-bar {
+        padding: 1rem;
+    }
+    
+    .header-bar h1 {
+        font-size: 1.5rem;
+    }
+    
+    .filter-card .card-body {
+        padding: 1rem;
+    }
+    
+    .filter-card .row {
+        margin: 0;
+    }
+    
+    .filter-card .col-md-3 {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-dialog.modal-xl {
+        margin: 0.5rem;
+    }
 }
 
 /* Custom scrollbar */
@@ -696,4 +978,25 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
+}
+
+/* Estilos para elementos deshabilitados */
+.form-control:disabled,
+.form-select:disabled {
+    background-color: var(--border-color);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Estilos para validación de formularios */
+.was-validated .form-control:valid,
+.form-control.is-valid {
+    border-color: var(--success-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%235cb85c' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+}
+
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    border-color: var(--error-color);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23d9534f'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 3.6.4.4.4-.4'/%3e%3cpath d='M6 7v2'/%3e%3c/svg%3e");
 }
