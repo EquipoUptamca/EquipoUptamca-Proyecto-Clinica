@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Asistencias - MedAsistencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos para Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Estilos del sistema -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+        <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+        <div class="logo p-3 text-center">
+            <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+            <h4 class="text-white">Sistema Clínico</h4>
+        </div>
+        <div class="user-profile p-3 d-flex align-items-center">
+            <img src="https://ui-avatars.com/api/?name={{ session.nombre_completo | urlencode }}&background=3498db&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+            <div class="text-white">
+                <strong id="username">{{ session.nombre_completo or 'Usuario' }}</strong>
+                <small id="userrole" class="d-block">{{ session.tipo_usuario | capitalize or 'Rol' }}</small>
+            </div>
+        </div>
+        <ul class="nav flex-column flex-grow-1 p-2">
+            {% if session.tipo_usuario == 'admin' %}
+                <li class="nav-item"><a class="nav-link" href="/admin_dashboard"><i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/medicos"><i class="fas fa-user-md"></i> <span class="nav-link-text">Médicos</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/horarios"><i class="fas fa-calendar"></i> <span class="nav-link-text">Horarios</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/pacientes"><i class="fas fa-procedures"></i> <span class="nav-link-text">Pacientes</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/citas"><i class="fas fa-calendar-check"></i> <span class="nav-link-text">Citas</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="/users"><i class="fas fa-users-cog"></i> <span class="nav-link-text">Usuarios</span></a></li>
+                <li class="nav-item"><a class="nav-link active" href="{{ url_for('views.asistencias_page') }}"><i class="fas fa-user-clock"></i> <span class="nav-link-text">Asistencias</span></a></li>
+            {% elif session.tipo_usuario == 'medico' %}
+                <!-- Agrega aquí los enlaces para el médico -->
+            {% elif session.tipo_usuario == 'recepcion' %}
+                <!-- Agrega aquí los enlaces para recepción -->
+            {% endif %}
+            <li class="nav-item mt-auto"><a class="nav-link" href="/perfil"><i class="fas fa-user-circle"></i> <span class="nav-link-text">Mi Perfil</span></a></li>
+            <li class="nav-item"><a class="nav-link text-danger" href="/login"><i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1 fade-in" id="mainContent">
+        <div class="header-bar">
+            <h1 class="h2"><i class="fas fa-user-clock me-2 text-primary"></i> Gestión de Asistencias</h1>
+        </div>
+
+        <div class="container-fluid py-4">
+            <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100"></div>
+            
+            <p class="text-muted mb-4">
+                Visualiza y gestiona los registros de entrada y salida del personal médico.
+            </p>
+
+            <!-- Filtros -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3"><i class="fas fa-filter me-2"></i>Filtrar Registros</h5>
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label for="filtro-medico" class="form-label">Médico</label>
+                            <select id="filtro-medico" class="form-control" style="width: 100%;">
+                                <!-- Opciones cargadas por Select2 -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="filtro-fecha-inicio" class="form-label">Fecha de Inicio</label>
+                            <input type="date" id="filtro-fecha-inicio" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="filtro-fecha-fin" class="form-label">Fecha de Fin</label>
+                            <input type="date" id="filtro-fecha-fin" class="form-control">
+                        </div>
+                        <div class="col-md-2">
+                            <button id="btn-filtrar" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-1"></i>Filtrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Asistencias -->
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-list-alt me-2"></i>Registros de Asistencia</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Médico</th>
+                                    <th>Fecha</th>
+                                    <th>Hora Entrada</th>
+                                    <th>Hora Salida</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-asistencias-body">
+                                <!-- Los datos se cargarán aquí con JavaScript -->
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Registrar Hora de Salida -->
+<div class="modal fade" id="salidaModal" tabindex="-1" aria-labelledby="salidaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="salidaModalLabel"><i class="fas fa-clock me-2"></i>Registrar Hora de Salida</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Confirmar registro de salida para el médico <strong id="medico-salida-nombre"></strong>.</p>
+                <form id="form-salida">
+                    <input type="hidden" id="id-asistencia-salida">
+                    <div class="mb-3">
+                        <label for="hora-salida-input" class="form-label">Hora de Salida</label>
+                        <input type="time" class="form-control" id="hora-salida-input" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-salida">Confirmar Salida</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Incluir jQuery y Select2 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- Incluir Day.js para manejo de fechas -->
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<!-- Tu script personalizado -->
+<script src="{{ url_for('static', filename='js/asistencias.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lógica para colapsar la barra lateral
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('mainContent').classList.toggle('collapsed');
+            });
+        }
+    });
+</script>
+</body>
+</html>

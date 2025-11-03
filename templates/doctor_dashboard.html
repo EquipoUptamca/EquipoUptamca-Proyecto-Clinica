@@ -9,10 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_chatbot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_chatbot.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
     <style>
         .table-hover tbody tr.clickable-row:hover {
             cursor: pointer;
             background-color: #f1f1f1;
+        }
+        #asistenciaModal .modal-footer .btn {
+            min-width: 150px;
         }
         .weekly-schedule-grid {
             display: grid;
@@ -40,7 +45,6 @@
             font-size: 0.9rem;
         }
     </style>
-    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
 </head>
 <body>
     <div class="d-flex">
@@ -101,6 +105,9 @@
                     <i class="fas fa-tachometer-alt me-2 text-success"></i> Dashboard Médico
                 </h1>
                 <div class="d-flex align-items-center">
+                    <button class="btn btn-info text-white ms-auto" id="openAsistenciaBtn">
+                        <i class="fas fa-user-clock me-2"></i>Registrar Asistencia
+                    </button>
                     <span class="badge bg-light text-dark me-3"><i class="fas fa-clock me-1"></i> <span id="currentDateTime"></span></span>
                 </div>
             </div>
@@ -209,6 +216,29 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Asistencia -->
+    <div class="modal fade" id="asistenciaModal" tabindex="-1" aria-labelledby="asistenciaModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="asistenciaModalLabel"><i class="fas fa-user-clock me-2"></i>Registro de Asistencia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="asistenciaModalBody">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-2">Verificando estado de asistencia...</p>
+                    </div>
+                </div>
+                <div class="modal-footer" id="asistenciaModalFooter">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>

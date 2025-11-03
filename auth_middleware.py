@@ -54,7 +54,7 @@ def role_required(*roles):
     def decorator(f):
         @wraps(f)
         def decorated_function(current_user, *args, **kwargs):
-            user_role = current_user.get('id_rol')
+            user_role = current_user['id_rol']
             if user_role not in roles:
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return jsonify({'error': 'Acceso denegado. No tiene los permisos necesarios.'}), 403

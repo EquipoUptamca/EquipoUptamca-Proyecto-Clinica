@@ -276,7 +276,7 @@ def get_doctor_response(lc_input, current_user):
 
 def handle_doctor_greeting(current_user):
     """Maneja los saludos del médico."""
-    nombre_medico = current_user.nombre_completo.split()[0] if current_user.nombre_completo else 'Doctor/a'
+    nombre_medico = current_user['nombre_completo'].split()[0] if current_user['nombre_completo'] else 'Doctor/a'
     return {
         'text': f'¡Hola, Dr/a. {nombre_medico}! 👋 Soy MediBot, tu asistente personal. ¿En qué puedo ayudarte hoy?'
     }
@@ -294,7 +294,7 @@ def handle_doctor_schedule(current_user):
         with conn.cursor() as cursor:
             cursor.execute("""
                 SELECT dia_semana, hora_inicio, hora_fin 
-                FROM HorariosMedicos 
+                FROM Horarios_disponibles 
                 WHERE id_medico = (
                     SELECT id_medico FROM Medicos WHERE id_usuario = ?
                 ) 
@@ -308,7 +308,7 @@ def handle_doctor_schedule(current_user):
                         WHEN 'Sábado' THEN 6
                         WHEN 'Domingo' THEN 7
                     END
-            """, (current_user.id_usuario,))
+            """, (current_user['id_usuario'],))
             
             horarios = cursor.fetchall()
             
@@ -349,7 +349,7 @@ def get_doctor_appointments_info(tipo, current_user):
             }
 
         with conn.cursor() as cursor:
-            cursor.execute("SELECT id_medico FROM Medicos WHERE id_usuario = ?", (current_user.id_usuario,))
+            cursor.execute("SELECT id_medico FROM Medicos WHERE id_usuario = ?", (current_user['id_usuario'],))
             medico_row = cursor.fetchone()
             
             if not medico_row:
@@ -468,7 +468,7 @@ def handle_doctor_stats(current_user):
             }
         
         with conn.cursor() as cursor:
-            cursor.execute("SELECT id_medico FROM Medicos WHERE id_usuario = ?", (current_user.id_usuario,))
+            cursor.execute("SELECT id_medico FROM Medicos WHERE id_usuario = ?", (current_user['id_usuario'],))
             medico_row = cursor.fetchone()
             
             if not medico_row:

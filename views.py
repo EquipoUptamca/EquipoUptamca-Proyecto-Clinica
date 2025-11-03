@@ -101,7 +101,7 @@ def users():
 
 @views_bp.route('/asistencias')
 def asistencias_page():
-    return render_template('asistencias.html')
+    return render_template('asistencias.html', current_user=session)
 
 # Agrega estas nuevas rutas para las consultas
 @views_bp.route('/consultas_login')

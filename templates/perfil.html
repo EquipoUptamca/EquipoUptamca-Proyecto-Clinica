@@ -43,6 +43,7 @@
                     <li class="nav-item"><a class="nav-link" href="/pacientes"><i class="fas fa-procedures"></i> <span class="nav-link-text">Pacientes</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/citas"><i class="fas fa-calendar-check"></i> <span class="nav-link-text">Citas</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/users"><i class="fas fa-users-cog"></i> <span class="nav-link-text">Usuarios</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('views.asistencias_page') }}"><i class="fas fa-user-clock"></i> <span class="nav-link-text">Asistencias</span></a></li>
                 {% elif session.tipo_usuario == 'medico' %}
                     <!-- Agrega aquí los enlaces para el médico -->
                 {% elif session.tipo_usuario == 'recepcion' %}
