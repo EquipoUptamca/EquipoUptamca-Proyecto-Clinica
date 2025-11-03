@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
         setupEventListeners();
         updateDateTime();
         setInterval(updateDateTime, 1000); // Actualizar cada segundo
+        
+        // Verificar estado de asistencia automáticamente cada 5 minutos
+        setInterval(verificarEstadoAsistencia, 5 * 60 * 1000);
+        // Verificar también al cargar la página
+        setTimeout(verificarEstadoAsistencia, 3000);
     }
 
     // --- Carga de Datos ---
@@ -34,6 +39,75 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('weekly-completed').textContent = stats.weekly_completed || 0;
             })
             .catch(error => console.error('Error al cargar estadísticas del médico:', error));
+    }
+
+    // Nueva función para verificar estado de asistencia automáticamente
+    function verificarEstadoAsistencia() {
+        fetch('/api/asistencia/verificar-ausentes')
+            .then(response => response.json())
+            .then(data => {
+                if (data.estado === 'ausente_automatico') {
+                    // Mostrar notificación si fue marcado automáticamente como ausente
+                    mostrarNotificacionAusente(data.message);
+                    // Recargar el estado de asistencia en el modal
+                    if (typeof checkAsistenciaStatus === 'function') {
+                        checkAsistenciaStatus();
+                    }
+                } else if (data.estado === 'Ausente') {
+                    // Si ya está marcado como ausente
+                    mostrarNotificacionInfo(`Estado de asistencia: ${data.estado}`);
+                }
+            })
+            .catch(error => console.error('Error al verificar estado de asistencia:', error));
+    }
+
+    function mostrarNotificacionAusente(mensaje) {
+        mostrarNotificacion(mensaje, 'warning');
+    }
+
+    function mostrarNotificacionInfo(mensaje) {
+        mostrarNotificacion(mensaje, 'info');
+    }
+
+    function mostrarNotificacion(mensaje, tipo = 'info') {
+        const colores = {
+            'warning': 'text-bg-warning',
+            'info': 'text-bg-info',
+            'success': 'text-bg-success',
+            'danger': 'text-bg-danger'
+        };
+        
+        const colorClase = colores[tipo] || colores.info;
+        
+        const toastHTML = `
+            <div class="toast align-items-center ${colorClase} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="fas ${tipo === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'} me-2"></i>${mensaje}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+        
+        // Crear contenedor de toasts si no existe
+        let toastContainer = document.getElementById('toastContainer');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'toastContainer';
+            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+            document.body.appendChild(toastContainer);
+        }
+        
+        toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+        
+        // Auto-eliminar el toast después de 10 segundos
+        setTimeout(() => {
+            const toast = toastContainer.lastElementChild;
+            if (toast) {
+                toast.remove();
+            }
+        }, 10000);
     }
 
     function loadUpcomingAppointments() {
@@ -368,9 +442,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 btnEntrada.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Registrar Entrada';
                 btnEntrada.onclick = registrarEntrada;
                 modalFooter.appendChild(btnEntrada);
+            } else if (asistenciaState.estado_asistencia === 'Ausente') {
+                // Ya fue marcado como ausente automáticamente
+                modalBody.innerHTML = `<div class="alert alert-warning">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Estado: Ausente</h5>
+                    <p class="mb-0">No registraste tu asistencia dentro de tu horario laboral.</p>
+                </div>`;
             } else if (asistenciaState && !asistenciaState.hora_salida) {
                 // Marcó entrada, pero no salida
-                modalBody.innerHTML = `<p>✅ Entrada registrada a las: <strong>${asistenciaState.hora_entrada}</strong>.</p>
+                let estadoBadge = '';
+                if (asistenciaState.estado_asistencia === 'Tarde') {
+                    estadoBadge = '<span class="badge bg-warning">Tarde</span>';
+                } else {
+                    estadoBadge = '<span class="badge bg-success">Asistió</span>';
+                }
+                
+                modalBody.innerHTML = `<p>${estadoBadge} Entrada registrada a las: <strong>${asistenciaState.hora_entrada}</strong>.</p>
                                        <p>Tu turno de hoy finaliza a las: <strong>${asistenciaState.horario_fin_hoy || 'N/A'}</strong>.</p>`;
                 const btnSalida = document.createElement('button');
                 btnSalida.id = 'btnRegistrarSalida';
@@ -415,7 +502,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) throw new Error(data.error || 'Error al registrar entrada');
                 
                 asistenciaModal.hide();
-                alert('Entrada registrada con éxito.');
+                mostrarNotificacion('Entrada registrada con éxito.', 'success');
                 checkAsistenciaStatus(); // Recargar estado
             } catch (error) {
                 alert(`Error: ${error.message}`);
@@ -434,7 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!response.ok) throw new Error(data.error || 'Error al registrar salida');
 
                 asistenciaModal.hide();
-                alert('Salida registrada con éxito.');
+                mostrarNotificacion('Salida registrada con éxito.', 'success');
                 checkAsistenciaStatus(); // Recargar estado
             } catch (error) {
                 alert(`Error: ${error.message}`);
