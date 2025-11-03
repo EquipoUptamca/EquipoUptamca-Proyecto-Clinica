@@ -1,12 +1,118 @@
 from flask import Blueprint, request, jsonify
 import pyodbc
 import logging
-from datetime import datetime, date
+from datetime import datetime, date, time, timedelta
 from database import get_db_connection
 from auth_middleware import login_required, role_required
 
 asistencias_bp = Blueprint('asistencia', __name__)
 logger = logging.getLogger(__name__)
+
+# Mapeo de días de la semana
+DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+
+def obtener_horario_medico_hoy(id_medico):
+    """Obtiene el horario del médico para el día actual"""
+    conn = get_db_connection()
+    if not conn:
+        return None
+    
+    try:
+        with conn.cursor() as cursor:
+            hoy = date.today()
+            dia_actual_str = DIAS_SEMANA[hoy.weekday()]
+            
+            cursor.execute("""
+                SELECT hora_inicio, hora_fin 
+                FROM Horarios_disponibles 
+                WHERE id_medico = ? AND dia_semana = ?
+            """, (id_medico, dia_actual_str))
+            
+            horario = cursor.fetchone()
+            return horario if horario else None
+            
+    except Exception as e:
+        logger.error(f"Error al obtener horario del médico {id_medico}: {str(e)}")
+        return None
+    finally:
+        if conn:
+            conn.close()
+
+def marcar_ausentes_automatico():
+    """Función para marcar automáticamente como ausentes a médicos que no registraron asistencia"""
+    conn = get_db_connection()
+    if not conn:
+        return False
+    
+    try:
+        with conn.cursor() as cursor:
+            hoy = date.today().strftime('%Y-%m-%d')
+            dia_actual_str = DIAS_SEMANA[date.today().weekday()]
+            ahora = datetime.now().time()
+            
+            # Obtener todos los médicos con horario para hoy
+            cursor.execute("""
+                SELECT DISTINCT m.id_medico, u.nombre_completo, h.hora_fin
+                FROM Medicos m
+                JOIN Usuarios u ON m.id_usuario = u.id_usuario
+                JOIN Horarios_disponibles h ON m.id_medico = h.id_medico
+                WHERE h.dia_semana = ?
+            """, (dia_actual_str,))
+            
+            medicos_con_horario = cursor.fetchall()
+            ausentes_marcados = 0
+            
+            for medico in medicos_con_horario:
+                id_medico, nombre_medico, hora_fin_turno = medico
+                
+                # Verificar si ya tiene registro de asistencia hoy
+                cursor.execute("""
+                    SELECT id_asistencia, estado_asistencia 
+                    FROM Asistencias 
+                    WHERE id_medico = ? AND fecha = ?
+                """, (id_medico, hoy))
+                
+                asistencia_existente = cursor.fetchone()
+                
+                # Si no tiene asistencia y ya pasó su horario, marcar como ausente
+                if not asistencia_existente and hora_fin_turno and ahora > hora_fin_turno:
+                    cursor.execute("""
+                        INSERT INTO Asistencias (id_medico, fecha, estado_asistencia)
+                        VALUES (?, ?, ?)
+                    """, (id_medico, hoy, 'Ausente'))
+                    ausentes_marcados += 1
+                    logger.info(f"Médico {nombre_medico} (ID: {id_medico}) marcado automáticamente como Ausente")
+                
+                # Si tiene asistencia pero está como 'Asistió' o 'Tarde' y no marcó salida, verificar si debe cambiar a 'Ausente'
+                elif asistencia_existente and asistencia_existente[1] in ['Asistió', 'Tarde']:
+                    # Verificar si no marcó salida y ya pasó mucho tiempo después de su horario
+                    cursor.execute("""
+                        SELECT hora_salida FROM Asistencias WHERE id_asistencia = ?
+                    """, (asistencia_existente[0],))
+                    
+                    hora_salida = cursor.fetchone()[0]
+                    if not hora_salida and hora_fin_turno:
+                        # Si pasó más de 2 horas después de su horario sin marcar salida, marcar como ausente
+                        hora_limite_salida = datetime.combine(date.today(), hora_fin_turno) + timedelta(hours=2)
+                        if datetime.now() > hora_limite_salida:
+                            cursor.execute("""
+                                UPDATE Asistencias 
+                                SET estado_asistencia = 'Ausente' 
+                                WHERE id_asistencia = ?
+                            """, (asistencia_existente[0],))
+                            logger.info(f"Médico {nombre_medico} (ID: {id_medico}) actualizado a Ausente por no registrar salida")
+            
+            conn.commit()
+            logger.info(f"Proceso automático de ausentes completado. {ausentes_marcados} médicos marcados como ausentes.")
+            return True
+            
+    except Exception as e:
+        conn.rollback()
+        logger.error(f"Error en marcado automático de ausentes: {str(e)}")
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 # Endpoint para registrar una nueva asistencia (marcar entrada)
 @asistencias_bp.route('/api/asistencia', methods=['POST'])
@@ -43,14 +149,19 @@ def registrar_asistencia(current_user):
             # CORRECCIÓN: Usar valores válidos según la CHECK constraint
             estado_asistencia = data.get('estado_asistencia', 'Asistió')  # Valor por defecto válido
 
-            # Lógica opcional para determinar automáticamente "Tarde" vs "Asistió"
+            # Lógica para determinar automáticamente "Tarde" vs "Asistió"
             if hora_entrada and estado_asistencia == 'Asistió':
                 try:
                     hora_entrada_dt = datetime.strptime(hora_entrada, '%H:%M:%S').time()
-                    # Definir hora límite para considerar "Tarde" (ejemplo: después de las 8:00 AM)
-                    hora_limite = datetime.strptime('08:00:00', '%H:%M:%S').time()
-                    if hora_entrada_dt > hora_limite:
-                        estado_asistencia = 'Tarde'
+                    
+                    # Obtener horario del médico para hoy
+                    horario_hoy = obtener_horario_medico_hoy(id_medico)
+                    if horario_hoy and horario_hoy[0]:  # hora_inicio
+                        hora_inicio_turno = horario_hoy[0]
+                        # Si llegó después de su hora de inicio + 15 minutos, es "Tarde"
+                        margen_tardanza = datetime.combine(date.today(), hora_inicio_turno) + timedelta(minutes=15)
+                        if datetime.now().time() > margen_tardanza.time():
+                            estado_asistencia = 'Tarde'
                 except ValueError:
                     # Si hay error en el formato de hora, mantener 'Asistió'
                     pass
@@ -59,27 +170,32 @@ def registrar_asistencia(current_user):
                 return jsonify({'error': 'Faltan campos requeridos: hora_entrada'}), 400
 
             # Verificar si ya existe un registro para ese médico en esa fecha
-            cursor.execute("SELECT 1 FROM Asistencias WHERE id_medico = ? AND fecha = ?", (id_medico, fecha))
-            if cursor.fetchone():
-                return jsonify({'error': 'Ya existe un registro de asistencia para este médico en la fecha especificada'}), 409
-
-            # Insertar el nuevo registro de asistencia
-            cursor.execute("""
-                INSERT INTO Asistencias (id_medico, fecha, hora_entrada, estado_asistencia)
-                OUTPUT INSERTED.id_asistencia
-                VALUES (?, ?, ?, ?)
-            """, (
-                id_medico,
-                fecha,
-                hora_entrada,
-                estado_asistencia
-            ))
-            asistencia_id = cursor.fetchone()[0]
+            cursor.execute("SELECT id_asistencia FROM Asistencias WHERE id_medico = ? AND fecha = ?", (id_medico, fecha))
+            existing_asistencia = cursor.fetchone()
+            
+            if existing_asistencia:
+                # Actualizar registro existente
+                cursor.execute("""
+                    UPDATE Asistencias 
+                    SET hora_entrada = ?, estado_asistencia = ?
+                    WHERE id_asistencia = ?
+                """, (hora_entrada, estado_asistencia, existing_asistencia[0]))
+                asistencia_id = existing_asistencia[0]
+            else:
+                # Insertar nuevo registro
+                cursor.execute("""
+                    INSERT INTO Asistencias (id_medico, fecha, hora_entrada, estado_asistencia)
+                    OUTPUT INSERTED.id_asistencia
+                    VALUES (?, ?, ?, ?)
+                """, (id_medico, fecha, hora_entrada, estado_asistencia))
+                asistencia_id = cursor.fetchone()[0]
+            
             conn.commit()
 
             return jsonify({
                 'message': 'Asistencia registrada exitosamente',
-                'id_asistencia': asistencia_id
+                'id_asistencia': asistencia_id,
+                'estado_asistencia': estado_asistencia
             }), 201
 
     except pyodbc.Error as e:
@@ -108,12 +224,10 @@ def get_asistencia_hoy(current_user):
             id_medico = medico_row[0]
 
             today = date.today().strftime('%Y-%m-%d')
-            
-            dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
-            dia_actual_str = dias_semana[date.today().weekday()]
+            dia_actual_str = DIAS_SEMANA[date.today().weekday()]
 
             cursor.execute("""
-                SELECT a.id_asistencia, a.hora_entrada, a.hora_salida, h.hora_fin
+                SELECT a.id_asistencia, a.hora_entrada, a.hora_salida, a.estado_asistencia, h.hora_fin
                 FROM Asistencias a
                 LEFT JOIN Horarios_disponibles h ON a.id_medico = h.id_medico AND h.dia_semana = ?
                 WHERE a.id_medico = ? AND a.fecha = ?
@@ -126,7 +240,8 @@ def get_asistencia_hoy(current_user):
                     'id_asistencia': asistencia[0],
                     'hora_entrada': asistencia[1].strftime('%H:%M:%S') if asistencia[1] else None,
                     'hora_salida': asistencia[2].strftime('%H:%M:%S') if asistencia[2] else None,
-                    'horario_fin_hoy': asistencia[3].strftime('%H:%M:%S') if asistencia[3] else None
+                    'estado_asistencia': asistencia[3],
+                    'horario_fin_hoy': asistencia[4].strftime('%H:%M:%S') if asistencia[4] else None
                 })
             return jsonify(None) # No hay registro de asistencia para hoy
     finally:
@@ -202,7 +317,6 @@ def actualizar_asistencia(current_user, id_asistencia):
         return jsonify({'error': 'Se requiere el campo hora_salida'}), 400
 
     hora_salida_str = data['hora_salida']
-    hora_salida_dt = datetime.strptime(hora_salida_str, '%H:%M').time()
 
     conn = get_db_connection()
     if not conn:
@@ -218,14 +332,15 @@ def actualizar_asistencia(current_user, id_asistencia):
                     return jsonify({'error': 'Perfil de médico no encontrado'}), 404
                 id_medico = medico_row[0]
 
-                dias_semana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
-                dia_actual_str = dias_semana[date.today().weekday()]
+                dia_actual_str = DIAS_SEMANA[date.today().weekday()]
 
                 cursor.execute("SELECT hora_fin FROM Horarios_disponibles WHERE id_medico = ? AND dia_semana = ?", (id_medico, dia_actual_str))
                 horario_fin_row = cursor.fetchone()
 
                 if horario_fin_row and horario_fin_row[0]:
                     hora_fin_turno = horario_fin_row[0]
+                    hora_salida_dt = datetime.strptime(hora_salida_str, '%H:%M').time()
+                    
                     # Comparamos solo si la hora de salida es anterior a la hora de fin de turno
                     if hora_salida_dt < hora_fin_turno:
                         return jsonify({
@@ -233,12 +348,9 @@ def actualizar_asistencia(current_user, id_asistencia):
                         }), 403 # Forbidden
 
             # Proceder con la actualización
-            cursor.execute("UPDATE Asistencias SET hora_salida = ? WHERE id_asistencia = ?", (data['hora_salida'], id_asistencia))
+            cursor.execute("UPDATE Asistencias SET hora_salida = ? WHERE id_asistencia = ?", (hora_salida_str, id_asistencia))
             if cursor.rowcount == 0:
                 return jsonify({'error': 'Registro de asistencia no encontrado'}), 404
-            
-            # Cambiar estado a 'Completado' si se desea
-            # cursor.execute("UPDATE Asistencias SET estado_asistencia = 'Completado' WHERE id_asistencia = ?", (id_asistencia,))
 
             conn.commit()
             return jsonify({'message': 'Hora de salida registrada exitosamente'})
@@ -247,6 +359,87 @@ def actualizar_asistencia(current_user, id_asistencia):
         conn.rollback()
         logger.error(f"Error en base de datos al actualizar asistencia: {str(e)}")
         return jsonify({'error': 'Error al actualizar la asistencia'}), 500
+    finally:
+        if conn:
+            conn.close()
+
+# Endpoint para marcar automáticamente ausentes (ejecución manual por admin)
+@asistencias_bp.route('/api/asistencia/marcar-ausentes', methods=['POST'])
+@login_required
+@role_required(1) # Solo Admin
+def marcar_ausentes_automatico_endpoint(current_user):
+    """Endpoint para ejecutar manualmente el marcado automático de ausentes"""
+    try:
+        resultado = marcar_ausentes_automatico()
+        if resultado:
+            return jsonify({'message': 'Proceso de marcado automático de ausentes ejecutado exitosamente'}), 200
+        else:
+            return jsonify({'error': 'Error al ejecutar el proceso automático de ausentes'}), 500
+    except Exception as e:
+        logger.error(f"Error en endpoint de marcado automático: {str(e)}")
+        return jsonify({'error': 'Error interno del servidor'}), 500
+
+# Endpoint para verificar y marcar ausentes (para uso del frontend)
+@asistencias_bp.route('/api/asistencia/verificar-ausentes', methods=['GET'])
+@login_required
+def verificar_y_marcar_ausentes(current_user):
+    """Verifica y marca ausentes para el médico actual"""
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            today = date.today().strftime('%Y-%m-%d')
+            dia_actual_str = DIAS_SEMANA[date.today().weekday()]
+            ahora = datetime.now().time()
+            
+            # Para médicos: verificar su propio estado
+            if current_user['id_rol'] == 2:
+                cursor.execute("SELECT id_medico FROM Medicos WHERE id_usuario = ?", (current_user['id_usuario'],))
+                medico_row = cursor.fetchone()
+                if not medico_row:
+                    return jsonify({'error': 'Perfil de médico no encontrado'}), 404
+                
+                id_medico = medico_row[0]
+                
+                # Verificar horario de fin
+                cursor.execute("SELECT hora_fin FROM Horarios_disponibles WHERE id_medico = ? AND dia_semana = ?", 
+                             (id_medico, dia_actual_str))
+                horario_fin_row = cursor.fetchone()
+                
+                if horario_fin_row and horario_fin_row[0]:
+                    hora_fin_turno = horario_fin_row[0]
+                    
+                    # Verificar si ya tiene asistencia
+                    cursor.execute("SELECT estado_asistencia FROM Asistencias WHERE id_medico = ? AND fecha = ?", 
+                                 (id_medico, today))
+                    asistencia_row = cursor.fetchone()
+                    
+                    # Si no tiene asistencia y ya pasó su horario, marcar como ausente
+                    if not asistencia_row and ahora > hora_fin_turno:
+                        cursor.execute("""
+                            INSERT INTO Asistencias (id_medico, fecha, estado_asistencia)
+                            VALUES (?, ?, ?)
+                        """, (id_medico, today, 'Ausente'))
+                        conn.commit()
+                        return jsonify({
+                            'estado': 'ausente_automatico',
+                            'message': 'Has sido marcado automáticamente como ausente por no registrar tu asistencia.'
+                        })
+                    
+                    elif asistencia_row:
+                        return jsonify({
+                            'estado': asistencia_row[0],
+                            'message': f'Tu estado de asistencia hoy es: {asistencia_row[0]}'
+                        })
+            
+            return jsonify({'estado': 'pendiente', 'message': 'Aún tienes tiempo para registrar tu asistencia.'})
+
+    except pyodbc.Error as e:
+        conn.rollback()
+        logger.error(f"Error en base de datos al verificar ausentes: {str(e)}")
+        return jsonify({'error': 'Error al verificar estado de asistencia'}), 500
     finally:
         if conn:
             conn.close()

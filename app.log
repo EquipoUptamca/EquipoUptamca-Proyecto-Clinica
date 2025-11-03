@@ -25200,3 +25200,148 @@
 2025-11-03 13:35:22,236 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:35:22] "POST /api/chatbot/response HTTP/1.1" 200 -
 2025-11-03 13:35:44,318 - root - INFO - Database connection established successfully
 2025-11-03 13:35:44,335 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:35:44] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-03 13:40:21,747 - root - INFO - Database connection established successfully
+2025-11-03 13:40:21,747 - root - INFO - Database connection established successfully
+2025-11-03 13:40:21,764 - root - INFO - Database connection established successfully
+2025-11-03 13:40:21,774 - root - INFO - Database connection established successfully
+2025-11-03 13:40:21,786 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:21] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-03 13:40:21,786 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:21] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-03 13:40:31,937 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:31] "GET /admin_dashboard HTTP/1.1" 200 -
+2025-11-03 13:40:31,997 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:31] "[36mGET /static/css/admin_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:31,998 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:31] "[36mGET /static/js/admin_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:31,999 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:31] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:32,001 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:32,168 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,168 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,215 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,218 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,226 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,233 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-03 13:40:32,234 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,251 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,265 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-03 13:40:32,268 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,269 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-03 13:40:32,269 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,286 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,287 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,297 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,298 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/admin/appointments-status-chart HTTP/1.1" 200 -
+2025-11-03 13:40:32,369 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-03 13:40:32,413 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/admin/appointments-chart HTTP/1.1" 200 -
+2025-11-03 13:40:32,422 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,471 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,490 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/admin/recent-activity HTTP/1.1" 200 -
+2025-11-03 13:40:32,525 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-03 13:40:32,659 - root - INFO - Database connection established successfully
+2025-11-03 13:40:32,661 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:32] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-03 13:40:35,323 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:35] "GET /login HTTP/1.1" 200 -
+2025-11-03 13:40:35,376 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:35] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:35,381 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:35] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-03 13:40:35,389 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:35] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:38,631 - root - INFO - Database connection established successfully
+2025-11-03 13:40:38,794 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:38] "POST /api/login HTTP/1.1" 200 -
+2025-11-03 13:40:40,325 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /admin_dashboard HTTP/1.1" 200 -
+2025-11-03 13:40:40,373 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "[36mGET /static/css/admin_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:40,376 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:40,378 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "[36mGET /static/js/admin_dashboard.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:40,379 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "[36mGET /static/js/admin_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:40,520 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,541 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,549 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,551 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,555 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,605 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,612 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,614 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-03 13:40:40,615 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,615 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,616 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,630 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,632 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/admin/appointments-chart HTTP/1.1" 200 -
+2025-11-03 13:40:40,671 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,671 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/admin/recent-activity HTTP/1.1" 200 -
+2025-11-03 13:40:40,679 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-03 13:40:40,701 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-03 13:40:40,723 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/admin/appointments-status-chart HTTP/1.1" 200 -
+2025-11-03 13:40:40,757 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,787 - root - INFO - Database connection established successfully
+2025-11-03 13:40:40,815 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:40] "GET /api/admin/stats HTTP/1.1" 200 -
+2025-11-03 13:40:40,999 - root - INFO - Database connection established successfully
+2025-11-03 13:40:41,001 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:41] "POST /api/chatbot/response HTTP/1.1" 200 -
+2025-11-03 13:40:43,469 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:43] "GET /horarios HTTP/1.1" 200 -
+2025-11-03 13:40:43,517 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:43] "[36mGET /static/css/schedules.css HTTP/1.1[0m" 304 -
+2025-11-03 13:40:43,523 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:43] "[36mGET /static/js/schedules.js HTTP/1.1[0m" 304 -
+2025-11-03 13:40:43,731 - root - INFO - Database connection established successfully
+2025-11-03 13:40:43,779 - root - INFO - Database connection established successfully
+2025-11-03 13:40:43,797 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:43] "GET /api/medicos HTTP/1.1" 200 -
+2025-11-03 13:40:46,329 - root - INFO - Database connection established successfully
+2025-11-03 13:40:46,330 - root - INFO - Database connection established successfully
+2025-11-03 13:40:46,331 - root - INFO - Database connection established successfully
+2025-11-03 13:40:46,331 - root - INFO - Database connection established successfully
+2025-11-03 13:40:46,337 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:46] "GET /api/horarios/8/semanal HTTP/1.1" 200 -
+2025-11-03 13:40:46,360 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:46] "GET /api/horarios/8 HTTP/1.1" 200 -
+2025-11-03 13:40:51,849 - root - INFO - Database connection established successfully
+2025-11-03 13:40:51,849 - root - INFO - Database connection established successfully
+2025-11-03 13:40:51,851 - root - INFO - Database connection established successfully
+2025-11-03 13:40:51,853 - root - INFO - Database connection established successfully
+2025-11-03 13:40:51,860 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:51] "GET /api/horarios/5 HTTP/1.1" 200 -
+2025-11-03 13:40:51,860 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 13:40:51] "GET /api/horarios/5/semanal HTTP/1.1" 200 -
+2025-11-03 14:15:56,577 - werkzeug - INFO -  * Detected change in 'c:\\Users\\fonch\\OneDrive\\Desktop\\MedAsistencia\\asistencia.py', reloading
+2025-11-03 14:15:56,578 - root - INFO - Cerrando conexiones del chatbot...
+2025-11-03 14:15:56,579 - root - INFO - Conexión cerrada para thread 119016
+2025-11-03 14:15:56,579 - root - INFO - Conexión cerrada para thread 115412
+2025-11-03 14:15:56,682 - werkzeug - INFO -  * Restarting with stat
+2025-11-03 14:15:57,355 - app - INFO - Iniciando aplicación Flask...
+2025-11-03 14:15:57,382 - werkzeug - WARNING -  * Debugger is active!
+2025-11-03 14:15:57,387 - werkzeug - INFO -  * Debugger PIN: 124-375-294
+2025-11-03 14:16:15,513 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:15] "GET /asistencias HTTP/1.1" 200 -
+2025-11-03 14:16:15,753 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:15] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:15,764 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:15] "[36mGET /static/js/asistencias.js HTTP/1.1[0m" 304 -
+2025-11-03 14:16:15,934 - root - INFO - Database connection established successfully
+2025-11-03 14:16:15,951 - root - INFO - Database connection established successfully
+2025-11-03 14:16:15,957 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:15] "GET /api/asistencia HTTP/1.1" 200 -
+2025-11-03 14:16:21,634 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:21] "GET /asistencias HTTP/1.1" 200 -
+2025-11-03 14:16:21,686 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:21] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:21,687 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:21] "[36mGET /static/js/asistencias.js HTTP/1.1[0m" 304 -
+2025-11-03 14:16:21,721 - root - INFO - Database connection established successfully
+2025-11-03 14:16:21,737 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:21] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-03 14:16:21,741 - root - INFO - Database connection established successfully
+2025-11-03 14:16:21,752 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:21] "GET /api/asistencia HTTP/1.1" 200 -
+2025-11-03 14:16:31,553 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:31] "GET /login HTTP/1.1" 200 -
+2025-11-03 14:16:31,596 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:31] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:31,602 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:31] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-03 14:16:31,614 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:31] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
+2025-11-03 14:16:39,965 - root - INFO - Database connection established successfully
+2025-11-03 14:16:40,874 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:40] "POST /api/login HTTP/1.1" 200 -
+2025-11-03 14:16:42,416 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "GET /doctor_dashboard HTTP/1.1" 200 -
+2025-11-03 14:16:42,465 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "[36mGET /static/css/admin_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:42,468 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "[36mGET /static/css/admin-pacientes-styles.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:42,468 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "[36mGET /static/css/doctor_chatbot.css HTTP/1.1[0m" 304 -
+2025-11-03 14:16:42,468 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "GET /static/js/doctor_dashboard.js HTTP/1.1" 200 -
+2025-11-03 14:16:42,474 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "[36mGET /static/js/doctor_chatbot.js HTTP/1.1[0m" 304 -
+2025-11-03 14:16:42,597 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,795 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,839 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,842 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,879 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,915 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,919 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,962 - root - INFO - Database connection established successfully
+2025-11-03 14:16:42,963 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:42] "GET /api/user-data HTTP/1.1" 200 -
+2025-11-03 14:16:42,993 - root - INFO - Database connection established successfully
+2025-11-03 14:16:43,112 - root - INFO - Database connection established successfully
+2025-11-03 14:16:43,163 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:43] "GET /api/upcoming-appointments HTTP/1.1" 200 -
+2025-11-03 14:16:43,287 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:43] "GET /api/asistencia/hoy HTTP/1.1" 200 -
+2025-11-03 14:16:43,288 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:43] "GET /api/doctor/my-schedule HTTP/1.1" 200 -
+2025-11-03 14:16:43,316 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:43] "GET /api/doctor/stats HTTP/1.1" 200 -
+2025-11-03 14:16:45,579 - root - INFO - Database connection established successfully
+2025-11-03 14:16:45,581 - root - INFO - Database connection established successfully
+2025-11-03 14:16:45,590 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:45] "GET /api/asistencia/verificar-ausentes HTTP/1.1" 200 -
+2025-11-03 14:16:57,765 - root - INFO - Database connection established successfully
+2025-11-03 14:16:57,765 - root - INFO - Database connection established successfully
+2025-11-03 14:16:57,770 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:16:57] "GET /api/asistencia/hoy HTTP/1.1" 200 -
+2025-11-03 14:17:03,630 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:17:03] "GET /login HTTP/1.1" 200 -
+2025-11-03 14:17:03,678 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:17:03] "[36mGET /static/img/Logo.webp HTTP/1.1[0m" 304 -
+2025-11-03 14:17:03,681 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:17:03] "[36mGET /static/css/login.css HTTP/1.1[0m" 304 -
+2025-11-03 14:17:03,686 - werkzeug - INFO - 127.0.0.1 - - [03/Nov/2025 14:17:03] "[36mGET /static/js/login.js HTTP/1.1[0m" 304 -
