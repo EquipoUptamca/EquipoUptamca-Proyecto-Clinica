@@ -26,7 +26,7 @@
                 <img src="https://ui-avatars.com/api/?name={{ session.nombre_completo | urlencode }}&background=1a936f&color=fff" alt="Usuario">
                 <div>
                     <strong id="username">{{ session.nombre_completo or 'Administrador' }}</strong>
-                    <small id="userrole">{{ session.tipo_usuario | capitalize or 'Admin' }}</small>
+                    <small id="userrole">{{ session.tipo_usuario | capitalize or 'Administrador' }}</small>
                 </div>
             </div>
             
