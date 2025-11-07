@@ -104,8 +104,8 @@
 
 .heatmap-table th {
     background: linear-gradient(135deg, var(--primary-soft), var(--surface-color));
-    color: var(--secondary-color);
     font-weight: 700;
+    color: rgb(255, 255, 255); /* Texto blanco para mejor contraste */
     padding: 0.75rem 0.5rem;
     border: none;
     text-align: center;
@@ -113,7 +113,7 @@
 
 .heatmap-table th:first-child {
     background: var(--primary-color);
-    color: white;
+    color: rgb(63, 76, 77); /* Asegura que el primer encabezado también sea blanco */
 }
 
 .heatmap-table td {

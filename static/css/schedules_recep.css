@@ -356,6 +356,10 @@ body {
     font-size: 0.9rem;
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -861,44 +865,6 @@ body {
     background: var(--primary-dark);
 }
 
-/* Estilos para los botones de navegación de la semana (prev/next) */
-.weekly-schedule-container .btn-group .btn { /* */
-    background-color: var(--surface-color); /* */
-    border-color: var(--primary-color); /* */
-    color: var(--primary-color); /* */
-    transition: all 0.3s ease;
-    display: flex; /* Para alinear el icono y el texto */
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem; /* Espacio entre el icono y el texto */
-}
-
-.weekly-schedule-container .btn-group .btn:hover { /* */
-    background-color: var(--primary-color); /* */
-    color: var(--white); /* */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
-
-.weekly-schedule-container .btn-group .btn:focus { /* */
-    /* Usamos un valor RGB directo para el shadow, ya que --primary-color es un hex */
-    box-shadow: 0 0 0 0.25rem rgba(26, 147, 111, 0.5); /* Corresponde a --primary-color: #1a936f */
-}
-
-.weekly-schedule-container .btn-group .btn:active {
-    transform: translateY(0);
-}
-
-/* Icono para el botón "Anterior" */
-.weekly-schedule-container .btn-group .btn:first-child::before {
-    font-family: "Font Awesome 5 Free"; /* Asegúrate de que Font Awesome esté enlazado */
-    font-weight: 900; /* Para iconos sólidos */
-    content: "\f053"; /* fa-chevron-left */
-}
-
-/* Icono para el botón "Siguiente" */
-.weekly-schedule-container .btn-group .btn:last-child::after {
-    font-family: "Font Awesome 5 Free"; /* Asegúrate de que Font Awesome esté enlazado */
-    font-weight: 900; /* Para iconos sólidos */
-    content: "\f054"; /* fa-chevron-right */
+.schedule-actions {
+    display: none;
 }
