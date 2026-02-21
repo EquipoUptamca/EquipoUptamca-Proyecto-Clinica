@@ -60,6 +60,49 @@ def get_medicos(current_user):
     finally:
         conn.close()
 
+# Endpoint para obtener el conteo total de médicos filtrados
+@doctors_bp.route('/api/medicos/count', methods=['GET'])
+@login_required
+def get_medicos_count(current_user):
+    especialidad = request.args.get('especialidad')
+    estado = request.args.get('estado')
+    search = request.args.get('search')
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            query = """
+                SELECT COUNT(*) as total
+                FROM Medicos m
+                JOIN Usuarios u ON m.id_usuario = u.id_usuario
+                WHERE 1=1
+            """
+            params = []
+            if especialidad:
+                query += " AND m.especialidad = ?"
+                params.append(especialidad)
+            if estado:
+                query += " AND m.estado = ?"
+                params.append(estado)
+            if search:
+                query += " AND (u.nombre_completo LIKE ? OR u.telefono LIKE ? OR u.gmail LIKE ? OR m.numero_colegiado LIKE ?)"
+                search_param = f'%{search}%'
+                params.extend([search_param] * 4)
+
+            cursor.execute(query, params)
+            result = cursor.fetchone()
+            total_count = result[0] if result else 0
+
+            return jsonify({'total_count': total_count})
+    except pyodbc.Error as e:
+        logging.error(f"Error en base de datos: {str(e)}")
+        return jsonify({'error': 'Error al obtener conteo de médicos'}), 500
+    finally:
+        conn.close()
+
 # Endpoint para obtener especialidades únicas
 @doctors_bp.route('/api/medicos/especialidades', methods=['GET'])
 def get_especialidades():
@@ -376,6 +419,7 @@ def update_medico(current_user, id_medico):
 
 # Endpoint para cambiar estado del médico
 @doctors_bp.route('/api/medicos/<int:id_medico>', methods=['DELETE'])
+@login_required
 @role_required(1)  # 1 = Admin
 def toggle_medico_status(current_user, id_medico):
     conn = get_db_connection()
