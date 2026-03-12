@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estamos Trabajando</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+          --primary-color: #1a936f;
+          --primary-dark: #116c50;
+          --secondary-color: #0b3954;
+          --accent-color: #ffc857;
+          --bg-color: #f8f9fa;
+          --surface-color: #ffffff;
+          --text-dark: #212529;
+          --text-light: #6c757d;
+          --error-color: #d9534f;
+          --success-color: #5cb85c;
+          --warning-color: #f0ad4e;
+          --info-color: #5bc0de;
+          --white: #ffffff;
+          --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+          --shadow-md: 0 5px 15px rgba(0,0,0,0.08);
+          --shadow-lg: 0 15px 35px rgba(0,0,0,0.1);
+          --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+          --border-radius: 12px;
+          --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animación de fondo */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary-color);
+            top: 5%;
+            left: 5%;
+            animation: float 25s infinite ease-in-out;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent-color);
+            top: 15%;
+            right: 10%;
+            animation: float 30s infinite ease-in-out reverse;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: var(--secondary-color);
+            bottom: 10%;
+            left: 10%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .shape-4 {
+            width: 180px;
+            height: 180px;
+            background: var(--primary-dark);
+            bottom: 20%;
+            right: 15%;
+            animation: float 35s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(30px) rotate(240deg);
+            }
+        }
+
+        /* Logo y título */
+        .logo-container {
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .company-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            letter-spacing: 1px;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            background-color: var(--surface-color);
+            padding: 60px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-xl);
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
+            z-index: 2;
+        }
+
+        .main-title {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        /* Animación de construcción */
+        .construction-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            position: relative;
+            height: 200px;
+        }
+
+        .construction-icon {
+            font-size: 5rem;
+            color: var(--accent-color);
+            animation: bounce 2s infinite;
+            z-index: 2;
+            position: relative;
+            background-color: var(--surface-color);
+            padding: 20px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .construction-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        /* Progreso */
+        .progress-container {
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .progress-bar {
+            height: 16px;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 75%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            animation: progressFill 2s ease-out;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+            animation: progressShine 2s infinite;
+        }
+
+        /* Información adicional */
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: var(--surface-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .info-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .info-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Contador */
+        .countdown-container {
+            margin-top: 40px;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .countdown-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--surface-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            min-width: 80px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .countdown-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 60px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease-out 1.2s both;
+            text-align: center;
+        }
+
+        .contact-info {
+            margin-top: 10px;
+        }
+
+        .contact-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0;
+            }
+            to {
+                width: 75%;
+            }
+        }
+
+        @keyframes progressShine {
+            0% {
+                left: -40px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+
+            .company-name {
+                font-size: 1.5rem;
+            }
+
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .construction-icon {
+                font-size: 4rem;
+            }
+
+            .info-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info-card {
+                width: 100%;
+            }
+
+            .countdown {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <!-- Fondo animado -->
+    <div class="background-animation">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <div class="container">
+        <!-- Logo y nombre -->
+        <div class="logo-container">
+            <div class="logo">
+                <i class="fas fa-tools"></i>
+            </div>
+            <div class="company-name">MedAsistencia</div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <h1 class="main-title">¡Estamos Trabajando!</h1>
+            <p class="subtitle">Estamos mejorando nuestro sitio web para ofrecerte una experiencia aún mejor. Mientras tanto, puedes contactarnos para cualquier consulta.</p>
+
+            <!-- Animación de construcción -->
+            <div class="construction-container">
+                <div class="construction-line"></div>
+                <div class="construction-icon">
+                    <i class="fas fa-hammer"></i>
+                </div>
+            </div>
+
+            <!-- Barra de progreso -->
+            <div class="progress-container">
+                <div class="progress-text">
+                    <span>Progreso del trabajo</span>
+                    <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="info-container">
+            <div class="info-card">
+                <i class="fas fa-clock"></i>
+                <h3>Disponibilidad</h3>
+                <p>Nuestro equipo está trabajando diligentemente para completar el proyecto. Esperamos estar listos pronto.</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Contacto</h3>
+                <p>Si necesitas comunicarte con nosotros, envía un correo a equipo.docente@hospitalelpaso.com y te responderemos a la brevedad.</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Fecha Estimada</h3>
+                <p>Planeamos lanzar nuestra nueva plataforma en las próximas semanas. ¡Mantente atento a nuestras actualizaciones!</p>
+            </div>
+        </div>
+
+        <!-- Contador -->
+        <div class="countdown-container">
+            <div class="countdown-title">Lanzamiento estimado en:</div>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-value" id="days">15</div>
+                    <div class="countdown-label">Días</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="hours">08</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="minutes">42</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-value" id="seconds">30</div>
+                    <div class="countdown-label">Segundos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2025 MedAsistencia. Todos los derechos reservados.</p>
+            <div class="contact-info">
+                <p>Contáctanos: <a href="mailto:equipo.docente@hospitalelpaso.com">equipo.docente@hospitalelpaso.com</a> | <a href="tel:58+424 263 7306">58+(424) 263-7306</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Contador regresivo
+        function updateCountdown() {
+            const daysElement = document.getElementById('days');
+            const hoursElement = document.getElementById('hours');
+            const minutesElement = document.getElementById('minutes');
+            const secondsElement = document.getElementById('seconds');
+
+            // Establecer la fecha objetivo (15 días desde hoy)
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 15);
+            targetDate.setHours(9, 0, 0, 0); // 9:00 AM
+
+            function update() {
+                const now = new Date();
+                const difference = targetDate - now;
+
+                if (difference > 0) {
+                    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                    daysElement.textContent = days.toString().padStart(2, '0');
+                    hoursElement.textContent = hours.toString().padStart(2, '0');
+                    minutesElement.textContent = minutes.toString().padStart(2, '0');
+                    secondsElement.textContent = seconds.toString().padStart(2, '0');
+                } else {
+                    // Si la fecha ya pasó
+                    daysElement.textContent = '00';
+                    hoursElement.textContent = '00';
+                    minutesElement.textContent = '00';
+                    secondsElement.textContent = '00';
+                }
+            }
+
+            // Actualizar cada segundo
+            update();
+            setInterval(update, 1000);
+        }
+
+        // Iniciar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', updateCountdown);
+    </script>
+</body>
+</html>
