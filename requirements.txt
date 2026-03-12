@@ -4,4 +4,4 @@ Flask-WTF
 pyodbc
 PyJWT
 reportlab
-Django
+Werkzeug

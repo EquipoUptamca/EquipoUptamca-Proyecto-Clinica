@@ -94,11 +94,11 @@ def get_pacientes_detallados():
                 params.extend([search_term, search_term, search_term, search_term])
             
             if fecha_desde:
-                query += " AND p.fecha_creacion >= TRY_CONVERT(datetime, ? + ' 00:00:00')"
+                query += " AND CONVERT(date, p.fecha_creacion) >= ?"
                 params.append(fecha_desde)
-
+            
             if fecha_hasta:
-                query += " AND p.fecha_creacion <= TRY_CONVERT(datetime, ? + ' 23:59:59')"
+                query += " AND CONVERT(date, p.fecha_creacion) <= ?"
                 params.append(fecha_hasta)
 
             query += " ORDER BY u.nombre_completo"
