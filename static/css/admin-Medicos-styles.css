@@ -256,11 +256,14 @@ body {
 /* Notificaciones mejoradas */
 .alert {
     min-width: 300px;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     border: none;
     border-left: 5px solid;
-    border-radius: var(--border-radius);
-    padding: 15px 20px;
+    border-radius: 16px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%);
+    backdrop-filter: blur(10px);
+    position: relative;
 }
 
 .alert-success {
@@ -273,6 +276,75 @@ body {
     border-left-color: var(--danger-color);
     background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
     color: #c62828;
+}
+
+/* Alert redesign with flexbox - Override Bootstrap defaults */
+.alert.alert-dismissible {
+    padding-right: 24px; /* Ensure space for close button */
+}
+
+.alert .d-flex {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    position: relative;
+}
+
+.alert .d-flex .d-flex {
+    flex-grow: 1 !important;
+    justify-content: flex-start !important;
+    min-width: 0; /* Prevent flex item from overflowing */
+}
+
+.alert .alert-message {
+    flex-grow: 1 !important;
+    padding: 0 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.4 !important;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.alert .btn-close {
+    background: transparent !important;
+    border: 2px solid #333 !important;
+    font-size: 1.2rem !important;
+    color: #333 !important;
+    opacity: 1 !important;
+    transition: var(--transition) !important;
+    padding: 6px !important;
+    margin-left: 15px !important;
+    align-self: center !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    z-index: 15 !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    width: 1em !important;
+    height: 1em !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23333'%3e%3cpath d='M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-size: 1em !important;
+    background-position: center !important;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
+.alert .btn-close:hover {
+    opacity: 1 !important;
+    transform: scale(1.1) !important;
+    color: #000 !important;
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    border-color: #000 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z'/%3e%3c/svg%3e") !important;
+}
+
+/* Ensure Bootstrap's alert-dismissible doesn't interfere */
+.alert .btn-close {
+    position: static !important;
+    float: none !important;
+    margin-top: 0 !important;
 }
 
 /* DataTables personalizados */

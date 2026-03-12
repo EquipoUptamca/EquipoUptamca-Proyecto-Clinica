@@ -7,9 +7,7 @@ $(document).ready(function() {
     // --- Funciones de Utilidad ---
     const showAlert = (message, type = 'info') => {
         const alertContainer = $('#alertContainer');
-        const icon = type === 'success' ? 'fa-check-circle' : 
-                    type === 'danger' ? 'fa-exclamation-triangle' :
-                    type === 'warning' ? 'fa-exclamation-circle' : 'fa-info-circle';
+        const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
         const alert = $(`<div class="alert alert-${type} alert-dismissible fade show" role="alert">
             <i class="fas ${icon} me-2"></i>
             ${message}
@@ -105,6 +103,40 @@ $(document).ready(function() {
             })
             .catch(error => console.error('Error:', error));
 
+        // Filtros personalizados para DataTable
+        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            // Filtro de Estado
+            const estadoFilter = $('#filterEstado').val();
+            if (estadoFilter) {
+                const rowData = table.row(dataIndex).data();
+                if (rowData.estado !== estadoFilter) {
+                    return false;
+                }
+            }
+
+            // Filtro de Fechas
+            const fechaDesde = $('#filterFechaDesde').val();
+            const fechaHasta = $('#filterFechaHasta').val();
+            if (fechaDesde || fechaHasta) {
+                const rowData = table.row(dataIndex).data();
+                const fechaCreacion = rowData.fecha_creacion;
+                if (fechaCreacion) {
+                    const fecha = new Date(fechaCreacion);
+                    if (fechaDesde) {
+                        const desde = new Date(fechaDesde);
+                        if (fecha < desde) return false;
+                    }
+                    if (fechaHasta) {
+                        const hasta = new Date(fechaHasta);
+                        hasta.setHours(23, 59, 59, 999); // Fin del día
+                        if (fecha > hasta) return false;
+                    }
+                }
+            }
+
+            return true;
+        });
+
         // Inicializar DataTable
         table = $('#pacientesTable').DataTable({
             ajax: {
@@ -112,206 +144,94 @@ $(document).ready(function() {
                 dataSrc: ''
             },
             columns: [
-                { data: 'id_paciente', visible: false },
-                { 
-                    data: 'nombre_completo',
-                    render: function(data, type, row) {
-                        return data || '<span class="text-muted">No especificado</span>';
-                    }
-                },
-                { 
-                    data: 'cedula',
-                    render: function(data, type, row) {
-                        return data || '<span class="text-muted">No especificado</span>';
-                    }
-                },
-                { 
-                    data: 'telefono',
-                    render: function(data, type, row) {
-                        return data || '<span class="text-muted">No especificado</span>';
-                    }
-                },
-                { 
-                    data: 'gmail',
-                    render: function(data, type, row) {
-                        return data || '<span class="text-muted">No especificado</span>';
-                    }
-                },
-                { 
-                    data: 'estado', 
-                    render: function(data, type, row) {
-                        if (data === 'A') {
-                            return '<span class="estado-badge estado-activo"><i class="fas fa-check-circle me-1"></i>Activo</span>';
-                        } else if (data === 'I') {
-                            return '<span class="estado-badge estado-inactivo"><i class="fas fa-times-circle me-1"></i>Inactivo</span>';
-                        } else {
-                            return '<span class="estado-badge" style="background: #f8f9fa; color: #6c757d; border-color: #dee2e6;">' + (data || 'Desconocido') + '</span>';
-                        }
-                    }
-                },
+                { data: 'id_paciente', visible: false, searchable: false },
+                { data: 'nombre_completo', searchable: true },
+                { data: 'cedula', searchable: true },
+                { data: 'telefono', searchable: false },
+                { data: 'gmail', searchable: false },
+                { data: 'estado', searchable: false, render: data => data === 'A' ? '<span class="badge bg-success-soft">Activo</span>' : '<span class="badge bg-danger text-white">Inactivo</span>' },
                 {
                     data: null,
-                    render: (data, type, row) => {
-                        const isActive = row.estado === 'A';
-                        return `
-                            <div class="btn-group btn-group-sm">
-                                <button class="btn btn-action btn-edit edit-btn" data-id="${row.id_paciente}" title="Editar paciente">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-action btn-view view-btn" data-id="${row.id_paciente}" title="Ver detalles">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-action ${isActive ? 'btn-delete' : 'btn-success'} status-btn" 
-                                        data-id="${row.id_paciente}" 
-                                        data-estado="${row.estado}" 
-                                        title="${isActive ? 'Inactivar paciente' : 'Activar paciente'}">
-                                    <i class="fas ${isActive ? 'fa-user-slash' : 'fa-user-check'}"></i>
-                                </button>
-                            </div>
-                        `;
-                    },
-                    orderable: false,
-                    className: 'text-center'
+                    searchable: false,
+                    render: (data, type, row) => `
+                        <button class="btn btn-sm btn-outline-primary action-btn edit-btn" data-id="${row.id_paciente}" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-${row.estado === 'A' ? 'danger' : 'success'} action-btn status-btn" data-id="${row.id_paciente}" data-estado="${row.estado}" title="${row.estado === 'A' ? 'Inactivar' : 'Activar'}">
+                            <i class="fas ${row.estado === 'A' ? 'fa-user-slash' : 'fa-user-check'}"></i>
+                        </button>
+                    `,
+                    orderable: false
                 }
             ],
-            language: { 
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-                emptyTable: "No hay datos disponibles en la tabla",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ pacientes",
-                infoEmpty: "Mostrando 0 a 0 de 0 pacientes",
-                infoFiltered: "(filtrado de _MAX_ pacientes totales)",
-                search: "Buscar:",
-                zeroRecords: "No se encontraron pacientes que coincidan con la búsqueda",
-                paginate: {
-                    first: "Primero",
-                    last: "Último",
-                    next: "Siguiente",
-                    previous: "Anterior"
-                }
+            language: {
+                url: '//cdn.datatables.net/1.13.6/i18n/es-ES.json',
+                zeroRecords: "No se encontraron pacientes con los filtros aplicados"
             },
             order: [[1, 'asc']],
-            initComplete: function() {
-                updateCounters();
-                // Aplicar estilos personalizados después de la inicialización
-                this.api().columns.adjust().draw();
-            },
-            drawCallback: function() {
-                // Actualizar contador de pacientes en el header de la tabla
-                const total = this.api().data().length;
-                const filtered = this.api().rows({ search: 'applied' }).count();
-                $('#totalPacientes').text(`${filtered} de ${total} pacientes`);
-            },
+            initComplete: updateCounters,
             // Configuración de botones para exportar
-            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                 '<"row"<"col-sm-12"tr>>' +
-                 '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>' +
-                 'B',
+            dom: 'Bfrtip',
             buttons: [
                 {
                     extend: 'excelHtml5',
-                    text: '<i class="fas fa-file-excel me-1"></i> Excel',
+                    text: 'Exportar a Excel',
                     title: `Listado_de_Pacientes_${new Date().toISOString().slice(0,10)}`,
                     exportOptions: {
-                        columns: [1, 2, 3, 4, 5],
-                        format: {
-                            body: function(data, row, column, node) {
-                                // Limpiar HTML de los estados para exportación
-                                if (column === 5) {
-                                    return data.includes('Activo') ? 'Activo' : 
-                                           data.includes('Inactivo') ? 'Inactivo' : data;
-                                }
-                                return data;
-                            }
-                        }
+                        // Columnas a exportar: Nombre, Cédula, Teléfono, Correo, Estado
+                        columns: [1, 2, 3, 4, 5] 
                     },
-                    className: 'btn btn-success btn-sm me-1'
+                    className: 'd-none' // Ocultar el botón por defecto
                 },
                 {
                     extend: 'pdfHtml5',
-                    text: '<i class="fas fa-file-pdf me-1"></i> PDF',
+                    text: 'Exportar a PDF',
                     title: `Listado de Pacientes - ${new Date().toLocaleDateString()}`,
                     orientation: 'portrait',
                     pageSize: 'A4',
                     exportOptions: {
-                        columns: [1, 2, 3, 4, 5],
-                        format: {
-                            body: function(data, row, column, node) {
-                                // Limpiar HTML de los estados para exportación
-                                if (column === 5) {
-                                    return data.includes('Activo') ? 'Activo' : 
-                                           data.includes('Inactivo') ? 'Inactivo' : data;
-                                }
-                                return data;
-                            }
-                        }
+                        columns: [1, 2, 3, 4, 5]
                     },
                     customize: function (doc) {
-                        doc.content[1].table.widths = ['30%', '20%', '15%', '20%', '15%'];
+                        doc.content[1].table.widths = ['30%', '20%', '20%', '20%', '10%'];
                         doc.defaultStyle.fontSize = 10;
-                        doc.styles.tableHeader.fontSize = 11;
-                        doc.styles.tableHeader.fillColor = '#1a936f';
-                        doc.styles.title.fontSize = 14;
+                        doc.styles.tableHeader.fontSize = 12;
+                        doc.styles.title.fontSize = 15;
                         doc.styles.title.alignment = 'center';
                         doc.pageMargins = [40, 60, 40, 60];
                     },
-                    className: 'btn btn-danger btn-sm me-1'
+                    className: 'd-none'
                 },
                 {
                     extend: 'print',
-                    text: '<i class="fas fa-print me-1"></i> Imprimir',
+                    text: 'Imprimir',
                     title: 'Listado de Pacientes',
                     exportOptions: {
-                        columns: [1, 2, 3, 4, 5],
-                        format: {
-                            body: function(data, row, column, node) {
-                                // Limpiar HTML de los estados para exportación
-                                if (column === 5) {
-                                    return data.includes('Activo') ? 'Activo' : 
-                                           data.includes('Inactivo') ? 'Inactivo' : data;
-                                }
-                                return data;
-                            }
-                        }
+                        columns: [1, 2, 3, 4, 5]
                     },
                     customize: function (win) {
-                        $(win.document.body).find('table').addClass('table table-sm table-bordered');
+                        $(win.document.body).css('font-size', '10pt');
+                        $(win.document.body).find('table').addClass('compact').css('font-size', 'inherit');
                         $(win.document.body).find('h1').css('text-align', 'center').css('font-size', '16pt');
-                        $(win.document.body).find('.estado-badge').removeClass('estado-badge estado-activo estado-inactivo');
                     },
-                    className: 'btn btn-info btn-sm'
+                    className: 'd-none'
                 }
             ]
         });
 
         // Event Listeners para filtros
         $('#filterEstado, #filterFechaDesde, #filterFechaHasta').on('change', () => table.draw());
-        
         let searchTimeout;
         $('#filterSearch').on('keyup', function() {
             clearTimeout(searchTimeout);
             const that = this;
-            searchTimeout = setTimeout(() => {
-                table.search(that.value).draw();
-            }, 300);
-        });
-
-        $('#btnClearFilters').on('click', function() {
-            $('#filterEstado').val('');
-            $('#filterFechaDesde').val('');
-            $('#filterFechaHasta').val('');
-            $('#filterSearch').val('');
-            table.search('').draw();
+            searchTimeout = setTimeout(() => table.search(that.value).draw(), 300);
         });
 
         // Event Listeners para acciones de la tabla
         $('#pacientesTable tbody').on('click', '.edit-btn', function() {
             const id = $(this).data('id');
             openModalForEdit(id);
-        });
-
-        $('#pacientesTable tbody').on('click', '.view-btn', function() {
-            const id = $(this).data('id');
-            viewPacienteDetails(id);
         });
 
         $('#pacientesTable tbody').on('click', '.status-btn', function() {
@@ -354,13 +274,9 @@ $(document).ready(function() {
         });
 
         $('#refreshTableBtn').on('click', function() {
-            const $icon = $(this).find('i');
-            $icon.addClass('fa-spin');
-            table.ajax.reload(() => {
-                updateCounters();
-                $icon.removeClass('fa-spin');
-                showAlert('Datos actualizados correctamente', 'success');
-            }, false);
+            $(this).find('i').addClass('fa-spin');
+            table.ajax.reload(null, false);
+            setTimeout(() => $(this).find('i').removeClass('fa-spin'), 500);
         });
     };
 
@@ -388,7 +304,6 @@ $(document).ready(function() {
             .catch(error => {
                 console.error('Error:', error);
                 userSelect.html('<option value="">Error al cargar usuarios</option>');
-                showAlert('Error al cargar la lista de usuarios', 'danger');
             });
     };
 
@@ -448,28 +363,6 @@ $(document).ready(function() {
                 checkFormValidity();
             })
             .catch(error => showAlert(error, 'danger'));
-    };
-
-    const viewPacienteDetails = (id) => {
-        fetch(`/api/pacientes/${id}`)
-            .then(response => response.ok ? response.json() : Promise.reject('Error al cargar paciente'))
-            .then(paciente => {
-                // Aquí puedes implementar un modal de solo lectura para ver detalles
-                // Por ahora, mostramos la información en un alert
-                const detalles = `
-Nombre: ${paciente.nombre_completo || 'No especificado'}
-Cédula: ${paciente.cedula || 'No especificado'}
-Teléfono: ${paciente.telefono || 'No especificado'}
-Email: ${paciente.gmail || 'No especificado'}
-Estado: ${paciente.estado === 'A' ? 'Activo' : 'Inactivo'}
-Fecha Nacimiento: ${paciente.fecha_nacimiento || 'No especificado'}
-Género: ${paciente.genero === 'M' ? 'Masculino' : paciente.genero === 'F' ? 'Femenino' : 'Otro'}
-Tipo Sangre: ${paciente.tipo_sangre || 'No especificado'}
-                `.trim();
-                
-                showAlert(`Detalles del paciente:\n${detalles}`, 'info');
-            })
-            .catch(error => showAlert('Error al cargar detalles del paciente', 'danger'));
     };
 
     const handleFormSubmit = async (event) => {
@@ -540,7 +433,6 @@ Tipo Sangre: ${paciente.tipo_sangre || 'No especificado'}
     const toggleStatus = (id, currentStatus) => {
         const newStatus = currentStatus === 'A' ? 'I' : 'A';
         const actionText = newStatus === 'A' ? 'activar' : 'inactivar';
-        const actionTextCapitalized = newStatus === 'A' ? 'Activar' : 'Inactivar';
 
         if (!confirm(`¿Está seguro que desea ${actionText} a este paciente?`)) return;
 

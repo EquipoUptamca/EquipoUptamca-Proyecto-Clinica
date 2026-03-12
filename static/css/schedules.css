@@ -343,10 +343,12 @@ body {
     padding-bottom: 0.75rem;
     margin-bottom: 1rem;
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 0.70rem !important;
 }
 
-.schedule-block {
+
+
+.schedule-item {
     background: linear-gradient(135deg, var(--primary-soft) 0%, var(--surface-color) 100%);
     border: 1px solid var(--border-color);
     border-left: 4px solid var(--primary-color);
@@ -356,9 +358,14 @@ body {
     font-size: 0.9rem;
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
-    cursor: pointer;
     position: relative;
     overflow: hidden;
+}
+
+.schedule-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--accent-color);
 }
 
 .schedule-block::before {
@@ -391,8 +398,32 @@ body {
 
 .schedule-actions {
     display: flex;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 10px;
     margin-top: 0.75rem;
+}
+
+.schedule-actions .action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 4px;
+    font-size: 14px;
+    border: 1px solid;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.schedule-actions .weekly-edit {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.schedule-actions .weekly-edit:hover {
+    background-color: rgba(26, 147, 111, 0.1);
 }
 
 /* --- Botones Mejorados --- */
@@ -441,6 +472,25 @@ body {
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }
+
+/* --- Estilos para botones de eliminar --- */
+.btn.btn-delete {
+    background-color: transparent !important;
+    border: 1px solid #dc3545 !important;
+    color: #dc3545 !important;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn.btn-delete:hover {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+
 
 /* --- Formularios Mejorados --- */
 .form-control, .form-select {
@@ -901,4 +951,49 @@ body {
     font-family: "Font Awesome 5 Free"; /* Asegúrate de que Font Awesome esté enlazado */
     font-weight: 900; /* Para iconos sólidos */
     content: "\f054"; /* fa-chevron-right */
+}
+
+/* --- Estilos para botones de acciones del día --- */
+.day-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.day-action-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid;
+    border-radius: 4px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.day-action-btn.edit-day-btn {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.day-action-btn.edit-day-btn:hover {
+    background-color: rgba(26, 147, 111, 0.1);
+}
+
+.day-action-btn.delete-day-btn {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.day-action-btn.delete-day-btn:hover {
+    background-color: #dc3545;
+    color: white;
 }

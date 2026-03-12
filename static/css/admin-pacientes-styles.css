@@ -227,14 +227,19 @@ body {
     background: linear-gradient(135deg, #fff3cd, #ffeaa7) !important;
 }
 
+.card.bg-primary {
+    border-left-color: var(--primary-color);
+    background: #007bff !important;
+}
+
 .card.bg-info {
     border-left-color: var(--cita-programada);
-    background: linear-gradient(135deg, #d1ecf1, #bee5eb) !important;
+    background: #17a2b8 !important;
 }
 
 .card.bg-success {
     border-left-color: var(--cita-completada);
-    background: linear-gradient(135deg, #d4edda, #c8e6c9) !important;
+    background: #28a745 !important;
 }
 
 .stat-card {
@@ -393,6 +398,37 @@ body {
     background: linear-gradient(135deg, #f8d7da, #ffcdd2);
     color: var(--cita-cancelada);
     border-color: var(--cita-cancelada);
+}
+
+/* Override for table badges in Estado column */
+.badge.bg-success-soft {
+    background: #28a745 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 2px solid transparent !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 80px !important;
+}
+
+.badge.bg-danger {
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 2px solid transparent !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 80px !important;
 }
 
 /* ==================== TABLA DE PACIENTES ==================== */
