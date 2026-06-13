@@ -146,12 +146,13 @@ def register():
         'admin': 1,
         'medico': 2,
         'recepcion': 3,
-        'paciente': 4
+        'paciente': 4,
+        'soporte': 5 # Nuevo rol de soporte
     }
     id_rol = role_map.get(tipo_usuario, 4)  # Por defecto, rol de Paciente si el tipo es inválido
 
     # --- Verificación de código de seguridad para roles privilegiados ---
-    privileged_roles = ['admin', 'medico', 'recepcion']
+    privileged_roles = ['admin', 'medico', 'recepcion', 'soporte']
     if tipo_usuario in privileged_roles:
         security_code = data.get('admin_code')
         if not security_code:
@@ -166,6 +167,9 @@ def register():
         elif tipo_usuario == 'admin':
             if security_code != 'privacidad_medasistencia':
                 return jsonify({'error': 'El código de acceso es incorrecto'}), 403
+        elif tipo_usuario == 'soporte':
+            if security_code != 'soporte_medasistencia': # Asumiendo un código de seguridad para soporte
+                return jsonify({'error': 'El código de acceso para soporte es incorrecto'}), 403
 
     # Generar hash seguro de la contraseña
     try:
@@ -237,6 +241,9 @@ def register():
         elif tipo_usuario == 'paciente':
             # Solo actualizar rol, NO crear perfil paciente  
             cursor.execute("UPDATE Usuarios SET id_rol = 4, tipo_usuario = 'paciente' WHERE id_usuario = ?", (user_id,))
+        elif tipo_usuario == 'soporte':
+            # Asegurar rol de soporte
+            cursor.execute("UPDATE Usuarios SET id_rol = 5, tipo_usuario = 'soporte' WHERE id_usuario = ?", (user_id,))
 
         conn.commit()
         
@@ -345,6 +352,8 @@ def login():
                     redirect_url = url_for('views.reception_dashboard')
                 elif user[5] == 'paciente':
                     redirect_url = url_for('views.paciente_dashboard')
+                elif user[5] == 'soporte': # Redirección para el nuevo rol de soporte
+                    redirect_url = url_for('views.soporte_dashboard')
                 else:
                     redirect_url = url_for('views.login_page') # Fallback a login si no hay rol claro
                     

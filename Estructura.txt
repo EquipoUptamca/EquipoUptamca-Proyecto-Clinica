@@ -139,3 +139,4 @@ Para ejecutar la aplicación, usa python main.py en lugar del archivo original. 
 clave para los role de admin: privacidad_medasistencia
 clave para los role de medico: medicos_medasistencia
 clave para los role de recepcionista: recep_medasistencia
+clave para los role de recepcionista: soporte_medasistencia

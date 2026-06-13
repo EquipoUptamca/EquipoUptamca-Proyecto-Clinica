@@ -10,7 +10,7 @@ dashboard_bp = Blueprint('dashboard', __name__)
 # API para obtener datos del dashboard de administrador
 @dashboard_bp.route('/api/admin/stats', methods=['GET'])
 @login_required
-@role_required(1) # Solo Admin
+@role_required(1, 5) # Admin y Soporte
 def admin_stats(current_user):
     conn = get_db_connection()
     if not conn:
@@ -67,7 +67,7 @@ def admin_stats(current_user):
 # API para obtener datos del gráfico de citas
 @dashboard_bp.route('/api/admin/appointments-chart', methods=['GET'])
 @login_required
-@role_required(1) # Solo Admin
+@role_required(1, 5) # Admin y Soporte
 def appointments_chart_data(current_user):
     conn = get_db_connection()
     if not conn:
@@ -128,7 +128,7 @@ def appointments_chart_data(current_user):
 # API para obtener datos del gráfico de estado de citas
 @dashboard_bp.route('/api/admin/appointments-status-chart', methods=['GET'])
 @login_required
-@role_required(1) # Solo Admin
+@role_required(1, 5) # Admin y Soporte
 def appointments_status_chart_data(current_user):
     conn = get_db_connection()
     if not conn:
@@ -164,7 +164,7 @@ def appointments_status_chart_data(current_user):
 # API para obtener registros recientes
 @dashboard_bp.route('/api/admin/recent-activity', methods=['GET'])
 @login_required
-@role_required(1) # Solo Admin
+@role_required(1, 5) # Admin y Soporte
 def recent_activity(current_user):
     conn = get_db_connection()
     if not conn:

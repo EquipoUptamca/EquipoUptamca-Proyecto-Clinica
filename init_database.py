@@ -39,7 +39,7 @@ def init_database():
                         cedula NVARCHAR(20) NULL UNIQUE,
                         telefono NVARCHAR(20) NULL,
                         gmail NVARCHAR(100) NULL UNIQUE,
-                        tipo_usuario NVARCHAR(20) NULL CHECK (tipo_usuario IN ('admin', 'medico', 'recepcion', 'paciente')),
+                        tipo_usuario NVARCHAR(20) NULL CHECK (tipo_usuario IN ('admin', 'medico', 'recepcion', 'paciente', 'soporte')),
                         activo BIT DEFAULT 1,
                         fecha_creacion DATETIME DEFAULT GETDATE(),
                         fecha_actualizacion DATETIME NULL,
@@ -146,6 +146,25 @@ def init_database():
                 END
             """)
 
+            # 10. Tabla de Soporte Técnico
+            cursor.execute("""
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='soporte' AND xtype='U')
+                BEGIN
+                    CREATE TABLE soporte(
+                        id_soporte INT IDENTITY(1,1) PRIMARY KEY,
+                        id_usuario_reporta INT NOT NULL,
+                        id_usuario_tecnico INT NULL,
+                        tipo_reporte NVARCHAR(20) NOT NULL CHECK (tipo_reporte IN ('Falla', 'Duda')),
+                        asunto NVARCHAR(150) NOT NULL,
+                        descripcion NVARCHAR(MAX) NOT NULL,
+                        estado NVARCHAR(20) DEFAULT 'Pendiente' CHECK (estado IN ('Pendiente', 'En Progreso', 'Resuelto', 'Cerrado')),
+                        prioridad NVARCHAR(10) DEFAULT 'Media' CHECK (prioridad IN ('Baja', 'Media', 'Alta')),
+                        fecha_creacion DATETIME DEFAULT GETDATE(),
+                        fecha_actualizacion DATETIME NULL
+                    )
+                END
+            """)
+
             # 9. Crear relaciones FOREIGN KEY
             foreign_keys = [
                 "ALTER TABLE Medicos ADD CONSTRAINT FK_Medicos_Usuarios FOREIGN KEY(id_usuario) REFERENCES Usuarios(id_usuario)",
@@ -154,7 +173,9 @@ def init_database():
                 "ALTER TABLE Citas ADD CONSTRAINT FK_Citas_Medicos FOREIGN KEY(id_medico) REFERENCES Medicos(id_medico)",
                 "ALTER TABLE Citas ADD CONSTRAINT FK_Citas_Pacientes FOREIGN KEY(id_paciente) REFERENCES Pacientes(id_paciente)",
                 "ALTER TABLE Horarios_disponibles ADD CONSTRAINT FK_Horarios_Medicos FOREIGN KEY(id_medico) REFERENCES Medicos(id_medico)",
-                "ALTER TABLE Password_reset_tokens ADD CONSTRAINT FK_Tokens_Usuarios FOREIGN KEY(id_usuario) REFERENCES Usuarios(id_usuario)"
+                "ALTER TABLE Password_reset_tokens ADD CONSTRAINT FK_Tokens_Usuarios FOREIGN KEY(id_usuario) REFERENCES Usuarios(id_usuario)",
+                "ALTER TABLE soporte ADD CONSTRAINT FK_Soporte_Reporta FOREIGN KEY(id_usuario_reporta) REFERENCES Usuarios(id_usuario)",
+                "ALTER TABLE soporte ADD CONSTRAINT FK_Soporte_Tecnico FOREIGN KEY(id_usuario_tecnico) REFERENCES Usuarios(id_usuario)"
             ]
             
             for fk_sql in foreign_keys:
@@ -173,6 +194,8 @@ def init_database():
                     INSERT INTO Roles (nombre_rol, descripcion) VALUES ('Recepcionista', 'Personal de recepción');
                 IF NOT EXISTS (SELECT 1 FROM Roles WHERE nombre_rol = 'Paciente')
                     INSERT INTO Roles (nombre_rol, descripcion) VALUES ('Paciente', 'Paciente del sistema');
+                IF NOT EXISTS (SELECT 1 FROM Roles WHERE nombre_rol = 'Soporte')
+                    INSERT INTO Roles (nombre_rol, descripcion) VALUES ('Soporte', 'Personal de soporte técnico');
             """)
 
             cursor.execute("""

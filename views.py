@@ -1,5 +1,5 @@
 # views.py
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, redirect, url_for
 
 views_bp = Blueprint('views', __name__)
 
@@ -151,3 +151,12 @@ def perfil_recepcion():
 @views_bp.route('/mis_consultas')
 def mis_citas_medico():
     return render_template('mis_consultas.html')
+
+@views_bp.route('/soporte_dashboard')
+def soporte_dashboard():
+    return render_template('soporte_dashboard.html', current_user=session)
+
+@views_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('views.login_page'))

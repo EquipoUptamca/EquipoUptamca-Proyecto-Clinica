@@ -5,9 +5,7 @@ import logging
 import secrets
 import smtplib
 from database import get_db_connection
-from werkzeug.security import generate_password_hash, check_password_hash, generate_password_hash
-from werkzeug.security import generate_password_hash
-import pyodbc
+from werkzeug.security import generate_password_hash, check_password_hash
 import re  # For email validation
 from datetime import datetime, timedelta
 from email.mime.text import MIMEText
@@ -61,7 +59,8 @@ def get_role_name(role_id):
         1: 'Administrador',
         2: 'Médico',
         3: 'Recepcionista',
-        4: 'Paciente'
+        4: 'Paciente',
+        5: 'Soporte' # Nuevo rol de soporte
     }
     return roles.get(role_id, 'Usuario')
 
@@ -71,7 +70,8 @@ def get_tipo_usuario_from_role(role_id):
         1: 'admin',
         2: 'medico', 
         3: 'recepcion',
-        4: 'paciente'
+        4: 'paciente',
+        5: 'soporte' # Nuevo rol de soporte
     }
     return role_map.get(role_id, 'paciente')
 

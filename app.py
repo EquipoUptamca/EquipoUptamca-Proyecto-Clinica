@@ -20,6 +20,7 @@ from chatbot import chatbot_bp
 from reports import reports_bp
 from asistencia import asistencias_bp
 from user_profile import profile_bp
+from soporte import soporte_bp
 
 def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -71,6 +72,7 @@ def create_app():
     app.register_blueprint(reports_bp)
     app.register_blueprint(asistencias_bp) # No change needed here, blueprint name is the same
     app.register_blueprint(profile_bp)
+    app.register_blueprint(soporte_bp)
     
     # 5. Inicializar protección CSRF (CSRFProtector) y eximir Blueprints de API
     csrf = CSRFProtect()
@@ -92,5 +94,6 @@ def create_app():
     csrf.exempt(reports_bp)
     csrf.exempt(asistencias_bp)
     csrf.exempt(profile_bp)
+    csrf.exempt(soporte_bp)
     
     return app

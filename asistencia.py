@@ -127,8 +127,8 @@ def registrar_asistencia(current_user):
     try:
         with conn.cursor() as cursor:
             id_medico = None
-            # Si es admin/recepcionista, el id_medico viene en el request
-            if current_user['id_rol'] in [1, 3]:
+            # Si es admin, recepcionista o soporte, el id_medico viene en el request
+            if current_user['id_rol'] in [1, 3, 5]:
                 id_medico = data.get('id_medico')
                 if not id_medico:
                     return jsonify({'error': 'El campo id_medico es requerido para este rol'}), 400
@@ -250,7 +250,7 @@ def get_asistencia_hoy(current_user):
 # Endpoint para obtener registros de asistencia (con filtros)
 @asistencias_bp.route('/api/asistencia', methods=['GET'])
 @login_required
-@role_required(1, 3) # Admin y Recepcionista
+@role_required(1, 3, 5) # Admin, Recepcionista y Soporte
 def get_asistencias(current_user):
     """Obtiene una lista de asistencias, con filtros opcionales."""
     conn = get_db_connection()
