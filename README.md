@@ -13,6 +13,7 @@ MedAsistencia es un sistema de gestión médica diseñado para optimizar las ope
 -   **Dashboards Interactivos:** Paneles de control personalizados para cada rol con estadísticas y accesos directos.
 -   **Gestión Integral:** Administración completa de usuarios, perfiles de médicos, expedientes de pacientes y horarios.
 -   **Sistema de Citas Avanzado:** Programación, confirmación, cancelación y seguimiento del estado de las citas.
+-   **Centro de Soporte Técnico:** Sistema de tickets para reportar fallas y dudas del sistema.
 -   **Gestión de Asistencia:** Registro y seguimiento de la asistencia del personal médico.
 -   **Reportes y Análisis:** Módulo para generar reportes de actividad, ocupación, nuevos pacientes y más.
 -   **Historial Clínico:** Gestión de consultas y seguimiento del historial médico de los pacientes.
@@ -35,14 +36,15 @@ El registro está abierto para pacientes. El personal interno (Administradores, 
 1.  En la página principal, haga clic en **"Registrarse"**.
 2.  Complete el formulario con su información:
     -   Nombre Completo, Nombre de Usuario, Cédula, Teléfono y Correo Electrónico.
-    -   Cree una contraseña segura (mínimo 8 caracteres, con mayúsculas, minúsculas y números) y confírmela.
+    -   Cree una contraseña segura (mínimo 8 caracteres, con mayúsculas, minúsculas y números).
 3.  Seleccione el **Tipo de Usuario**:
-    -   **Paciente:** Registro estándar.
-    -   **Administrador, Médico o Recepción:** Al seleccionar uno de estos roles, se desplegará un campo para el código de seguridad.
+    -   **Paciente:** Registro estándar (requiere activación posterior).
+    -   **Administrador, Médico, Recepción o Soporte:** Al seleccionar uno de estos roles, se desplegará un campo para el código de seguridad.
 4.  **Código de Seguridad:** Si se registra con un rol privilegiado, deberá ingresar el código correspondiente:
     -   **Administrador:** `privacidad_medasistencia`
     -   **Médico:** `medicos_medasistencia`
     -   **Recepcionista:** `recep_medasistencia`
+    -   **Soporte:** `soporte_medasistencia`
 5.  Haga clic en **"Registrarse"** para crear su cuenta.
 
 ### 2.3. Recuperar Contraseña
@@ -156,6 +158,22 @@ Resuelve dudas operativas. Pruebe comandos como:
 
 ---
 
+### 🛠️ Soporte
+El personal de Soporte Técnico se encarga de velar por el correcto funcionamiento de la plataforma.
+
+#### **Dashboard de Soporte (`/soporte_dashboard`)**
+-   **Métricas de Incidencias:** Visualización del total de tickets, casos pendientes, en progreso y críticos.
+-   **Gráficos de Gestión:** Análisis visual de la distribución de tickets por estado y prioridad.
+-   **Gestión de Tickets:** Tabla interactiva para listar todos los reportes enviados por los usuarios.
+-   **Acciones Técnicas:**
+    -   **Atender:** Cambia el estado del ticket a "En Progreso" y lo asigna al técnico actual.
+    -   **Resolver:** Marca la incidencia como "Resuelta" una vez finalizada la tarea.
+
+#### **Funcionalidades Compartidas**
+-   Acceso a estadísticas de administración y visualización de registros de asistencia para diagnóstico del sistema.
+
+---
+
 ### ❤️ Paciente
 Acceso simplificado para que los pacientes gestionen su información de salud.
 
@@ -205,7 +223,7 @@ Esta sección describe los componentes técnicos y la estructura del proyecto Me
 ### 6.1. Backend (Python + Flask)
 -   **Framework:** El backend está construido con [Flask](https://flask.palletsprojects.com/), un microframework de Python ligero y extensible.
 -   **Estructura Modular:** El proyecto utiliza **Blueprints** de Flask para organizar el código en módulos cohesivos y reutilizables (ej. `auth.py`, `patients.py`, `appointments.py`). Esto mejora la mantenibilidad y escalabilidad.
--   **Seguridad:** La autenticación se gestiona mediante sesiones seguras y un middleware (`auth_middleware.py`) que protege las rutas que requieren inicio de sesión.
+-   **Seguridad:** La autenticación se gestiona mediante sesiones seguras y un middleware (`auth_middleware.py`) que protege las rutas mediante roles (ID 1: Admin, 2: Médico, 3: Recepción, 4: Paciente, 5: Soporte).
 -   **Manejo de Base de Datos:** La interacción con la base de datos se realiza a través de la biblioteca `pyodbc`, con un sistema de pool de conexiones por thread para garantizar un manejo eficiente y seguro de las conexiones.
 
 ### 6.2. Frontend (HTML, CSS, JavaScript)
@@ -224,7 +242,7 @@ El proyecto sigue una organización clara para separar las responsabilidades:
 -   `/static`: Almacena los archivos estáticos como CSS, JavaScript e imágenes.
 -   `app.py` / `main.py`: Punto de entrada que inicializa la aplicación Flask y registra los Blueprints.
 -   **Blueprints (`*.py`):** Archivos como `users.py`, `doctors.py`, etc., que contienen la lógica de negocio y las rutas para cada módulo principal.
--   **Utilidades y Configuración:** Archivos como `database.py`, `config.py`, y `validators.py` que centralizan la configuración y las funciones de ayuda.
+-   **Utilidades y Configuración:** Archivos como `database.py`, `config.py`, `soporte.py` y `validators.py` que centralizan la configuración y las funciones de ayuda.
 
 ---
 
@@ -241,4 +259,4 @@ El proyecto sigue una organización clara para separar las responsabilidades:
 
 ---
 
-*Este manual se actualizará a medida que se añadan nuevas funcionalidades al sistema MedAsistencia. Versión 2.1.*
+*Este manual se actualizará a medida que se añadan nuevas funcionalidades al sistema MedAsistencia. Versión 2.2.*
