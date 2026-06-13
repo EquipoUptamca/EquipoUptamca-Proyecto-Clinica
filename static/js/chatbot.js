@@ -92,7 +92,7 @@ class ChatbotWidget {
 
             if (data.action && this.config.actionHandlers[data.action]) {
                 // Pasamos 'this' para que los manejadores puedan acceder a los métodos del chatbot
-                this.config.actionHandlersdata.action;
+                this.config.actionHandlers[data.action](this, data);
             }
         } catch (error) {
             this.removeMessage(loadingMessageId);

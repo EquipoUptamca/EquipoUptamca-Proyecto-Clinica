@@ -17,11 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
         'admin': 'Acceso total al sistema con permisos de administración completa.',
         'medico': 'Acceso a historiales médicos, gestión de citas y registros clínicos.',
         'recepcion': 'Acceso a programación de citas, registro de pacientes y facturación.',
-        'paciente': 'Acceso a su historial médico, citas programadas y resultados.'
+        'paciente': 'Acceso a su historial médico, citas programadas y resultados.',
+        'soporte': 'Personal técnico encargado del mantenimiento y soporte del sistema.'
     };
 
     // --- Privileged Roles ---
-    const privilegedRoles = ['admin', 'medico', 'recepcion'];
+    const privilegedRoles = ['admin', 'medico', 'recepcion', 'soporte'];
 
     // --- Initial Setup ---
     setupEventListeners();
@@ -341,6 +342,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         correctCode = 'medicos_medasistencia';
                     } else if (selectedRole === 'recepcion') {
                         correctCode = 'recep_medasistencia';
+                    } else if (selectedRole === 'soporte') {
+                        correctCode = 'soporte_medasistencia';
                     }
                     
                     // Solo validar si hay un código correcto definido para el rol
