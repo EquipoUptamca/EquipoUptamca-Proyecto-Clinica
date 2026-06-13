@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Soporte - MedAsistencia</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS Propio -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/soporte_dashboard.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="logo">
+                <i class="fas fa-hospital-alt"></i>
+                <h4>Sistema Clínico</h4>
+            </div>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name={{ session.nombre_completo | urlencode }}&background=1a936f&color=fff" alt="Usuario">
+                <div class="user-info">
+                    <strong>{{ session.nombre_completo or 'Soporte' }}</strong>
+                    <small>Soporte Técnico</small>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="/soporte_dashboard" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <!-- Enlace a Panel Admin ELIMINADO -->
+                <a href="/perfil" class="nav-link">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mi Perfil</span>
+                </a>
+                <a href="{{ url_for('views.logout') }}" class="nav-link text-danger mt-auto">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="content-header">
+                <h1><i class="fas fa-headset"></i> Centro de Soporte Técnico</h1>
+                <div class="header-actions">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" id="exportReportBtn"><i class="fas fa-file-pdf"></i> PDF</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm" id="refreshDataBtn">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div class="alert alert-warning alert-dismissible fade" role="alert" id="notificationAlert">
+                <strong><i class="fas fa-exclamation-circle"></i> Notificación:</strong>
+                <span id="notificationText"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon bg-success-soft">
+                        <i class="fas fa-ticket-alt text-success"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-total">0</h3>
+                        <p>Total Tickets</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-warning-soft">
+                        <i class="fas fa-clock text-warning"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-pendientes">0</h3>
+                        <p>Pendientes</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-info-soft">
+                        <i class="fas fa-spinner text-info"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-progreso">0</h3>
+                        <p>En Progreso</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-danger-soft">
+                        <i class="fas fa-exclamation-triangle text-danger"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-criticos">0</h3>
+                        <p>Prioridad Alta</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts-row">
+                <div class="chart-box">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-bar"></i> Tickets por Estado</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="ticketsChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <div class="card-header">
+                        <h5><i class="fas fa-chart-pie"></i> Distribución por Prioridad</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Tickets -->
+            <div class="table-container">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5><i class="fas fa-list"></i> Gestión de Tickets</h5>
+                    <button class="btn btn-sm btn-success" id="refreshTicketsBtn">
+                        <i class="fas fa-sync-alt"></i> Actualizar
+                    </button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Tipo</th>
+                                <th>Asunto</th>
+                                <th>Prioridad</th>
+                                <th>Estado</th>
+                                <th>Técnico</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketsBody">
+                            <tr><td colspan="9" class="text-center">Cargando datos...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modales -->
+    <div class="modal fade" id="editTicketModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-edit"></i> Gestionar Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editTicketId">
+                    <div class="mb-3">
+                        <label>Estado</label>
+                        <select id="editEstado" class="form-select">
+                            <option>Pendiente</option>
+                            <option>En Progreso</option>
+                            <option>Resuelto</option>
+                            <option>Cerrado</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>ID Técnico</label>
+                        <input type="number" id="editTecnico" class="form-control" placeholder="ID del técnico">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" id="saveTicketBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detailTicketModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-info-circle"></i> Detalles del Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="detailTicketBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/soporte_dashboard.js') }}"></script>
+    <script>
+        document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('mainContent').classList.toggle('collapsed');
+        });
+    </script>
+</body>
+</html>
