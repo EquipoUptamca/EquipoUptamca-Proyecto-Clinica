@@ -72,6 +72,15 @@ body {
     margin-bottom: 30px;
     padding: 2.5rem 2rem 1.5rem;
     position: relative;
+    gap: 12px;
+}
+
+.header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .header::after {
@@ -85,6 +94,19 @@ body {
     background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     border-radius: 2px;
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 
 .header h1 {
     color: var(--secondary-color);
@@ -114,6 +136,65 @@ body {
 .btn-refresh:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(26, 147, 111, 0.3);
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+    padding: 12px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    margin-right: 12px;
+}
+
+.btn-back:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.pagination-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 18px 20px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    background: var(--bg-color);
+}
+
+.pagination-button {
+    border: 1px solid #d1d5db;
+    background: white;
+    color: var(--secondary-color);
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.pagination-button:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.pagination-button.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.pagination-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 /* Filtros */
@@ -386,6 +467,16 @@ body {
     box-shadow: 0 5px 15px rgba(26, 147, 111, 0.3);
 }
 
+.btn-diagnostico {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+}
+
+.btn-diagnostico:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(73, 80, 87, 0.3);
+}
+
 .btn-complete {
     background: linear-gradient(135deg, var(--info-color), #0b7dda);
     color: white;
@@ -431,6 +522,11 @@ body {
     opacity: 0.5;
 }
 
+/* Estilo extra para el botón de reintento dentro del mensaje de error */
+.no-citas .btn-refresh {
+    margin-top: 15px;
+}
+
 /* Modal Base */
 .modal {
     position: fixed;
@@ -449,13 +545,14 @@ body {
 .modal-content {
     background-color: white;
     border-radius: 15px;
-    width: 90%;
-    max-width: 500px;
+    width: 98%;
+    max-width: 1080px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     overflow: hidden;
     transform: scale(0.9);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-sizing: border-box;
 }
 
 .modal:not(.hidden) .modal-content {
@@ -495,6 +592,8 @@ body {
 
 .modal-body {
     padding: 25px;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
 }
 
 .modal-body p {
@@ -603,6 +702,127 @@ body {
     padding: 15px;
     margin: 15px 0;
     border-left: 4px solid var(--warning-color);
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d3d8dc;
+    border-radius: 12px;
+    background-color: #f7f9fb;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.form-group input[readonly] {
+    background-color: #eef3f7;
+}
+
+.form-group textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.medicamentos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.btn-add-medication {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-add-medication:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(26, 147, 111, 0.2);
+}
+
+.medicamentos-container {
+    display: grid;
+    gap: 18px;
+    margin-bottom: 12px;
+}
+
+.medicamento-row {
+    border: 1px solid #d3d8dc;
+    border-radius: 16px;
+    padding: 18px;
+    background: #fbfdfe;
+}
+
+.medicamento-row .row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.medicamento-row .row-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.medicamento-row .remove-medication {
+    background: transparent;
+    border: 1px solid #f87171;
+    color: #b91c1c;
+    border-radius: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.medicamento-row .remove-medication:hover {
+    background: #fef2f2;
+}
+
+.medicamento-row .medicamento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+@media (min-width: 720px) {
+    .medicamento-row .medicamento-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .medicamento-row .medicamento-grid .full-width {
+        grid-column: span 2;
+    }
+}
+
+.form-message {
+    margin-top: 10px;
+    color: #a94442;
+    font-size: 0.95rem;
 }
 
 .modal-cancel .btn-cancel-confirm {
