@@ -23,6 +23,17 @@ MedAsistencia es un sistema de gestión médica diseñado para optimizar las ope
 
 ---
 
+## 1.1.1. Mejoras recientes
+-   Se añadió paginación en la vista **Mis Citas** del médico para manejar listados largos de citas.
+-   Se agregó un botón de regreso directo al **Dashboard Médico** desde la página de citas del médico.
+-   Se mejoró la visualización del historial médico para que el diagnóstico aparezca en el historial de consultas.
+-   Se agregó un distintivo visual para citas que ya cuentan con diagnóstico en el listado de pacientes.
+-   Se corrigió y fortaleció la relación de datos entre **Citas** y **Diagnóstico** en la base de datos.
+-   Se mejoró la usabilidad de los modales de confirmación, fórmula y diagnóstico en el panel médico.
+-   Se documentaron y coordinaron las mejoras de estilo en el archivo **`MEJORAS_ESTILO.md`**, con paleta verde oscuro, variables CSS y componentes actualizados.
+
+---
+
 ## 2. Acceso y Registro
 
 ### 2.1. Iniciar Sesión

@@ -140,6 +140,10 @@ def reportes_recepcion():
 def perfil_medico():
     return render_template('perfil_medico.html')
 
+@views_bp.route('/perfusiones')
+def perfusiones():
+    return render_template('perfusiones.html', current_user=session)
+
 @views_bp.route('/reportes_medico')
 def reportes_medico():
     return render_template('reportes_medico.html')

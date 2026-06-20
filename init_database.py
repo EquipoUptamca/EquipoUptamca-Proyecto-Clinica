@@ -117,7 +117,75 @@ def init_database():
                 END
             """)
 
-            # 7. Tabla de Horarios Disponibles
+            # 7. Tabla de Perfusiones
+            cursor.execute("""
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Perfusiones' AND xtype='U')
+                BEGIN
+                    CREATE TABLE Perfusiones(
+                        id_perfusion INT IDENTITY(1,1) PRIMARY KEY,
+                        nombre_farmaco NVARCHAR(100) NOT NULL,
+                        dosis_recomendada NVARCHAR(100) NOT NULL,
+                        descripcion NVARCHAR(MAX) NOT NULL,
+                        categoria NVARCHAR(100) NULL,
+                        fecha_creacion DATETIME DEFAULT GETDATE()
+                    )
+                END
+            """)
+
+            cursor.execute("""
+                IF NOT EXISTS (
+                    SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = 'Perfusiones' AND COLUMN_NAME = 'categoria'
+                )
+                BEGIN
+                    ALTER TABLE Perfusiones ADD categoria NVARCHAR(100) NULL
+                END
+            """)
+
+            # 8. Tabla de Asignación de Perfusiones/Fármacos
+            cursor.execute("""
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='PacientesPerfusiones' AND xtype='U')
+                BEGIN
+                    CREATE TABLE PacientesPerfusiones(
+                        id_asignacion INT IDENTITY(1,1) PRIMARY KEY,
+                        id_paciente INT NOT NULL,
+                        id_medico INT NOT NULL,
+                        id_perfusion INT NOT NULL,
+                        dosis_especifica VARCHAR(100) NULL,
+                        frecuencia NVARCHAR(100) NULL,
+                        fecha_asignacion DATETIME DEFAULT GETDATE(),
+                        indicaciones NVARCHAR(MAX) NULL,
+                        activo BIT DEFAULT 1
+                    )
+                END
+            """)
+
+            # 9. Tabla de Diagnóstico
+            cursor.execute("""
+                IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Diagnostico' AND xtype='U')
+                BEGIN
+                    CREATE TABLE Diagnostico(
+                        id_diagnostico INT IDENTITY(1,1) PRIMARY KEY,
+                        id_cita INT NOT NULL,
+                        id_paciente INT NOT NULL,
+                        id_medico INT NOT NULL,
+                        enfermedad_causa NVARCHAR(255) NULL,
+                        descripcion_sintomas NVARCHAR(MAX) NULL,
+                        fecha_diagnostico DATETIME DEFAULT GETDATE()
+                    )
+                END
+            """)
+            cursor.execute("""
+                IF NOT EXISTS (
+                    SELECT * FROM INFORMATION_SCHEMA.COLUMNS
+                    WHERE TABLE_NAME = 'Diagnostico' AND COLUMN_NAME = 'id_cita'
+                )
+                BEGIN
+                    ALTER TABLE Diagnostico ADD id_cita INT NULL
+                END
+            """)
+
+            # 10. Tabla de Horarios Disponibles
             cursor.execute("""
                 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Horarios_disponibles' AND xtype='U')
                 BEGIN

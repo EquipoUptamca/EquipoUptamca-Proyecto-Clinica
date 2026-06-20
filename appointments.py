@@ -17,6 +17,23 @@ DIA_SEMANA_MAP = {
     7: "Domingo"
 }
 
+def perfusion_exists(cursor, id_perfusion):
+    """Verifica si la perfusión/médicamento existe en la base de datos."""
+    cursor.execute("SELECT 1 FROM Perfusiones WHERE id_perfusion = ?", (id_perfusion,))
+    return cursor.fetchone() is not None
+
+
+def insertar_asignacion_perfusion(cursor, id_paciente, id_medico, id_perfusion, dosis_especifica=None, frecuencia=None, indicaciones=None):
+    """Inserta una asignación de perfusión para el paciente y devuelve el id generado."""
+    cursor.execute(
+        "INSERT INTO PacientesPerfusiones (id_paciente, id_medico, id_perfusion, dosis_especifica, frecuencia, indicaciones) VALUES (?, ?, ?, ?, ?, ?)",
+        (id_paciente, id_medico, id_perfusion, dosis_especifica, frecuencia, indicaciones)
+    )
+    cursor.execute("SELECT CAST(SCOPE_IDENTITY() AS INT)")
+    row = cursor.fetchone()
+    return int(row[0]) if row and row[0] is not None else None
+
+
 # Endpoint para obtener horarios disponibles de un médico
 @appointments_bp.route('/api/medicos/<int:id_medico>/horarios', methods=['GET'])
 @login_required
@@ -538,7 +555,10 @@ def get_citas_detalladas(current_user):
             query = """
                 SELECT 
                     c.id_cita,
+                    c.id_medico,
+                    c.id_paciente,
                     p_user.nombre_completo AS paciente_nombre,
+                    p_user.cedula AS paciente_cedula,
                     m_user.nombre_completo AS medico_nombre,
                     m.especialidad,
                     c.fecha_cita,
@@ -581,7 +601,10 @@ def get_citas_detalladas(current_user):
             
             citas = [{
                 'id_cita': row.id_cita,
+                'id_medico': row.id_medico,
+                'id_paciente': row.id_paciente,
                 'paciente_nombre': row.paciente_nombre,
+                'paciente_cedula': row.paciente_cedula,
                 'medico_nombre': row.medico_nombre,
                 'especialidad': row.especialidad,
                 'fecha_cita': row.fecha_cita.strftime('%Y-%m-%d'),
@@ -596,3 +619,352 @@ def get_citas_detalladas(current_user):
     finally:
         if conn:
             conn.close()
+
+@appointments_bp.route('/api/citas/<int:id_cita>/diagnostico', methods=['GET', 'POST'])
+@login_required
+def diagnostico_cita(current_user, id_cita):
+    """Obtiene o guarda el diagnóstico asociado a una cita."""
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT id_medico, id_paciente FROM Citas WHERE id_cita = ?", (id_cita,))
+            cita_row = cursor.fetchone()
+            if not cita_row:
+                return jsonify({'error': 'Cita no encontrada'}), 404
+
+            cita_id_medico = cita_row.id_medico
+            cita_id_paciente = cita_row.id_paciente
+
+            if current_user.get('tipo_usuario') == 'medico' and current_user.get('id_medico') != cita_id_medico:
+                return jsonify({'error': 'No autorizado para ver o modificar el diagnóstico de esta cita.'}), 403
+            if current_user.get('tipo_usuario') == 'paciente' and current_user.get('id_paciente') != cita_id_paciente:
+                return jsonify({'error': 'No autorizado para ver el diagnóstico de esta cita.'}), 403
+
+            if request.method == 'GET':
+                cursor.execute("SELECT TOP 1 enfermedad_causa, descripcion_sintomas, FORMAT(fecha_diagnostico, 'yyyy-MM-dd') AS fecha_diagnostico FROM Diagnostico WHERE id_cita = ? ORDER BY id_diagnostico DESC", (id_cita,))
+                diag = cursor.fetchone()
+                if not diag:
+                    return jsonify({})
+                return jsonify({
+                    'enfermedad_causa': diag.enfermedad_causa,
+                    'descripcion_sintomas': diag.descripcion_sintomas,
+                    'fecha_diagnostico': diag.fecha_diagnostico
+                })
+
+            # POST: solo médicos pueden guardar el diagnóstico
+            if current_user.get('tipo_usuario') != 'medico':
+                return jsonify({'error': 'Solo el médico puede guardar el diagnóstico.'}), 403
+
+            data = request.json or {}
+            enfermedad_causa = (data.get('enfermedad_causa') or '').strip()
+            descripcion_sintomas = (data.get('descripcion_sintomas') or '').strip()
+
+            if not enfermedad_causa:
+                return jsonify({'error': 'El campo enfermedad/causa es obligatorio.'}), 400
+
+            # Revisar si ya existe un diagnóstico para esta cita
+            cursor.execute("SELECT id_diagnostico FROM Diagnostico WHERE id_cita = ?", (id_cita,))
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute(
+                    "UPDATE Diagnostico SET enfermedad_causa = ?, descripcion_sintomas = ?, fecha_diagnostico = GETDATE() WHERE id_diagnostico = ?",
+                    (enfermedad_causa, descripcion_sintomas, existing.id_diagnostico)
+                )
+                conn.commit()
+                return jsonify({'message': 'Diagnóstico actualizado correctamente.'})
+
+            cursor.execute(
+                "INSERT INTO Diagnostico (id_cita, id_paciente, id_medico, enfermedad_causa, descripcion_sintomas) VALUES (?, ?, ?, ?, ?)",
+                (id_cita, cita_id_paciente, cita_id_medico, enfermedad_causa, descripcion_sintomas)
+            )
+            conn.commit()
+            return jsonify({'message': 'Diagnóstico guardado correctamente.'})
+    except pyodbc.Error as e:
+        conn.rollback()
+        logging.error(f"Error al gestionar diagnóstico: {str(e)}")
+        return jsonify({'error': 'Error en la base de datos al gestionar el diagnóstico.'}), 500
+    finally:
+        conn.close()
+
+@appointments_bp.route('/api/perfusiones', methods=['GET'])
+@login_required
+def get_perfusiones(current_user):
+    search = request.args.get('search', '').strip()
+    category = request.args.get('category', '').strip()
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            query = """
+                SELECT id_perfusion,
+                       nombre_farmaco,
+                       dosis_recomendada,
+                       descripcion,
+                       ISNULL(NULLIF(categoria, ''), 'General') AS categoria
+                FROM Perfusiones
+            """
+            params = []
+            filters = []
+
+            if search:
+                filters.append("(nombre_farmaco LIKE ? OR descripcion LIKE ?)")
+                params.extend([f'%{search}%', f'%{search}%'])
+
+            if category:
+                filters.append("ISNULL(NULLIF(categoria, ''), 'General') = ?")
+                params.append(category)
+
+            if filters:
+                query += ' WHERE ' + ' AND '.join(filters)
+
+            query += ' ORDER BY nombre_farmaco'
+            cursor.execute(query, params)
+
+            perfusiones = [{
+                'id_perfusion': row.id_perfusion,
+                'nombre_farmaco': row.nombre_farmaco,
+                'dosis_recomendada': row.dosis_recomendada,
+                'descripcion': row.descripcion,
+                'categoria': row.categoria
+            } for row in cursor.fetchall()]
+            return jsonify(perfusiones)
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener perfusiones: {str(e)}")
+        return jsonify({'error': 'Error al obtener la lista de medicamentos'}), 500
+    finally:
+        conn.close()
+
+
+@appointments_bp.route('/api/perfusiones/categorias', methods=['GET'])
+@login_required
+def get_perfusiones_categorias(current_user):
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT DISTINCT ISNULL(NULLIF(categoria, ''), 'General') AS categoria FROM Perfusiones ORDER BY categoria")
+            categories = [row.categoria for row in cursor.fetchall()]
+            return jsonify(categories)
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener categorías de perfusiones: {str(e)}")
+        return jsonify({'error': 'Error al obtener categorías de medicación'}), 500
+    finally:
+        conn.close()
+
+@appointments_bp.route('/api/pacientes/<int:id_paciente>/perfusiones', methods=['GET'])
+@login_required
+def get_perfusiones_paciente(current_user, id_paciente):
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            if current_user.get('tipo_usuario') == 'medico':
+                cursor.execute("""
+                    SELECT
+                        pf.id_asignacion,
+                        pf.id_perfusion,
+                        p.nombre_farmaco,
+                        p.dosis_recomendada,
+                        pf.dosis_especifica,
+                        pf.frecuencia,
+                        pf.indicaciones,
+                        pf.fecha_asignacion,
+                        pf.activo,
+                        med_user.nombre_completo as nombre_medico
+                    FROM PacientesPerfusiones pf
+                    JOIN Perfusiones p ON pf.id_perfusion = p.id_perfusion
+                    LEFT JOIN Medicos med ON pf.id_medico = med.id_medico
+                    LEFT JOIN Usuarios med_user ON med.id_usuario = med_user.id_usuario
+                    WHERE pf.id_paciente = ? AND pf.id_medico = ?
+                    ORDER BY pf.fecha_asignacion DESC
+                """, (id_paciente, current_user.get('id_medico')))
+            elif current_user.get('tipo_usuario') == 'paciente':
+                if current_user.get('id_paciente') != id_paciente:
+                    return jsonify({'error': 'No está autorizado para ver las perfusiones de este paciente.'}), 403
+                cursor.execute("""
+                    SELECT
+                        pf.id_asignacion,
+                        pf.id_perfusion,
+                        p.nombre_farmaco,
+                        p.dosis_recomendada,
+                        pf.dosis_especifica,
+                        pf.frecuencia,
+                        pf.indicaciones,
+                        pf.fecha_asignacion,
+                        pf.activo,
+                        med_user.nombre_completo as nombre_medico
+                    FROM PacientesPerfusiones pf
+                    JOIN Perfusiones p ON pf.id_perfusion = p.id_perfusion
+                    LEFT JOIN Medicos med ON pf.id_medico = med.id_medico
+                    LEFT JOIN Usuarios med_user ON med.id_usuario = med_user.id_usuario
+                    WHERE pf.id_paciente = ?
+                    ORDER BY pf.fecha_asignacion DESC
+                """, (id_paciente,))
+            else:
+                cursor.execute("""
+                    SELECT
+                        pf.id_asignacion,
+                        pf.id_perfusion,
+                        p.nombre_farmaco,
+                        p.dosis_recomendada,
+                        pf.dosis_especifica,
+                        pf.frecuencia,
+                        pf.indicaciones,
+                        pf.fecha_asignacion,
+                        pf.activo,
+                        med_user.nombre_completo as nombre_medico
+                    FROM PacientesPerfusiones pf
+                    JOIN Perfusiones p ON pf.id_perfusion = p.id_perfusion
+                    LEFT JOIN Medicos med ON pf.id_medico = med.id_medico
+                    LEFT JOIN Usuarios med_user ON med.id_usuario = med_user.id_usuario
+                    WHERE pf.id_paciente = ?
+                    ORDER BY pf.fecha_asignacion DESC
+                """, (id_paciente,))
+
+            perfusiones = []
+            for row in cursor.fetchall():
+                perfusiones.append({
+                    'id_asignacion': row.id_asignacion,
+                    'id_perfusion': row.id_perfusion,
+                    'nombre_farmaco': row.nombre_farmaco,
+                    'dosis_recomendada': row.dosis_recomendada,
+                    'dosis_especifica': row.dosis_especifica,
+                    'frecuencia': row.frecuencia,
+                    'indicaciones': row.indicaciones,
+                    'fecha_asignacion': row.fecha_asignacion.strftime('%Y-%m-%d %H:%M') if row.fecha_asignacion else None,
+                    'activo': bool(row.activo) if row.activo is not None else None,
+                    'nombre_medico': row.nombre_medico or 'Sin asignar'
+                })
+
+            return jsonify(perfusiones)
+    except pyodbc.Error as e:
+        logging.error(f"Error al obtener perfusiones del paciente: {str(e)}")
+        return jsonify({'error': 'Error al obtener perfusiones del paciente.'}), 500
+    finally:
+        conn.close()
+
+@appointments_bp.route('/api/pacientes_perfusiones', methods=['POST'])
+@login_required
+def crear_asignacion_perfusions(current_user):
+    data = request.json or {}
+
+    try:
+        id_cita = int(data.get('id_cita', 0))
+        id_paciente = int(data.get('id_paciente', 0))
+        id_medico = int(data.get('id_medico', 0))
+    except (ValueError, TypeError):
+        return jsonify({'error': 'Los identificadores deben ser numéricos'}), 400
+
+    if current_user.get('tipo_usuario') == 'medico' and current_user.get('id_medico') != id_medico:
+        return jsonify({'error': 'No está autorizado para asignar medicamentos a otro médico.'}), 403
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT id_medico, id_paciente FROM Citas WHERE id_cita = ?", (id_cita,))
+            cita_row = cursor.fetchone()
+            if not cita_row:
+                return jsonify({'error': 'Cita no encontrada.'}), 404
+            if cita_row[0] != id_medico or cita_row[1] != id_paciente:
+                return jsonify({'error': 'Los datos de la cita no coinciden con el paciente o médico.'}), 400
+
+            medicamentos = data.get('medicamentos')
+            if medicamentos is not None:
+                if not isinstance(medicamentos, list) or len(medicamentos) == 0:
+                    return jsonify({'error': 'Debe enviar al menos un medicamento válido.'}), 400
+
+                ids = []
+                for medicamento in medicamentos:
+                    try:
+                        id_perfusion = int(medicamento.get('id_perfusion', 0))
+                    except (TypeError, ValueError):
+                        return jsonify({'error': 'El id de perfusión debe ser numérico.'}), 400
+
+                    if not perfusion_exists(cursor, id_perfusion):
+                        return jsonify({'error': 'La perfusión seleccionada no existe.'}), 404
+
+                    dosis_especifica = medicamento.get('dosis_especifica') or None
+                    frecuencia = medicamento.get('frecuencia') or None
+                    indicaciones = medicamento.get('indicaciones') or None
+
+                    id_asignacion = insertar_asignacion_perfusion(cursor, id_paciente, id_medico, id_perfusion,
+                                                                   dosis_especifica, frecuencia, indicaciones)
+                    ids.append(id_asignacion)
+
+                conn.commit()
+                return jsonify({
+                    'message': 'Asignaciones de fórmula guardadas correctamente.',
+                    'ids': ids
+                })
+
+            required_fields = ['id_cita', 'id_paciente', 'id_medico', 'id_perfusion']
+            if not all(field in data for field in required_fields):
+                return jsonify({'error': 'Faltan campos requeridos'}), 400
+
+            try:
+                id_perfusion = int(data['id_perfusion'])
+            except (ValueError, TypeError):
+                return jsonify({'error': 'El identificador de perfusión debe ser numérico'}), 400
+
+            if not perfusion_exists(cursor, id_perfusion):
+                return jsonify({'error': 'La perfusión seleccionada no existe.'}), 404
+
+            dosis_especifica = data.get('dosis_especifica') or None
+            frecuencia = data.get('frecuencia') or None
+            indicaciones = data.get('indicaciones') or None
+
+            id_asignacion = insertar_asignacion_perfusion(cursor, id_paciente, id_medico, id_perfusion,
+                                                           dosis_especifica, frecuencia, indicaciones)
+            conn.commit()
+            return jsonify({
+                'message': 'Asignación de fórmula guardada correctamente.',
+                'id_asignacion': id_asignacion
+            })
+    except pyodbc.Error as e:
+        logging.error(f"Error al crear asignación de perfusión: {str(e)}")
+        return jsonify({'error': 'Error al guardar la asignación de fórmula.'}), 500
+    finally:
+        conn.close()
+
+
+
+
+@appointments_bp.route('/api/pacientes_perfusiones/<int:id_asignacion>', methods=['DELETE'])
+@login_required
+def eliminar_asignacion_perfusions(current_user, id_asignacion):
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT id_medico FROM PacientesPerfusiones WHERE id_asignacion = ?", (id_asignacion,))
+            row = cursor.fetchone()
+            if not row:
+                return jsonify({'error': 'Asignación no encontrada.'}), 404
+
+            id_medico = row.id_medico
+            if current_user.get('tipo_usuario') == 'medico' and current_user.get('id_medico') != id_medico:
+                return jsonify({'error': 'No está autorizado para eliminar esta fórmula.'}), 403
+
+            cursor.execute("DELETE FROM PacientesPerfusiones WHERE id_asignacion = ?", (id_asignacion,))
+            conn.commit()
+            return jsonify({'message': 'Fórmula antigua eliminada correctamente.'})
+    except pyodbc.Error as e:
+        logging.error(f"Error al eliminar asignación de perfusión: {str(e)}")
+        return jsonify({'error': 'Error al eliminar la fórmula antigua.'}), 500
+    finally:
+        conn.close()
