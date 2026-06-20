@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfusiones - Doctor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin-pacientes-styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/doctor_chatbot.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}" type="image/x-icon">
+    <style>
+        .perfusiones-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .perfusiones-filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .perfusion-card {
+            border: 1px solid #e3e6f0;
+            border-radius: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .perfusion-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+        .perfusion-card-header {
+            background: #1e7e34;
+            color: white;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            padding: 1rem 1.25rem;
+        }
+        .perfusion-card-body {
+            padding: 1.25rem;
+        }
+        .badge-category {
+            background-color: #0d6efd;
+            color: white;
+            font-size: 0.8rem;
+        }
+        .table-scroll {
+            max-height: 560px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <div class="sidebar d-flex flex-column fade-in" id="sidebar">
+            <div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-left"></i></div>
+            <div class="logo p-3 text-center">
+                <i class="fas fa-hospital-alt fa-2x mb-2"></i>
+                <h4 class="text-white">Sistema Clínico</h4>
+            </div>
+            <div class="user-profile p-3 d-flex align-items-center">
+                <img src="https://ui-avatars.com/api/?name=Doctor&background=27AE60&color=fff" alt="Usuario" class="rounded-circle me-2" width="40">
+                <div class="text-white">
+                    <strong id="username">Doctor</strong>
+                    <small id="userrole" class="d-block">Médico</small>
+                </div>
+            </div>
+            <ul class="nav flex-column flex-grow-1 p-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('views.doctor_dashboard') }}">
+                        <i class="fas fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mi Horario.html">
+                        <i class="fas fa-calendar"></i> <span class="nav-link-text">Mis Horarios</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Mi Citas.html">
+                        <i class="fas fa-calendar-check"></i> <span class="nav-link-text">Mis Citas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('views.perfusiones') }}">
+                        <i class="fas fa-capsules"></i> <span class="nav-link-text">Perfusiones</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link text-danger" href="/login">
+                        <i class="fas fa-sign-out-alt"></i> <span class="nav-link-text">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-content flex-grow-1 fade-in p-4" id="mainContent">
+            <div class="perfusiones-header">
+                <div>
+                    <h1 class="h3 mb-1"><i class="fas fa-capsules me-2 text-success"></i> Perfusiones disponibles</h1>
+                    <p class="text-muted">Consulta la lista completa de medicamentos y filtra por categoría o nombre.</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="refreshPerfusionesBtn"><i class="fas fa-sync-alt me-2"></i>Actualizar lista</button>
+                </div>
+            </div>
+
+            <div class="perfusiones-filters">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Buscar medicamento">
+                    <label for="searchInput">Buscar nombre o descripción</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-select" id="categorySelect">
+                        <option value="">Todas las categorías</option>
+                    </select>
+                    <label for="categorySelect">Categoría</label>
+                </div>
+            </div>
+
+            <div class="table-card card mb-4">
+                <div class="card-body table-scroll p-0">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light sticky-top">
+                            <tr>
+                                <th>Medicamento</th>
+                                <th>Categoría</th>
+                                <th>Dosis</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="perfusionesTableBody">
+                            <tr><td colspan="4" class="text-center py-4">Cargando...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="perfusionesCards" class="row g-4"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const categorySelect = document.getElementById('categorySelect');
+        const perfusionesTableBody = document.getElementById('perfusionesTableBody');
+        const perfusionesCards = document.getElementById('perfusionesCards');
+        const refreshPerfusionesBtn = document.getElementById('refreshPerfusionesBtn');
+
+        const defaultCategories = [
+            'Analgésicos y Antiinflamatorios',
+            'Antibióticos y Antifúngicos',
+            'Cardiovascular',
+            'Endocrinología y Diabetes',
+            'Gastrointestinal',
+            'Sistema Nervioso y Psiquiatría',
+            'Respiratorio y Alergias',
+            'Soluciones Hospitalarias y Fluidoterapia'
+        ];
+
+        const setCategoryOptions = (categories) => {
+            const uniqueCategories = [...new Set([...defaultCategories, ...categories])];
+            categorySelect.innerHTML = '<option value="">Todas las categorías</option>' +
+                uniqueCategories.map(category => `<option value="${category}">${category}</option>`).join('');
+        };
+
+        const fetchCategorias = async () => {
+            try {
+                const response = await fetch('/api/perfusiones/categorias');
+                const categories = await response.json();
+                setCategoryOptions(categories || []);
+            } catch (error) {
+                console.error('No se pudieron cargar las categorías', error);
+                setCategoryOptions([]);
+            }
+        };
+
+        const fetchPerfusiones = async () => {
+            const search = searchInput.value.trim();
+            const category = categorySelect.value;
+            const params = new URLSearchParams();
+            if (search) params.set('search', search);
+            if (category) params.set('category', category);
+
+            try {
+                const response = await fetch(`/api/perfusiones?${params.toString()}`);
+                const perfusiones = await response.json();
+                renderPerfusiones(perfusiones);
+            } catch (error) {
+                console.error('Error cargando perfusiones:', error);
+                perfusionesTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger py-4">Error al cargar datos.</td></tr>';
+            }
+        };
+
+        const renderPerfusiones = (perfusiones) => {
+            if (!perfusiones.length) {
+                perfusionesTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4">No se encontraron perfusiones.</td></tr>';
+                perfusionesCards.innerHTML = '';
+                return;
+            }
+
+            perfusionesTableBody.innerHTML = perfusiones.map(perfusion => `
+                <tr>
+                    <td>${perfusion.nombre_farmaco}</td>
+                    <td><span class="badge badge-category">${perfusion.categoria || 'General'}</span></td>
+                    <td>${perfusion.dosis_recomendada}</td>
+                    <td>${perfusion.descripcion}</td>
+                </tr>
+            `).join('');
+
+            perfusionesCards.innerHTML = perfusiones.map(perfusion => `
+                <div class="col-lg-4 col-md-6">
+                    <div class="perfusion-card">
+                        <div class="perfusion-card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1">${perfusion.nombre_farmaco}</h5>
+                                <small class="text-white-75">${perfusion.categoria || 'General'}</small>
+                            </div>
+                            <span class="badge badge-category">${perfusion.categoria || 'General'}</span>
+                        </div>
+                        <div class="perfusion-card-body">
+                            <p><strong>Dosis recomendada:</strong> ${perfusion.dosis_recomendada}</p>
+                            <p class="mb-0">${perfusion.descripcion}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        searchInput.addEventListener('input', () => fetchPerfusiones());
+        categorySelect.addEventListener('change', () => fetchPerfusiones());
+        refreshPerfusionesBtn.addEventListener('click', () => fetchPerfusiones());
+
+        fetchCategorias();
+        fetchPerfusiones();
+    </script>
+</body>
+</html>

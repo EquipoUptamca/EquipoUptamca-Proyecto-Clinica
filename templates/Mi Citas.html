@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Citas - Dashboard Médico</title>
-    <link rel="stylesheet" href="Mi Citas.css">
+    <!-- Solo una hoja de estilos, usando url_for para Flask -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Mi Citas.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/Logo.webp') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -14,6 +14,9 @@
         <header class="header">
             <h1><i class="fas fa-calendar-check"></i> Mis Citas</h1>
             <div class="header-actions">
+                <a href="/doctor_dashboard" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Dashboard Médico
+                </a>
                 <button id="refresh-btn" class="btn-refresh">
                     <i class="fas fa-sync-alt"></i> Actualizar
                 </button>
@@ -76,6 +79,8 @@
             <div id="citas-list" class="citas-list">
                 <!-- Las citas se cargarán aquí dinámicamente -->
             </div>
+
+            <div id="pagination-controls" class="pagination-controls hidden"></div>
             
             <div id="no-citas" class="no-citas hidden">
                 <i class="fas fa-calendar-times"></i>
@@ -108,10 +113,86 @@
         </div>
     </div>
 
+    <!-- Modal de fórmula / medicamento -->
+    <div id="formula-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-pills modal-icon"></i> Fórmula / Medicamento</h2>
+                <button id="close-formula-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="formula-paciente">Paciente</label>
+                    <input type="text" id="formula-paciente" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="formula-fecha">Fecha</label>
+                    <input type="text" id="formula-fecha" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="formula-hora">Hora</label>
+                    <input type="text" id="formula-hora" readonly>
+                </div>
+                <div class="medicamentos-header">
+                    <h3>Medicamentos prescritos</h3>
+                    <button id="add-medicamento-btn" type="button" class="btn-add-medication">
+                        <i class="fas fa-plus"></i> Agregar medicamento
+                    </button>
+                </div>
+                <div id="medicamentos-container" class="medicamentos-container"></div>
+                <div id="formula-message" class="form-message"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-formula" class="btn-secondary">Cancelar</button>
+                <button id="save-formula" class="btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de diagnóstico -->
+    <div id="diagnostico-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-notes-medical modal-icon"></i> Diagnóstico</h2>
+                <button id="close-diagnostico-modal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="diagnostico-paciente">Paciente</label>
+                    <input type="text" id="diagnostico-paciente" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diagnostico-fecha">Fecha</label>
+                    <input type="text" id="diagnostico-fecha" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diagnostico-hora">Hora</label>
+                    <input type="text" id="diagnostico-hora" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diagnostico-motivo">Motivo</label>
+                    <input type="text" id="diagnostico-motivo" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="diagnostico-enfermedad">Enfermedad / Causa</label>
+                    <input type="text" id="diagnostico-enfermedad" placeholder="Ej. infección respiratoria, migraña">
+                </div>
+                <div class="form-group">
+                    <label for="diagnostico-descripcion">Descripción de los síntomas</label>
+                    <textarea id="diagnostico-descripcion" placeholder="Describa los síntomas, hallazgos y observaciones clínicas"></textarea>
+                </div>
+                <div id="diagnostico-message" class="form-message"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel-diagnostico" class="btn-secondary">Cancelar</button>
+                <button id="save-diagnostico" class="btn-primary">Guardar Diagnóstico</button>
+            </div>
+        </div>
+    </div>
+
     <!-- El modal de cancelación se creará dinámicamente en el JavaScript -->
 
-    <!-- Las notificaciones se crearán dinámicamente aquí -->
-
+    <!-- Script principal -->
     <script src="{{ url_for('static', filename='js/Mi Citas.js') }}"></script>
 </body>
 </html>
